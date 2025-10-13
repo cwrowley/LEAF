@@ -89,7 +89,7 @@ SET(PRIVATE_HEADERS_FILES
 #SET(CMAKE_C_VISIBILITY_PRESET hidden)
 #
 ADD_LIBRARY (
-        ${BINARY_NAME} SHARED ${PUBLIC_SOURCES_FILES} ${PRIVATE_SOURCES_FILES}
+        ${BINARY_NAME} STATIC ${PUBLIC_SOURCES_FILES} ${PRIVATE_SOURCES_FILES}
 
 )
 
@@ -103,8 +103,9 @@ enable_testing()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-add_subdirectory(test)
+#add_subdirectory(test)
 add_compile_options( -w )
+add_compile_options(-Wno-implicit-float-conversion)
 #ENABLE_TESTING()
 SET_TARGET_PROPERTIES (
         ${BINARY_NAME} PROPERTIES

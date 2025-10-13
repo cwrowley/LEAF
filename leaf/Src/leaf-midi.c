@@ -814,6 +814,7 @@ int tSimplePoly_markPendingNoteOff(tSimplePoly* const poly, uint8_t note)
 void tSimplePoly_setNumVoices(tSimplePoly* const poly, uint8_t numVoices)
 {
     poly->numVoices = (numVoices > poly->maxNumVoices) ? poly->maxNumVoices : numVoices;
+    tSimplePoly_allNotesOff(poly);
 }
 
 
