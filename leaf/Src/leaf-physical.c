@@ -2584,8 +2584,8 @@ Lfloat   tBowed_tick  (tBowed* const x)
             x->output = tSVF_tick(x->lowpass, x->bridgeDelay->lastOut);
         }
 
-        return x->output;
     }
+    return x->output;
 }
 
 void    tBowed_setFreq               (tBowed* const x, Lfloat freq)

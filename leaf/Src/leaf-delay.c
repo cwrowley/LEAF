@@ -379,7 +379,7 @@ void tHermiteDelay_initToPool  (tHermiteDelay** const dl, Lfloat delay, uint32_t
     d->inPoint = 0;
     d->outPoint = 0;
 
-    tHermiteDelay_setDelay(*dl, d->delay);
+    tHermiteDelay_setDelay(*dl, d->maxDelay);
 }
 
 void tHermiteDelay_free (tHermiteDelay** const dl)

@@ -629,22 +629,15 @@ void tADSRS_setSampleRate (tADSRS* const adsr, Lfloat sr)
 void tADSRT_init(tADSRT** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sustain,
                   Lfloat release, Lfloat *expBuffer, int bufferSize, LEAF *const leaf)
 {
+
     tADSRT_initToPool(adsrenv, attack, decay, sustain, release, expBuffer,
                       bufferSize, &leaf->mempool);
+
 }
 
-//initialize with an exponential function that decays -- i.e. a call to LEAF_generate_exp(expBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, EXP_BUFFER_SIZE);
-//times are in ms
-void
-tADSRT_initToPool(tADSRT** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sustain,
-                  Lfloat release, Lfloat *expBuffer, int bufferSize, tMempool** const mp)
+void tADSRT_set(tADSRT* const adsr, Lfloat attack, Lfloat decay, Lfloat sustain,
+                  Lfloat release, Lfloat *expBuffer, int bufferSize, LEAF *const leaf)
 {
-    tMempool *m = *mp;
-    tADSRT *adsr = *adsrenv = (tADSRT *) mpool_alloc(sizeof(tADSRT), m);
-    adsr->mempool = m;
-
-    LEAF *leaf = adsr->mempool->leaf;
-
     adsr->exp_buff = expBuffer;
     adsr->buff_size = bufferSize;
     adsr->buff_sizeMinusOne = bufferSize - 1;
@@ -683,6 +676,20 @@ tADSRT_initToPool(tADSRT** const adsrenv, Lfloat attack, Lfloat decay, Lfloat su
     adsr->baseLeakFactor = 1.0f;
     adsr->leakFactor = 1.0f;
     adsr->invSampleRate = leaf->invSampleRate;
+}
+//initialize with an exponential function that decays -- i.e. a call to LEAF_generate_exp(expBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, EXP_BUFFER_SIZE);
+//times are in ms
+void
+tADSRT_initToPool(tADSRT** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sustain,
+                  Lfloat release, Lfloat *expBuffer, int bufferSize, tMempool** const mp)
+{
+    tMempool *m = *mp;
+    tADSRT *adsr = *adsrenv = (tADSRT *) mpool_alloc(sizeof(tADSRT), m);
+    adsr->mempool = m;
+
+    LEAF *leaf = adsr->mempool->leaf;
+    tADSRT_set(*adsrenv,attack,decay,sustain,release,expBuffer,bufferSize,leaf);
+
 }
 
 void tADSRT_free (tADSRT** const adsrenv)

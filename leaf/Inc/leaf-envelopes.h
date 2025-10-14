@@ -380,7 +380,8 @@ void    tExpSmooth_setDest      (tExpSmooth* const, Lfloat dest);
     void    tADSRT_init          (tADSRT** const, Lfloat attack, Lfloat decay, Lfloat sustain, Lfloat release, Lfloat* expBuffer, int bufferSize, LEAF* const leaf);
     void    tADSRT_initToPool    (tADSRT** const, Lfloat attack, Lfloat decay, Lfloat sustain, Lfloat release, Lfloat* expBuffer, int bufferSize, tMempool** const);
     void    tADSRT_free          (tADSRT** const);
-    
+
+    void tADSRT_set(tADSRT* const, Lfloat attack, Lfloat decay, Lfloat sustain, Lfloat release, Lfloat* expBuffer, int bufferSize, LEAF* const leaf);
     Lfloat   tADSRT_tick          (tADSRT* const);
     Lfloat   tADSRT_tickNoInterp  (tADSRT* const adsrenv);
     void    tADSRT_setAttack     (tADSRT* const, Lfloat attack);
