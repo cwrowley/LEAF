@@ -10,29 +10,23 @@
 
 #include "basic-oscillators.h"
 
-void exampleInit()
-{
+void exampleInit() {
     LEAF leaf;
-    
+
     LEAF_init(&leaf, 44100, mempool, 1000);
-    
+
     tCycle_init(&cycle, &leaf);
     tCycle_setFreq(&cycle, 220);
 }
 
-void exampleFrame()
-{
-    
+void exampleFrame() {
 }
 
-float exampleTick(float sampleIn)
-{
+float exampleTick(float sampleIn) {
     float sampleOut = tCycle_tick(&cycle);
     return sampleOut;
 }
 
-float exampleRandom()
-{
-    return ((float)rand()/(float)(RAND_MAX));
+float exampleRandom() {
+    return ((float)rand() / (float)(RAND_MAX));
 }
-

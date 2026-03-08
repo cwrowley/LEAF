@@ -3,7 +3,7 @@
 #include "../leaf.h"
 #include "../Inc/leaf-math.h"
 
-static float myrand() {return (float)rand()/RAND_MAX;}
+static float myrand() { return (float)rand() / RAND_MAX; }
 
 TEST_CASE("Tests for `tAllpass` filer", "[tAllpass]") {
 
@@ -259,7 +259,6 @@ TEST_CASE("Tests for `tButterworth` filer", "[tButterworth]") {
     REQUIRE_NOTHROW(tButterworth_free(&filter));
 }
 
-
 TEST_CASE("Tests for `tFIR` filer", "[tFIR]") {
 
     LEAF leaf;
@@ -278,18 +277,18 @@ TEST_CASE("Tests for `tFIR` filer", "[tFIR]") {
 
 /******************************** FIX!!! **************************************/
 
-//TEST_CASE("Tests for `tFIR` filer", "[tFIR]") {
+// TEST_CASE("Tests for `tFIR` filer", "[tFIR]") {
 //
-//    LEAF leaf;
-//    char leafMemory[65535];
-//    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
+//     LEAF leaf;
+//     char leafMemory[65535];
+//     LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 //
-//    tMedianFilter filter;
-//    tMedianFilter_init(&filter,10, &leaf);
+//     tMedianFilter filter;
+//     tMedianFilter_init(&filter,10, &leaf);
 //
-//    REQUIRE(filter != nullptr);
-//    REQUIRE_NOTHROW(tMedianFilter_free(&filter));
-//}
+//     REQUIRE(filter != nullptr);
+//     REQUIRE_NOTHROW(tMedianFilter_free(&filter));
+// }
 
 TEST_CASE("Tests for `tVZFilter` filer", "[tVZFilter]") {
 

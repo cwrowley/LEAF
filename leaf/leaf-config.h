@@ -18,7 +18,7 @@
 
 //==============================================================================
 
-//! Include FIR tables required to use tOversampler and tWaveTableS which uses tOversampler. 
+//! Include FIR tables required to use tOversampler and tWaveTableS which uses tOversampler.
 #define LEAF_INCLUDE_OVERSAMPLER_TABLES 1
 
 // Unused
@@ -63,7 +63,7 @@
 
 // #define LEAF_USE_DYNAMIC_ALLOCATION 1
 #else
-//#define LEAF_USE_DYNAMIC_ALLOCATION 0
+// #define LEAF_USE_DYNAMIC_ALLOCATION 0
 #endif
 
 #ifndef _CONSTANT_DATA_LOCATION

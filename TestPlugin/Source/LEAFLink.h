@@ -16,12 +16,12 @@
 #include "stdlib.h"
 
 typedef enum WaveformType {
-    Sine=0,
+    Sine = 0,
     Triangle,
     Sawtooth,
     Square,
     WaveformTypeNil
-}WaveformType;
+} WaveformType;
 
 extern std::vector<juce::String> cSliderNames;
 
@@ -51,4 +51,4 @@ void setSliderValue(String name, float val);
 float getSliderValue(String name);
 float getRandomFloat(void);
 
-#endif  // UTILITIES_H_INCLUDED
+#endif // UTILITIES_H_INCLUDED

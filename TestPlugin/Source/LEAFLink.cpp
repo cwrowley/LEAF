@@ -11,28 +11,22 @@
 #include "LEAFLink.h"
 
 #define MYTEST 0
-#define FM     1
+#define FM 1
 
-std::vector<juce::String> cButtonNames =  std::vector<juce::String>
-{
-    "load"
-};
+std::vector<juce::String> cButtonNames = std::vector<juce::String>{
+    "load"};
 
-std::vector<juce::String> cSliderNames =  std::vector<juce::String>
-{
+std::vector<juce::String> cSliderNames = std::vector<juce::String>{
     "slider1",
     "slider2",
-    "slider3"
+    "slider3"};
+
+std::vector<juce::String> cComboBoxNames = std::vector<juce::String>{
+
 };
 
-std::vector<juce::String> cComboBoxNames =  std::vector<juce::String>
-{
-    
-};
+std::vector<juce::String> cWaveformTypes = std::vector<juce::String>{
 
-std::vector<juce::String> cWaveformTypes =  std::vector<juce::String>
-{
-    
 };
 
 std::vector<float> cSliderModelValues(cSliderNames.size());
@@ -42,106 +36,81 @@ std::vector<int> cComboBoxStates(cComboBoxNames.size());
 
 Array<AudioBuffer<float>> loadedAudio;
 
-void setSliderModelValue(String name, float val)
-{
-    for (int i = 0; i < cSliderNames.size(); i++)
-    {
-        if (name == cSliderNames[i])
-        {
+void setSliderModelValue(String name, float val) {
+    for (int i = 0; i < cSliderNames.size(); i++) {
+        if (name == cSliderNames[i]) {
             cSliderModelValues[i] = val;
             break;
         }
     }
 }
 
-void printSliderValues(void)
-{
-    for (int i = 0; i < cSliderNames.size(); i++)
-    {
+void printSliderValues(void) {
+    for (int i = 0; i < cSliderNames.size(); i++) {
         DBG(String(cSliderNames[i]) + ": " + String(cSliderValues[i]));
     }
 }
 
-bool getButtonState(String name)
-{
-    for (int i = 0; i < cButtonNames.size(); i++)
-    {
-        if (name == cButtonNames[i])
-        {
+bool getButtonState(String name) {
+    for (int i = 0; i < cButtonNames.size(); i++) {
+        if (name == cButtonNames[i]) {
             return cButtonStates[i];
         }
     }
-    
+
     return false;
 }
 
-void setButtonState(String name, bool on)
-{
-    for (int i = 0; i < cButtonNames.size(); i++)
-    {
-        if (name == cButtonNames[i])
-        {
+void setButtonState(String name, bool on) {
+    for (int i = 0; i < cButtonNames.size(); i++) {
+        if (name == cButtonNames[i]) {
             cButtonStates[i] = on;
             break;
         }
     }
 }
 
-int getComboBoxState(String name)
-{
-    for (int i = 0; i < cComboBoxNames.size(); i++)
-    {
-        if (name == cComboBoxNames[i])
-        {
+int getComboBoxState(String name) {
+    for (int i = 0; i < cComboBoxNames.size(); i++) {
+        if (name == cComboBoxNames[i]) {
             return cComboBoxStates[i];
         }
     }
     return -1;
 }
 
-void setComboBoxState(String name, int idx)
-{
+void setComboBoxState(String name, int idx) {
     DBG("set state: " + name + " " + String(idx));
-    for (int i = 0; i < cComboBoxNames.size(); i++)
-    {
-        if (name == cComboBoxNames[i])
-        {
+    for (int i = 0; i < cComboBoxNames.size(); i++) {
+        if (name == cComboBoxNames[i]) {
             cComboBoxStates[i] = idx;
             break;
         }
     }
 }
 
-void setSliderValue(String name, float val)
-{
-    for (int i = 0; i < cSliderNames.size(); i++)
-    {
-        if (name == cSliderNames[i])
-        {
+void setSliderValue(String name, float val) {
+    for (int i = 0; i < cSliderNames.size(); i++) {
+        if (name == cSliderNames[i]) {
             cSliderValues[i] = val;
             break;
         }
     }
 }
 
-float getSliderValue(String name)
-{
+float getSliderValue(String name) {
     float value = 0.0f;
-    
-    for (int i = 0; i < cSliderNames.size(); i++)
-    {
-        if (name == cSliderNames[i])
-        {
+
+    for (int i = 0; i < cSliderNames.size(); i++) {
+        if (name == cSliderNames[i]) {
             value = cSliderValues[i];
             break;
         }
     }
-    
+
     return value;
 }
 
-float getRandomFloat(void)
-{
-    return ((float)rand()/RAND_MAX);
+float getRandomFloat(void) {
+    return ((float)rand() / RAND_MAX);
 }
-

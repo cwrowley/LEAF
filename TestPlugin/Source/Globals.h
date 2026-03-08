@@ -15,30 +15,22 @@
 
 #define TEST 1
 
-
-String floatArrayToString(Array<float> arr)
-{
+String floatArrayToString(Array<float> arr) {
     String s = "";
-    for (auto key : arr)
-    {
+    for (auto key : arr) {
         s.append(String(key), 6);
         s.append(" ", 1);
     }
     return s;
 }
 
-String intArrayToString(Array<int> arr)
-{
+String intArrayToString(Array<int> arr) {
     String s = "";
-    for (auto key : arr)
-    {
+    for (auto key : arr) {
         s.append(String(key), 6);
         s.append(" ", 1);
     }
     return s;
 }
 
-
-
-
-#endif  // GLOBALS_H_INCLUDED
+#endif // GLOBALS_H_INCLUDED

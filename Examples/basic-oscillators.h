@@ -13,10 +13,10 @@
 char mempool[1000];
 tCycle cycle;
 
-void    exampleInit(void);
+void exampleInit(void);
 
-void    exampleFrame(void);
+void exampleFrame(void);
 
-float   exampleTick(float sampleIn);
+float exampleTick(float sampleIn);
 
-float   exampleRandom(void);
+float exampleRandom(void);

@@ -3,7 +3,7 @@
 #include "../leaf.h"
 #include "../Inc/leaf-math.h"
 
-static float myrand() {return (float)rand()/RAND_MAX;}
+static float myrand() { return (float)rand() / RAND_MAX; }
 
 TEST_CASE("Tests for `tCycle` object", "[tCycle]") {
 
@@ -396,7 +396,7 @@ TEST_CASE("Tests for `tSineTriLFO` object", "[tSineTriLFO]") {
     REQUIRE_NOTHROW(tSineTriLFO_free(&osc));
 }
 
- TEST_CASE("Tests for `tDampedOscillator` object", "[tDampedOscillator]") {
+TEST_CASE("Tests for `tDampedOscillator` object", "[tDampedOscillator]") {
 
     LEAF leaf;
     char leafMemory[65535];

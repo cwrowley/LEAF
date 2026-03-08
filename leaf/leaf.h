@@ -1,24 +1,24 @@
 /** BEGIN_JUCE_MODULE_DECLARATION
- 
+
  ID:            leaf
  vendor:
  version:        0.0.1
  name:
  description:
  website:
- license:        
- 
+ license:
+
  dependencies:
- 
+
  END_JUCE_MODULE_DECLARATION
  */
 /*
  ==============================================================================
- 
+
  leaf.h
  Created: 20 Jan 2017 12:07:26pm
  Author:  Michael R Mulshine
- 
+
  ==============================================================================
  */
 
@@ -27,9 +27,9 @@
 #include "leaf-config.h"
 #define LEAF_DEBUG 0
 
-//#if LEAF_DEBUG
-//#include "../TestPlugin/JuceLibraryCode/JuceHeader.h"
-//#endif
+// #if LEAF_DEBUG
+// #include "../TestPlugin/JuceLibraryCode/JuceHeader.h"
+// #endif
 
 #if _WIN32 || _WIN64
 
@@ -136,63 +136,62 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
-    /*!
-     @ingroup leaf
-     @{
-     */
-    
-    //! Initialize the LEAF instance.
-    /*!
-     @param leaf A pointer to the LEAF instance to initialize.
-     @param sampleRate The default sample rate for objects initialized to this LEAF instance.
-     @param memory A pointer to the memory that will make up the default mempool.
-     @param memorySize The size of that memory block in bytes.
-     */
-    void        LEAF_init(LEAF* const leaf, Lfloat sampleRate, char* memory, size_t memorySize);
 
-    //! Override the random number generator used by LEAF objects.
-    /*!
-     @brief By default LEAF uses a fast internal LCG. Call this after LEAF_init
-            to substitute a platform-specific or higher-quality generator.
-            The function must return a value in [0, 1).
-     @param leaf A pointer to the LEAF instance.
-     @param random A pointer to the replacement random function.
-     */
-    void        LEAF_setRandom(LEAF* const leaf, Lfloat (*random)(void));
-    
-    //! Set the sample rate of LEAF.
-    /*!
-     @param sampleRate The new audio sample rate.
-     */
-    void        LEAF_setSampleRate   (LEAF* const leaf, Lfloat sampleRate);
-    
-    //! Get the sample rate of LEAF.
-    /*!
-     @return The current sample rate as a Lfloat.
-     */
-    Lfloat       LEAF_getSampleRate   (LEAF* const leaf);
-    
-    //! The default (no-op) callback function for pool errors.
-    /*!
-     @param pool The pool in which the error occurred.
-     @param errorType The type of the error that has occurred.
-     */
-    void        LEAF_defaultErrorCallback(tMempool* const pool, LEAFErrorType errorType);
+/*!
+ @ingroup leaf
+ @{
+ */
 
-    unsigned int getNextUuid(LEAF* leaf);
+//! Initialize the LEAF instance.
+/*!
+ @param leaf A pointer to the LEAF instance to initialize.
+ @param sampleRate The default sample rate for objects initialized to this LEAF instance.
+ @param memory A pointer to the memory that will make up the default mempool.
+ @param memorySize The size of that memory block in bytes.
+ */
+void LEAF_init(LEAF *const leaf, Lfloat sampleRate, char *memory, size_t memorySize);
 
-    //! Set the error callback for the default LEAF mempool.
-    /*!
-     @param callback A pointer to the callback function.
-     */
-    void LEAF_setErrorCallback(LEAF* const leaf, void (*callback)(tMempool* const, LEAFErrorType));
-    
-    /*! @} */
-    
+//! Override the random number generator used by LEAF objects.
+/*!
+ @brief By default LEAF uses a fast internal LCG. Call this after LEAF_init
+        to substitute a platform-specific or higher-quality generator.
+        The function must return a value in [0, 1).
+ @param leaf A pointer to the LEAF instance.
+ @param random A pointer to the replacement random function.
+ */
+void LEAF_setRandom(LEAF *const leaf, Lfloat (*random)(void));
+
+//! Set the sample rate of LEAF.
+/*!
+ @param sampleRate The new audio sample rate.
+ */
+void LEAF_setSampleRate(LEAF *const leaf, Lfloat sampleRate);
+
+//! Get the sample rate of LEAF.
+/*!
+ @return The current sample rate as a Lfloat.
+ */
+Lfloat LEAF_getSampleRate(LEAF *const leaf);
+
+//! The default (no-op) callback function for pool errors.
+/*!
+ @param pool The pool in which the error occurred.
+ @param errorType The type of the error that has occurred.
+ */
+void LEAF_defaultErrorCallback(tMempool *const pool, LEAFErrorType errorType);
+
+unsigned int getNextUuid(LEAF *leaf);
+
+//! Set the error callback for the default LEAF mempool.
+/*!
+ @param callback A pointer to the callback function.
+ */
+void LEAF_setErrorCallback(LEAF *const leaf, void (*callback)(tMempool *const, LEAFErrorType));
+
+/*! @} */
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // LEAF_H_INCLUDED
-
+#endif // LEAF_H_INCLUDED
