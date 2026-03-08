@@ -14,13 +14,14 @@
 
 #include <new>
 
+//==============================================================================
+// Class method definitions
+//==============================================================================
+
+namespace leaf {
+
 StiffString::StiffString(int numModes, LEAF *const leaf)
     : StiffString(numModes, leaf, leaf->mempool) {}
-
-void StiffString_init(StiffString **const pm, int numModes, LEAF *const leaf) {
-    tMempool *m = leaf->mempool;
-    *pm = new (mpool_alloc(sizeof(StiffString), m)) StiffString(numModes, leaf);
-}
 
 StiffString::StiffString(int numModes, LEAF *const leaf, tMempool *m) {
     mempool_ = m;
@@ -55,11 +56,6 @@ StiffString::StiffString(int numModes, LEAF *const leaf, tMempool *m) {
     updateOutputWeights();
 }
 
-void StiffString_initToPool(StiffString **const pm, int numModes, LEAF *const leaf, tMempool **const mp) {
-    tMempool *m = *mp;
-    *pm = new (mpool_alloc(sizeof(StiffString), m)) StiffString(numModes, leaf, m);
-}
-
 StiffString::~StiffString() {
     mpool_free((char *)nyquistCoeff_, mempool_);
     mpool_free((char *)decayScalar_, mempool_);
@@ -67,13 +63,6 @@ StiffString::~StiffString() {
     mpool_free((char *)amplitudes_, mempool_);
     mpool_free((char *)outputWeights_, mempool_);
     mpool_free((char *)oscs_, mempool_);
-}
-
-void StiffString_free(StiffString **const pm) {
-    StiffString *p = *pm;
-    tMempool *m = p->mempool();
-    p->~StiffString();
-    mpool_free((char *)p, m);
 }
 
 void StiffString::updateOscillators() {
@@ -99,8 +88,6 @@ void StiffString::updateOscillators() {
     }
 }
 
-void StiffString_updateOscillators(StiffString *const p) { p->updateOscillators(); }
-
 void StiffString::updateOutputWeights() {
     Lfloat x0 = pickupPos_ * PI;
     Lfloat totalGain = 0.0f;
@@ -120,8 +107,6 @@ void StiffString::updateOutputWeights() {
     gainComp_ = 1.0f / totalGain;
 }
 
-void StiffString_updateOutputWeights(StiffString *const p) { p->updateOutputWeights(); }
-
 Lfloat StiffString::tick() {
     Lfloat sample = 0.0f;
     for (int i = 0; i < numModes_; ++i) {
@@ -131,54 +116,38 @@ Lfloat StiffString::tick() {
     return sample * amp_ * gainComp_;
 }
 
-Lfloat StiffString_tick(StiffString *const p) { return p->tick(); }
-
 void StiffString::setStiffness(Lfloat newValue) {
     stiffness_ = LEAF_mapFromZeroToOneInput(newValue, 0.00f, 0.2f);
 }
-
-void StiffString_setStiffness(StiffString *const p, Lfloat newValue) { p->setStiffness(newValue); }
 
 void StiffString::setPickupPos(Lfloat newValue) {
     pickupPos_ = LEAF_clip(0.01f, newValue, 0.99f);
     updateOutputWeights();
 }
 
-void StiffString_setPickupPos(StiffString *const p, Lfloat newValue) { p->setPickupPos(newValue); }
-
 void StiffString::setPluckPos(Lfloat newValue) {
     pluckPos_ = LEAF_clip(0.01f, newValue, 0.99f);
     updateOutputWeights();
 }
-
-void StiffString_setPluckPos(StiffString *const p, Lfloat newValue) { p->setPluckPos(newValue); }
 
 void StiffString::setFreq(Lfloat newFreq) {
     freqHz_ = newFreq;
     updateOscillators();
 }
 
-void StiffString_setFreq(StiffString *const p, Lfloat newFreq) { p->setFreq(newFreq); }
-
 void StiffString::setDecay(Lfloat decay) {
     decay_ = decay;
     updateOscillators();
 }
-
-void StiffString_setDecay(StiffString *const p, Lfloat decay) { p->setDecay(decay); }
 
 void StiffString::setDecayHighFreq(Lfloat decayHF) {
     decayHighFreq_ = decayHF;
     updateOscillators();
 }
 
-void StiffString_setDecayHighFreq(StiffString *const p, Lfloat decayHF) { p->setDecayHighFreq(decayHF); }
-
 void StiffString::mute() {
     muteDecay_ = 0.99f;
 }
-
-void StiffString_mute(StiffString *const p) { p->mute(); }
 
 void StiffString::pluck(Lfloat amp) {
     Lfloat x0 = pluckPos_ * PI;
@@ -200,50 +169,34 @@ void StiffString::pluck(Lfloat amp) {
     updateOutputWeights();
 }
 
-void StiffString_pluck(StiffString *const p, Lfloat amp) { p->pluck(amp); }
-
 void StiffString::setSampleRate(Lfloat sr) {
     sampleRate_ = sr;
     twoPiTimesInvSampleRate_ = TWO_PI / sr;
 }
 
-void StiffString_setSampleRate(StiffString *const p, Lfloat sr) { p->setSampleRate(sr); }
-
 void StiffString::setStiffnessNoUpdate(Lfloat newValue) {
     stiffness_ = LEAF_mapFromZeroToOneInput(newValue, 0.00f, 0.2f);
 }
-
-void StiffString_setStiffnessNoUpdate(StiffString *const p, Lfloat newValue) { p->setStiffnessNoUpdate(newValue); }
 
 void StiffString::setPickupPosNoUpdate(Lfloat newValue) {
     pickupPos_ = LEAF_clip(0.01f, newValue, 0.99f);
 }
 
-void StiffString_setPickupPosNoUpdate(StiffString *const p, Lfloat newValue) { p->setPickupPosNoUpdate(newValue); }
-
 void StiffString::setPluckPosNoUpdate(Lfloat newValue) {
     pluckPos_ = LEAF_clip(0.01f, newValue, 0.99f);
 }
-
-void StiffString_setPluckPosNoUpdate(StiffString *const p, Lfloat newValue) { p->setPluckPosNoUpdate(newValue); }
 
 void StiffString::setFreqNoUpdate(Lfloat newFreq) {
     freqHz_ = newFreq;
 }
 
-void StiffString_setFreqNoUpdate(StiffString *const p, Lfloat newFreq) { p->setFreqNoUpdate(newFreq); }
-
 void StiffString::setDecayNoUpdate(Lfloat decay) {
     decay_ = decay;
 }
 
-void StiffString_setDecayNoUpdate(StiffString *const p, Lfloat decay) { p->setDecayNoUpdate(decay); }
-
 void StiffString::setDecayHighFreqNoUpdate(Lfloat decayHF) {
     decayHighFreq_ = decayHF;
 }
-
-void StiffString_setDecayHighFreqNoUpdate(StiffString *const p, Lfloat decayHF) { p->setDecayHighFreqNoUpdate(decayHF); }
 
 void StiffString::pluckNoUpdate(Lfloat amp) {
     Lfloat x0 = pluckPos_ * 0.5f * PI;
@@ -264,4 +217,45 @@ void StiffString::pluckNoUpdate(Lfloat amp) {
     amp_ = amp;
 }
 
-void StiffString_pluckNoUpdate(StiffString *const p, Lfloat amp) { p->pluckNoUpdate(amp); }
+} // namespace leaf
+
+//==============================================================================
+// C shims
+//==============================================================================
+
+void StiffString_init(leaf::StiffString **const pm, int numModes, LEAF *const leaf) {
+    tMempool *m = leaf->mempool;
+    *pm = new (mpool_alloc(sizeof(leaf::StiffString), m)) leaf::StiffString(numModes, leaf);
+}
+
+void StiffString_initToPool(leaf::StiffString **const pm, int numModes, LEAF *const leaf, tMempool **const mp) {
+    tMempool *m = *mp;
+    *pm = new (mpool_alloc(sizeof(leaf::StiffString), m)) leaf::StiffString(numModes, leaf, m);
+}
+
+void StiffString_free(leaf::StiffString **const pm) {
+    leaf::StiffString *p = *pm;
+    tMempool *m = p->mempool();
+    p->~StiffString();
+    mpool_free((char *)p, m);
+}
+
+Lfloat StiffString_tick(leaf::StiffString *const p)                              { return p->tick(); }
+void StiffString_setStiffness(leaf::StiffString *const p, Lfloat v)              { p->setStiffness(v); }
+void StiffString_setFreq(leaf::StiffString *const p, Lfloat v)                   { p->setFreq(v); }
+void StiffString_pluck(leaf::StiffString *const p, Lfloat v)                     { p->pluck(v); }
+void StiffString_setPickupPos(leaf::StiffString *const p, Lfloat v)              { p->setPickupPos(v); }
+void StiffString_setPluckPos(leaf::StiffString *const p, Lfloat v)               { p->setPluckPos(v); }
+void StiffString_setDecay(leaf::StiffString *const p, Lfloat v)                  { p->setDecay(v); }
+void StiffString_setDecayHighFreq(leaf::StiffString *const p, Lfloat v)          { p->setDecayHighFreq(v); }
+void StiffString_updateOscillators(leaf::StiffString *const p)                   { p->updateOscillators(); }
+void StiffString_updateOutputWeights(leaf::StiffString *const p)                 { p->updateOutputWeights(); }
+void StiffString_mute(leaf::StiffString *const p)                                { p->mute(); }
+void StiffString_setSampleRate(leaf::StiffString *const p, Lfloat v)             { p->setSampleRate(v); }
+void StiffString_setStiffnessNoUpdate(leaf::StiffString *const p, Lfloat v)      { p->setStiffnessNoUpdate(v); }
+void StiffString_setFreqNoUpdate(leaf::StiffString *const p, Lfloat v)           { p->setFreqNoUpdate(v); }
+void StiffString_pluckNoUpdate(leaf::StiffString *const p, Lfloat v)             { p->pluckNoUpdate(v); }
+void StiffString_setPickupPosNoUpdate(leaf::StiffString *const p, Lfloat v)      { p->setPickupPosNoUpdate(v); }
+void StiffString_setPluckPosNoUpdate(leaf::StiffString *const p, Lfloat v)       { p->setPluckPosNoUpdate(v); }
+void StiffString_setDecayNoUpdate(leaf::StiffString *const p, Lfloat v)          { p->setDecayNoUpdate(v); }
+void StiffString_setDecayHighFreqNoUpdate(leaf::StiffString *const p, Lfloat v)  { p->setDecayHighFreqNoUpdate(v); }

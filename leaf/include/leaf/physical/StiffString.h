@@ -16,6 +16,8 @@
 
 //==============================================================================
 
+namespace leaf {
+
 class StiffString {
 public:
     StiffString(int numModes, LEAF *const leaf);
@@ -68,37 +70,35 @@ private:
     Lfloat gainComp_;
 };
 
+} // namespace leaf
+
 // C shims
-#ifdef __cplusplus
 extern "C" {
-#endif
 
-void StiffString_init(StiffString **const, int numModes, LEAF *const leaf);
-void StiffString_initToPool(StiffString **const, int numModes, LEAF *const leaf, tMempool **const);
-void StiffString_free(StiffString **const);
+void StiffString_init(leaf::StiffString **const, int numModes, LEAF *const leaf);
+void StiffString_initToPool(leaf::StiffString **const, int numModes, LEAF *const leaf, tMempool **const);
+void StiffString_free(leaf::StiffString **const);
 
-Lfloat StiffString_tick(StiffString *const);
-void StiffString_setStiffness(StiffString *const, Lfloat newValue);
-void StiffString_setFreq(StiffString *const, Lfloat newFreq);
-void StiffString_pluck(StiffString *const, Lfloat amp);
-void StiffString_setPickupPos(StiffString *const, Lfloat pickuppos);
-void StiffString_setPluckPos(StiffString *const, Lfloat pluckpos);
-void StiffString_setDecay(StiffString *const, Lfloat decay);
-void StiffString_setDecayHighFreq(StiffString *const, Lfloat decayHF);
-void StiffString_updateOscillators(StiffString *const pm);
-void StiffString_updateOutputWeights(StiffString *const pm);
-void StiffString_mute(StiffString *const pm);
-void StiffString_setSampleRate(StiffString *const, Lfloat sr);
-void StiffString_setStiffnessNoUpdate(StiffString *const, Lfloat newValue);
-void StiffString_setFreqNoUpdate(StiffString *const, Lfloat newFreq);
-void StiffString_pluckNoUpdate(StiffString *const, Lfloat amp);
-void StiffString_setPickupPosNoUpdate(StiffString *const, Lfloat pickuppos);
-void StiffString_setPluckPosNoUpdate(StiffString *const, Lfloat pluckpos);
-void StiffString_setDecayNoUpdate(StiffString *const, Lfloat decay);
-void StiffString_setDecayHighFreqNoUpdate(StiffString *const, Lfloat decayHF);
+Lfloat StiffString_tick(leaf::StiffString *const);
+void StiffString_setStiffness(leaf::StiffString *const, Lfloat newValue);
+void StiffString_setFreq(leaf::StiffString *const, Lfloat newFreq);
+void StiffString_pluck(leaf::StiffString *const, Lfloat amp);
+void StiffString_setPickupPos(leaf::StiffString *const, Lfloat pickuppos);
+void StiffString_setPluckPos(leaf::StiffString *const, Lfloat pluckpos);
+void StiffString_setDecay(leaf::StiffString *const, Lfloat decay);
+void StiffString_setDecayHighFreq(leaf::StiffString *const, Lfloat decayHF);
+void StiffString_updateOscillators(leaf::StiffString *const pm);
+void StiffString_updateOutputWeights(leaf::StiffString *const pm);
+void StiffString_mute(leaf::StiffString *const pm);
+void StiffString_setSampleRate(leaf::StiffString *const, Lfloat sr);
+void StiffString_setStiffnessNoUpdate(leaf::StiffString *const, Lfloat newValue);
+void StiffString_setFreqNoUpdate(leaf::StiffString *const, Lfloat newFreq);
+void StiffString_pluckNoUpdate(leaf::StiffString *const, Lfloat amp);
+void StiffString_setPickupPosNoUpdate(leaf::StiffString *const, Lfloat pickuppos);
+void StiffString_setPluckPosNoUpdate(leaf::StiffString *const, Lfloat pluckpos);
+void StiffString_setDecayNoUpdate(leaf::StiffString *const, Lfloat decay);
+void StiffString_setDecayHighFreqNoUpdate(leaf::StiffString *const, Lfloat decayHF);
 
-#ifdef __cplusplus
-}
-#endif
+} // extern "C"
 
 #endif // LEAF_STIFFSTRING_H_INCLUDED

@@ -37,12 +37,6 @@
 #ifndef LEAF_MPOOL_H_INCLUDED
 #define LEAF_MPOOL_H_INCLUDED
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-//==============================================================================
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,7 +46,19 @@ extern "C" {
 
 #define MPOOL_ALIGN_SIZE (8)
 
+// Forward declaration of LEAF with C/C++ compatibility.
+// In C++, LEAF lives in namespace leaf; a global alias is provided for
+// backward compatibility.  In C, a plain typedef is sufficient.
+#ifdef __cplusplus
+namespace leaf { struct LEAF; }
+using LEAF = leaf::LEAF;
+#else
 typedef struct LEAF LEAF;
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum LEAFErrorType {
     LEAFMempoolOverrun = 0,

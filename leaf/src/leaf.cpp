@@ -57,6 +57,6 @@ unsigned int getNextUuid(LEAF *leaf) {
     return ++leaf->uuid;
 }
 
-LEAF::LEAF(Lfloat sr, char *memory, size_t memorySize) {
+leaf::LEAF::LEAF(Lfloat sr, char *memory, size_t memorySize) {
     LEAF_init(this, sr, memory, memorySize);
 }

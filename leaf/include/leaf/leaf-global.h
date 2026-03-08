@@ -19,6 +19,12 @@ extern "C" {
 #include "leaf-config.h"
 typedef struct tLookupTable tLookupTable;
 
+#ifdef __cplusplus
+} // extern "C"
+
+namespace leaf {
+#endif
+
 /*!
  * @ingroup leaf
  * @brief Struct for an instance of LEAF.
@@ -44,10 +50,9 @@ struct LEAF {
     ~LEAF() = default;
 #endif
 };
-//==============================================================================
 
 #ifdef __cplusplus
-}
+} // namespace leaf
 #endif
 
 #endif // LEAF_GLOBAL_H_INCLUDED

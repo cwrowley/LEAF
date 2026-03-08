@@ -57,28 +57,28 @@ SET(PRIVATE_SOURCES_FILES
 )
 
 SET(PUBLIC_HEADERS_FILES
-        "${LIBRARY_BASE_PATH}/leaf/leaf-config.h"
-        "${LIBRARY_BASE_PATH}/leaf/leaf.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-global.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-math.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-analysis.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-delay.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-distortion.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-dynamics.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-effects.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-envelopes.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-electrical.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-filters.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-instruments.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-mempool.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-midi.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-oscillators.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-physical.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-reverb.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-sampling.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-tables.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/leaf-vocal.h"
-        "${LIBRARY_BASE_PATH}/leaf/include/physical/StiffString.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-config.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-global.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-math.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-analysis.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-delay.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-distortion.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-dynamics.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-effects.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-envelopes.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-electrical.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-filters.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-instruments.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-mempool.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-midi.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-oscillators.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-physical.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-reverb.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-sampling.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-tables.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-vocal.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/physical/StiffString.h"
 
 )
 
@@ -97,8 +97,9 @@ ADD_LIBRARY (
 
 TARGET_SOURCES( ${BINARY_NAME} PRIVATE  ${PRIVATE_SOURCES_FILES} ${PRIVATE_HEADERS_FILES}  PUBLIC ${PUBLIC_SOURCES_FILES})
 
-target_include_directories(${BINARY_NAME} PUBLIC  "${LIBRARY_BASE_PATH}/leaf"
-        "${LIBRARY_BASE_PATH}/leaf/include"
+target_include_directories(${BINARY_NAME} PUBLIC
+        "${LIBRARY_BASE_PATH}/leaf/include"         # public: <leaf/leaf.h>, <leaf/physical/StiffString.h>
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf"    # backward-compat: <leaf.h>, <leaf-global.h> etc.
         "${LIBRARY_BASE_PATH}/leaf/Externals")
 target_compile_options(${BINARY_NAME} PRIVATE "-Wno-narrowing")
 enable_testing()
@@ -127,12 +128,7 @@ SET_TARGET_PROPERTIES (
 install(TARGETS ${BINARY_NAME}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-install(DIRECTORY "${LIBRARY_BASE_PATH}/leaf/include/"
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
-install(FILES
-        "${LIBRARY_BASE_PATH}/leaf/leaf.h"
-        "${LIBRARY_BASE_PATH}/leaf/leaf-config.h"
+install(DIRECTORY "${LIBRARY_BASE_PATH}/leaf/include/leaf"
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
