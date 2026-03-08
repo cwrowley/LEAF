@@ -44,6 +44,7 @@ SET(PUBLIC_SOURCES_FILES
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-midi.c"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-oscillators.cpp"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-physical.cpp"
+        "${LIBRARY_BASE_PATH}/leaf/Src/physical/StiffString.cpp"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-reverb.c"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-sampling.c"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-tables.c"
