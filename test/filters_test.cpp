@@ -9,7 +9,7 @@ TEST_CASE("Tests for `tAllpass` filer", "[tAllpass]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
     tAllpass* filter;
     tAllpass_init(&filter, 50, 100, &leaf);
@@ -22,7 +22,7 @@ TEST_CASE("Tests for `tAllpassSO` filer", "[tAllpassSO]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tAllpassSO* filter;
     tAllpassSO_init(&filter, &leaf);
@@ -35,7 +35,7 @@ TEST_CASE("Tests for `tThiranAllpassSOCascade` filer", "[tThiranAllpassSOCascade
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tThiranAllpassSOCascade* filter;
     tThiranAllpassSOCascade_init(&filter, 3, &leaf);
@@ -48,7 +48,7 @@ TEST_CASE("Tests for `tOnePole` filer", "[tOnePole]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 
     tOnePole* filter;
@@ -62,7 +62,7 @@ TEST_CASE("Tests for `tCookOnePole` filer", "[tCookOnePole]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tCookOnePole* filter;
     tCookOnePole_init(&filter, &leaf);
@@ -75,7 +75,7 @@ TEST_CASE("Tests for `tTwoPole` filer", "[tTwoPole]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tTwoPole* filter;
     tTwoPole_init(&filter, &leaf);
@@ -88,7 +88,7 @@ TEST_CASE("Tests for `tOneZero` filer", "[tOneZero]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tOneZero* filter;
     tOneZero_init(&filter, 1, &leaf);
@@ -101,7 +101,7 @@ TEST_CASE("Tests for `tTwoZero` filer", "[tTwoZero]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tTwoZero* filter;
     tTwoZero_init(&filter, &leaf);
@@ -114,7 +114,7 @@ TEST_CASE("Tests for `tPoleZero` filer", "[tPoleZero]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tPoleZero* filter;
     tPoleZero_init(&filter, &leaf);
@@ -127,7 +127,7 @@ TEST_CASE("Tests for `tBiQuad` filer", "[tBiQuad]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tBiQuad* filter;
     tBiQuad_init(&filter, &leaf);
@@ -140,7 +140,7 @@ TEST_CASE("Tests for `tSVF` filer", "[tSVF]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tSVF* filter1;
     tSVF_init(&filter1, SVFTypeHighpass, 22050, 4, &leaf);
@@ -189,7 +189,7 @@ TEST_CASE("Tests for `tEfficientSVF` filer", "[tEfficientSVF]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tEfficientSVF* filter1;
     tEfficientSVF_init(&filter1, SVFTypeHighpass, 22050, 4, &leaf);
@@ -238,7 +238,7 @@ TEST_CASE("Tests for `tHighpass` filer", "[tHighpass]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tHighpass* filter;
     tHighpass_init(&filter, 22050, &leaf);
@@ -251,7 +251,7 @@ TEST_CASE("Tests for `tButterworth` filer", "[tButterworth]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tButterworth* filter;
     tButterworth_init(&filter, 3, 1, 1, &leaf);
@@ -265,7 +265,7 @@ TEST_CASE("Tests for `tFIR` filer", "[tFIR]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
     Lfloat coeffs[512];
     LEAF_generate_sine(coeffs, 512);
@@ -283,7 +283,7 @@ tFIR* filter;
 //
 //    LEAF leaf;
 //    char leafMemory[65535];
-//    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+//    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 //
 //    tMedianFilter filter;
 //    tMedianFilter_init(&filter,10, &leaf);
@@ -296,7 +296,7 @@ TEST_CASE("Tests for `tVZFilter` filer", "[tVZFilter]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tVZFilter* filter1;
     tVZFilter_init(&filter1, Highpass, 22050, 4, &leaf);
@@ -369,7 +369,7 @@ TEST_CASE("Tests for `tVZFilterLS` filer", "[tVZFilterLS]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tVZFilterLS* filter;
     tVZFilterLS_init(&filter, 22050, 1, 1, &leaf);
@@ -382,7 +382,7 @@ TEST_CASE("Tests for `tVZFilterHS` filer", "[tVZFilterHS]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tVZFilterHS* filter;
     tVZFilterHS_init(&filter, 22050, 1, 1, &leaf);
@@ -395,7 +395,7 @@ TEST_CASE("Tests for `tVZFilterBell` filer", "[tVZFilterBell]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tVZFilterBell* filter;
     tVZFilterBell_init(&filter, 22050, 1, 1, &leaf);
@@ -408,7 +408,7 @@ TEST_CASE("Tests for `tVZFilterBR` filer", "[tVZFilterBR]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tVZFilterBR* filter;
     tVZFilterBR_init(&filter, 22050, 1, &leaf);
@@ -421,7 +421,7 @@ TEST_CASE("Tests for `tDiodeFilter` filer", "[tDiodeFilter]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tDiodeFilter* filter;
     tDiodeFilter_init(&filter, 22050, 1, &leaf);
@@ -434,7 +434,7 @@ TEST_CASE("Tests for `tLadderFilter` filer", "[tLadderFilter]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tLadderFilter* filter;
     tLadderFilter_init(&filter, 22050, 1, &leaf);
@@ -447,7 +447,7 @@ TEST_CASE("Tests for `tTiltFilter` filer", "[tTiltFilter]") {
 
     LEAF leaf;
     char leafMemory[65535];
-    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535);
 
 tTiltFilter* filter;
     tTiltFilter_init(&filter, 22050, &leaf);

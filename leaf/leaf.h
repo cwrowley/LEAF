@@ -144,12 +144,22 @@ extern "C" {
     
     //! Initialize the LEAF instance.
     /*!
-     @param sampleRate The default sample rate for object initialized to this LEAF instance.
-     @param memory A pointer to the memory that will make up the default mempool of a LEAF instance.
-     @param memorySize The size of the memory that will make up the default mempool of a LEAF instance.
-     @param random A pointer to a random number function. Should return a Lfloat >= 0 and < 1.
+     @param leaf A pointer to the LEAF instance to initialize.
+     @param sampleRate The default sample rate for objects initialized to this LEAF instance.
+     @param memory A pointer to the memory that will make up the default mempool.
+     @param memorySize The size of that memory block in bytes.
      */
-    void        LEAF_init(LEAF* const leaf, Lfloat sampleRate, char* memory, size_t memorySize, Lfloat(*random)(void));
+    void        LEAF_init(LEAF* const leaf, Lfloat sampleRate, char* memory, size_t memorySize);
+
+    //! Override the random number generator used by LEAF objects.
+    /*!
+     @brief By default LEAF uses a fast internal LCG. Call this after LEAF_init
+            to substitute a platform-specific or higher-quality generator.
+            The function must return a value in [0, 1).
+     @param leaf A pointer to the LEAF instance.
+     @param random A pointer to the replacement random function.
+     */
+    void        LEAF_setRandom(LEAF* const leaf, Lfloat (*random)(void));
     
     //! Set the sample rate of LEAF.
     /*!

@@ -23,7 +23,7 @@ char memory[MSIZE];
 
 void    LEAFTest_init            (float sampleRate, int blockSize)
 {
-    LEAF_init(&leaf, sampleRate, memory, MSIZE, &getRandomFloat);
+    LEAF_init(&leaf, sampleRate, memory, MSIZE);
 
     tMBSaw_init(&bsaw, &leaf);
     //tMBSaw_setSyncMode(&bsaw, 1);
