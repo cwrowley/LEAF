@@ -426,3 +426,23 @@ void tMempool_initToPool(tMempool **const mp, char *memory, size_t size, tMempoo
 
     mpool_create(memory, size, m);
 }
+
+#ifdef __cplusplus
+
+void tMempool::create(char *memory, size_t size) {
+    mpool_create(memory, size, this);
+}
+
+char *tMempool::alloc(size_t size) {
+    return mpool_alloc(size, this);
+}
+
+char *tMempool::allocZeroed(size_t size) {
+    return mpool_calloc(size, this);
+}
+
+void tMempool::free(char *ptr) {
+    mpool_free(ptr, this);
+}
+
+#endif

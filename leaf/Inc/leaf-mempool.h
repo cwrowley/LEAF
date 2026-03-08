@@ -92,6 +92,16 @@ struct tMempool {
     unsigned int freeCount;                                //!< Count of frees from this pool.
     int errorState[LEAFErrorNil];                          //!< Flags indicating which errors have occurred.
     void (*errorCallback)(tMempool *const, LEAFErrorType); //!< Callback for pool errors.
+
+#ifdef __cplusplus
+    void create(char *memory, size_t size);
+    char *alloc(size_t size);
+    char *allocZeroed(size_t size);
+    void free(char *ptr);
+    size_t getSize() const { return msize; }
+    size_t getUsed() const { return usize; }
+    char *getPool() const { return mpool; }
+#endif
 };
 
 //! Initialize a tMempool for a given memory location and size to the default mempool of a LEAF instance.
