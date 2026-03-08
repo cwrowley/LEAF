@@ -1168,7 +1168,7 @@ void tReedTable_setSlope(tReedTable *const, Lfloat slope);
 
 //==============================================================================
 
-typedef struct tStiffString {
+typedef struct StiffString {
     tMempool *mempool;
     int numModes;
     tCycle **oscs; // array of oscillators
@@ -1213,31 +1213,31 @@ typedef struct tStiffString {
     void setDecayNoUpdate(Lfloat decay);
     void setDecayHighFreqNoUpdate(Lfloat decayHF);
 #endif
-} tStiffString;
+} StiffString;
 
-void tStiffString_init(tStiffString **const, int numModes, LEAF *const leaf);
-void tStiffString_initToPool(tStiffString **const, int numModes, LEAF *const leaf, tMempool **const);
-void tStiffString_free(tStiffString **const);
+void StiffString_init(StiffString **const, int numModes, LEAF *const leaf);
+void StiffString_initToPool(StiffString **const, int numModes, LEAF *const leaf, tMempool **const);
+void StiffString_free(StiffString **const);
 
-Lfloat tStiffString_tick(tStiffString *const);
-void tStiffString_setStiffness(tStiffString *const, Lfloat newValue);
-void tStiffString_setFreq(tStiffString *const, Lfloat newFreq);
-void tStiffString_pluck(tStiffString *const, Lfloat amp);
-void tStiffString_setPickupPos(tStiffString *const, Lfloat pickuppos);
-void tStiffString_setPluckPos(tStiffString *const, Lfloat pluckpos);
-void tStiffString_setDecay(tStiffString *const, Lfloat decay);
-void tStiffString_setDecayHighFreq(tStiffString *const, Lfloat decayHF);
-void tStiffString_updateOscillators(tStiffString *const pm);
-void tStiffString_updateOutputWeights(tStiffString *const pm);
-void tStiffString_mute(tStiffString *const pm);
-void tStiffString_setSampleRate(tStiffString *const, Lfloat sr);
-void tStiffString_setStiffnessNoUpdate(tStiffString *const, Lfloat newValue);
-void tStiffString_setFreqNoUpdate(tStiffString *const, Lfloat newFreq);
-void tStiffString_pluckNoUpdate(tStiffString *const, Lfloat amp);
-void tStiffString_setPickupPosNoUpdate(tStiffString *const, Lfloat pickuppos);
-void tStiffString_setPluckPosNoUpdate(tStiffString *const, Lfloat pluckpos);
-void tStiffString_setDecayNoUpdate(tStiffString *const, Lfloat decay);
-void tStiffString_setDecayHighFreqNoUpdate(tStiffString *const, Lfloat decayHF);
+Lfloat StiffString_tick(StiffString *const);
+void StiffString_setStiffness(StiffString *const, Lfloat newValue);
+void StiffString_setFreq(StiffString *const, Lfloat newFreq);
+void StiffString_pluck(StiffString *const, Lfloat amp);
+void StiffString_setPickupPos(StiffString *const, Lfloat pickuppos);
+void StiffString_setPluckPos(StiffString *const, Lfloat pluckpos);
+void StiffString_setDecay(StiffString *const, Lfloat decay);
+void StiffString_setDecayHighFreq(StiffString *const, Lfloat decayHF);
+void StiffString_updateOscillators(StiffString *const pm);
+void StiffString_updateOutputWeights(StiffString *const pm);
+void StiffString_mute(StiffString *const pm);
+void StiffString_setSampleRate(StiffString *const, Lfloat sr);
+void StiffString_setStiffnessNoUpdate(StiffString *const, Lfloat newValue);
+void StiffString_setFreqNoUpdate(StiffString *const, Lfloat newFreq);
+void StiffString_pluckNoUpdate(StiffString *const, Lfloat amp);
+void StiffString_setPickupPosNoUpdate(StiffString *const, Lfloat pickuppos);
+void StiffString_setPluckPosNoUpdate(StiffString *const, Lfloat pluckpos);
+void StiffString_setDecayNoUpdate(StiffString *const, Lfloat decay);
+void StiffString_setDecayHighFreqNoUpdate(StiffString *const, Lfloat decayHF);
 
 typedef struct tStereoRotation {
     tMempool *mempool;
