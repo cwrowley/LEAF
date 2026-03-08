@@ -3174,9 +3174,9 @@ void StiffString_initToPool(StiffString **const pm, int numModes, LEAF *const le
         tDampedOscillator_initToPool(&p->osc[i], &m);
     }
     */
-    p->oscs = (tCycle **)mpool_alloc(numModes * sizeof(tCycle *), m);
+    p->oscs = (tCycle *)mpool_alloc(numModes * sizeof(tCycle), m);
     for (int i = 0; i < numModes; ++i) {
-        tCycle_initToPool(&p->oscs[i], leaf, &m);
+        tCycle_initInPlace(&p->oscs[i], leaf);
     }
     //
     p->amplitudes = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
@@ -3190,11 +3190,6 @@ void StiffString_initToPool(StiffString **const pm, int numModes, LEAF *const le
 void StiffString_free(StiffString **const pm) {
     StiffString *p = *pm;
 
-    for (int i = 0; i < p->numModes; ++i) {
-        // tDampedOscillator_free(&p->osc[i]);
-        tCycle_free(&p->oscs[i]);
-        //
-    }
     mpool_free((char *)p->nyquistCoeff, p->mempool);
     mpool_free((char *)p->decayScalar, p->mempool);
     mpool_free((char *)p->decayVal, p->mempool);
@@ -3233,7 +3228,7 @@ void StiffString_updateOscillators(StiffString *const p) {
         Lfloat testFreq = (p->freqHz * w);
         Lfloat nyquistTest = (testFreq - p->nyquist) * p->nyquistScalingFactor;
         p->nyquistCoeff[i] = LEAF_clip(0.0f, nyquistTest, 1.0f);
-        tCycle_setFreq(p->oscs[i], testFreq * compensation);
+        tCycle_setFreq(&p->oscs[i], testFreq * compensation);
         // tDampedOscillator_setDecay(p->osc[i],p->freqHz * sig);
         Lfloat val = p->freqHz * sig;
         Lfloat r = fastExp4(-val * p->twoPiTimesInvSampleRate);
@@ -3265,7 +3260,7 @@ Lfloat StiffString_tick(StiffString *const p) {
     Lfloat sample = 0.0f;
     for (int i = 0; i < p->numModes; ++i) {
         // sample += tDampedOscillator_tick(p->osc[i]) * p->amplitudes[i] * p->outputWeights[i];
-        sample += tCycle_tick(p->oscs[i]) * p->amplitudes[i] * p->outputWeights[i] * p->decayVal[i] * p->nyquistCoeff[i];
+        sample += tCycle_tick(&p->oscs[i]) * p->amplitudes[i] * p->outputWeights[i] * p->decayVal[i] * p->nyquistCoeff[i];
         p->decayVal[i] *= p->decayScalar[i] * p->muteDecay;
     }
     return sample * p->amp * p->gainComp;

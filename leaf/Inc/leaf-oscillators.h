@@ -71,6 +71,7 @@ typedef struct tCycle {
     uint32_t mask;
 
 #ifdef __cplusplus
+    void initInPlace(LEAF *const leaf);
     Lfloat tick();
     void setFreq(Lfloat freq);
     void setPhase(Lfloat phase);
@@ -81,6 +82,7 @@ typedef struct tCycle {
 // Memory handlers for `tCycle`
 void tCycle_init(tCycle **const osc, LEAF *const leaf);
 void tCycle_initToPool(tCycle **const osc, LEAF *const leaf, tMempool **const mempool);
+void tCycle_initInPlace(tCycle *osc, LEAF *const leaf);
 void tCycle_free(tCycle **const osc);
 
 // Tick function for `tCycle`

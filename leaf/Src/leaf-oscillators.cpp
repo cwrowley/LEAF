@@ -51,15 +51,19 @@ void tCycle_init(tCycle **const cy, LEAF *const leaf) {
     tCycle_initToPool(cy, leaf, &leaf->mempool);
 }
 
+void tCycle_initInPlace(tCycle *c, LEAF *const leaf) {
+    c->mempool = NULL; // not individually pool-managed; do not call tCycle_free on this
+    c->inc = 0;
+    c->phase = 0;
+    c->invSampleRateTimesTwoTo32 = leaf->invSampleRate * TWO_TO_32;
+    c->mask = SINE_TABLE_SIZE - 1;
+}
+
 void tCycle_initToPool(tCycle **const cy, LEAF *const leaf, tMempool **const mp) {
     tMempool *m = *mp;
     tCycle *c = *cy = (tCycle *)mpool_alloc(sizeof(tCycle), m);
-    c->mempool = m;
-
-    c->inc = 0;
-    c->phase = 0;
-    c->invSampleRateTimesTwoTo32 = (leaf->invSampleRate * TWO_TO_32);
-    c->mask = SINE_TABLE_SIZE - 1;
+    tCycle_initInPlace(c, leaf);
+    c->mempool = m; // override NULL set by initInPlace: this one IS pool-managed
 }
 
 void tCycle_free(tCycle **const cy) {
@@ -110,6 +114,9 @@ void tCycle_setSampleRate(tCycle *const c, Lfloat sr) {
 }
 
 #ifdef __cplusplus
+void tCycle::initInPlace(LEAF *const leaf) {
+    tCycle_initInPlace(this, leaf);
+}
 Lfloat tCycle::tick() {
     return tCycle_tick(this);
 }

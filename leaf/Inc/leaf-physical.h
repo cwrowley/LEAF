@@ -1171,7 +1171,7 @@ void tReedTable_setSlope(tReedTable *const, Lfloat slope);
 typedef struct StiffString {
     tMempool *mempool;
     int numModes;
-    tCycle **oscs; // array of oscillators
+    tCycle *oscs; // flat array of oscillators
     Lfloat *amplitudes;
     Lfloat *outputWeights;
     Lfloat freqHz; // the frequency of the whole string, determining delay length
