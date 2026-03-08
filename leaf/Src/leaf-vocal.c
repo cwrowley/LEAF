@@ -128,17 +128,16 @@ void glottis_setup_waveform(glottis* const glot)
 }
 void glottis_init(glottis** const glo, LEAF* const leaf)
 {
-	glottis_initToPool(glo, &leaf->mempool);
+	glottis_initToPool(glo, leaf, &leaf->mempool);
 }
 
-void glottis_initToPool(glottis** const glo, tMempool** const mp)
+void glottis_initToPool(glottis** const glo, LEAF* const leaf, tMempool** const mp)
 {
 
 	tMempool* m = *mp;
 	glottis* glot = *glo = (glottis*) mpool_calloc(sizeof(glottis), m);
 	glot->mempool = m;
-	LEAF* leaf = glot->mempool->leaf;
-	glot->mempool = m;
+	glot->leaf = leaf;
 	glot->freq = 140.0f; /* 140Hz frequency by default */
     glot->tenseness = 0.6f; /* value between 0 and 1 */
     glot->T = 1.0f/leaf->sampleRate; /* big T */
@@ -155,7 +154,6 @@ void glottis_free(glottis** const glo)
 
 Lfloat glottis_compute(glottis* const glot)
 {
-	LEAF* leaf = glot->mempool->leaf;
 	Lfloat out;
     Lfloat aspiration;
     Lfloat noise;
@@ -185,7 +183,7 @@ Lfloat glottis_compute(glottis* const glot)
 
     }
 
-    noise = (2.0f * leaf->random()) - 1.0f;
+    noise = (2.0f * glot->leaf->random()) - 1.0f;
 
 #ifdef ARM_MATH_CM7
     Lfloat sqr = 0.0f;
@@ -204,15 +202,14 @@ Lfloat glottis_compute(glottis* const glot)
 
 void tract_init(tract** const t,  int numTractSections, int maxNumTractSections, LEAF* const leaf)
 {
-	tract_initToPool(t, numTractSections, maxNumTractSections, &leaf->mempool);
+	tract_initToPool(t,  numTractSections,  maxNumTractSections, leaf, &leaf->mempool);
 }
 
-void tract_initToPool(tract** const t,  int numTractSections, int maxNumTractSections, tMempool** const mp)
+void tract_initToPool(tract** const t,  int numTractSections, int maxNumTractSections, LEAF* const leaf, tMempool** const mp)
 {
 	tMempool* m = *mp;
 	tract* tr = *t = (tract*) mpool_calloc(sizeof(tract), m);
 	tr->mempool = m;
-	LEAF* leaf = m->leaf;
 
 	int i;
     Lfloat diameter, d; /* needed to set up diameter arrays */
@@ -300,10 +297,10 @@ void tract_initToPool(tract** const t,  int numTractSections, int maxNumTractSec
 		tr->nose_diameter[i] = diameter;
 	}
 
-	tSVF_initToPool(&tr->fricativeNoiseFilt[0], SVFTypeBandpass, 1010.0f, 0.7f, &m);
-	tSVF_initToPool(&tr->fricativeNoiseFilt[1], SVFTypeBandpass, 990.0f, 0.7f, &m);
-	tSVF_initToPool(&tr->aspirationNoiseFilt, SVFTypeBandpass, 500.0f, 0.7f, &m);
-	tNoise_initToPool(&tr->whiteNoise, WhiteNoise, &m);
+	tSVF_initToPool(&tr->fricativeNoiseFilt[0], SVFTypeBandpass, 1010.0f, 0.7f, leaf, &m);
+	tSVF_initToPool(&tr->fricativeNoiseFilt[1], SVFTypeBandpass, 990.0f, 0.7f, leaf, &m);
+	tSVF_initToPool(&tr->aspirationNoiseFilt, SVFTypeBandpass, 500.0f, 0.7f, leaf, &m);
+	tNoise_initToPool(&tr->whiteNoise, WhiteNoise, leaf, &m);
 
     tract_calculate_reflections(tr);
     tract_calculate_nose_reflections(tr);
@@ -743,16 +740,16 @@ Lfloat move_towards(Lfloat current, Lfloat target,
 
 void    tVoc_init(tVoc** const voc, int numTractSections, int maxNumTractSections, LEAF* const leaf)
 {
-	tVoc_initToPool   (voc, numTractSections, maxNumTractSections, &leaf->mempool);
+	tVoc_initToPool   (voc, numTractSections, maxNumTractSections, leaf, &leaf->mempool);
 }
 
-void    tVoc_initToPool(tVoc** const voc, int numTractSections, int maxNumTractSections, tMempool** const mp)
+void    tVoc_initToPool(tVoc** const voc, int numTractSections, int maxNumTractSections, LEAF* const leaf, tMempool** const mp)
 {
 	tMempool* m = *mp;
 	tVoc* v = *voc = (tVoc*) mpool_alloc(sizeof(tVoc), m);
 	v->mempool = m;
-	glottis_initToPool(&v->glot, &m); /* initialize glottis */
-	tract_initToPool(&v->tr, numTractSections, maxNumTractSections, &m); /* initialize vocal tract */
+	glottis_initToPool(&v->glot, leaf, &m); /* initialize glottis */
+	tract_initToPool(&v->tr, numTractSections, maxNumTractSections, leaf, &m); /* initialize vocal tract */
 	v->counter = 0;
 }
 void    tVoc_free(tVoc** const voc)

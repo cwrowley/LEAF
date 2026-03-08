@@ -20,36 +20,36 @@
 
 void t808Cowbell_init(t808Cowbell** const cowbellInst, int useStick, LEAF* const leaf)
 {
-    t808Cowbell_initToPool(cowbellInst, useStick, &leaf->mempool);
+    t808Cowbell_initToPool(cowbellInst,  useStick, leaf, &leaf->mempool);
 }
 
-void        t808Cowbell_initToPool      (t808Cowbell** const cowbellInst, int useStick, tMempool** const mp)
+void        t808Cowbell_initToPool      (t808Cowbell** const cowbellInst, int useStick, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     t808Cowbell* cowbell = *cowbellInst = (t808Cowbell*) mpool_alloc(sizeof(t808Cowbell), m);
     cowbell->mempool = m;
     
-    tSquare_initToPool(&cowbell->p[0], mp);
+    tSquare_initToPool(&cowbell->p[0], leaf, mp);
     tSquare_setFreq(cowbell->p[0], 540.0f);
     
-    tSquare_initToPool(&cowbell->p[1], mp);
+    tSquare_initToPool(&cowbell->p[1], leaf, mp);
     tSquare_setFreq(cowbell->p[1], 1.48148f * 540.0f);
     
     cowbell->oscMix = 0.5f;
     
-    tSVF_initToPool(&cowbell->bandpassOsc, SVFTypeBandpass, 2500, 1.0f, mp);
+    tSVF_initToPool(&cowbell->bandpassOsc,  SVFTypeBandpass,  2500,  1.0f, leaf, mp);
     
-    tSVF_initToPool(&cowbell->bandpassStick, SVFTypeBandpass, 1800, 1.0f, mp);
+    tSVF_initToPool(&cowbell->bandpassStick,  SVFTypeBandpass,  1800,  1.0f, leaf, mp);
     
-    tEnvelope_initToPool(&cowbell->envGain, 5.0f, 100.0f, 0, mp);
+    tEnvelope_initToPool(&cowbell->envGain,  5.0f,  100.0f,  0, leaf, mp);
     
-    tEnvelope_initToPool(&cowbell->envFilter, 5.0, 100.0f, 0, mp);
+    tEnvelope_initToPool(&cowbell->envFilter,  5.0,  100.0f,  0, leaf, mp);
     
-    tHighpass_initToPool(&cowbell->highpass, 1000.0f, mp);
+    tHighpass_initToPool(&cowbell->highpass,  1000.0f, leaf, mp);
     
-    tNoise_initToPool(&cowbell->stick, WhiteNoise, mp);
+    tNoise_initToPool(&cowbell->stick,  WhiteNoise, leaf, mp);
     
-    tEnvelope_initToPool(&cowbell->envStick, 5.0f, 5.0f, 0, mp);
+    tEnvelope_initToPool(&cowbell->envStick,  5.0f,  5.0f,  0, leaf, mp);
     
     cowbell->useStick = useStick;
 }
@@ -144,10 +144,10 @@ void t808Cowbell_setSampleRate(t808Cowbell* const cowbell, Lfloat sr)
 
 void t808Hihat_init(t808Hihat** const hihatInst, LEAF* const leaf)
 {
-    t808Hihat_initToPool(hihatInst, &leaf->mempool);
+    t808Hihat_initToPool(hihatInst, leaf, &leaf->mempool);
 }
 
-void    t808Hihat_initToPool  (t808Hihat** const hihatInst, tMempool** const mp)
+void    t808Hihat_initToPool  (t808Hihat** const hihatInst, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     t808Hihat* hihat = *hihatInst = (t808Hihat*) mpool_alloc(sizeof(t808Hihat), m);
@@ -155,21 +155,21 @@ void    t808Hihat_initToPool  (t808Hihat** const hihatInst, tMempool** const mp)
     
     for (int i = 0; i < 6; i++)
     {
-        tSquare_initToPool(&hihat->p[i], mp);
+        tSquare_initToPool(&hihat->p[i], leaf, mp);
     }
     
-    tNoise_initToPool(&hihat->stick, PinkNoise, mp);
-    tNoise_initToPool(&hihat->n, WhiteNoise, mp);
+    tNoise_initToPool(&hihat->stick,  PinkNoise, leaf, mp);
+    tNoise_initToPool(&hihat->n,  WhiteNoise, leaf, mp);
     
     // need to fix SVF to be generic
-    tSVF_initToPool(&hihat->bandpassStick, SVFTypeBandpass,2500.0f,1.2f, mp);
-    tSVF_initToPool(&hihat->bandpassOsc, SVFTypeBandpass,3500.0f,0.3f, mp);
+    tSVF_initToPool(&hihat->bandpassStick,  SVFTypeBandpass, 2500.0f, 1.2f, leaf, mp);
+    tSVF_initToPool(&hihat->bandpassOsc,  SVFTypeBandpass, 3500.0f, 0.3f, leaf, mp);
     
-    tEnvelope_initToPool(&hihat->envGain, 0.0f, 50.0f, 0, mp);
-    tEnvelope_initToPool(&hihat->envStick, 0.0f, 7.0f, 0, mp);
+    tEnvelope_initToPool(&hihat->envGain,  0.0f,  50.0f,  0, leaf, mp);
+    tEnvelope_initToPool(&hihat->envStick,  0.0f,  7.0f,  0, leaf, mp);
     
     
-    tHighpass_initToPool(&hihat->highpass, 7000.0f, mp);
+    tHighpass_initToPool(&hihat->highpass,  7000.0f, leaf, mp);
     
     hihat->freq = 40.0f;
     hihat->stretch = 0.0f;
@@ -313,10 +313,10 @@ void t808Hihat_setSampleRate(t808Hihat* const hihat, Lfloat sr)
 
 void t808Snare_init(t808Snare** const snareInst, LEAF* const leaf)
 {
-    t808Snare_initToPool(snareInst, &leaf->mempool);
+    t808Snare_initToPool(snareInst, leaf, &leaf->mempool);
 }
 
-void    t808Snare_initToPool    (t808Snare** const snareInst, tMempool** const mp)
+void    t808Snare_initToPool    (t808Snare** const snareInst, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     t808Snare* snare = *snareInst = (t808Snare*) mpool_alloc(sizeof(t808Snare), m);
@@ -325,13 +325,13 @@ void    t808Snare_initToPool    (t808Snare** const snareInst, tMempool** const m
     Lfloat ratio[2] = {1.0, 1.5};
     for (int i = 0; i < 2; i++)
     {
-        tTriangle_initToPool(&snare->tone[i], mp);
+        tTriangle_initToPool(&snare->tone[i], leaf, mp);
         
         tTriangle_setFreq(snare->tone[i], ratio[i] * 400.0f);
-        tSVF_initToPool(&snare->toneLowpass[i], SVFTypeLowpass, 4000, 1.0f, mp);
-        tEnvelope_initToPool(&snare->toneEnvOsc[i], 0.0f, 50.0f, 0,  mp);
-        tEnvelope_initToPool(&snare->toneEnvGain[i], 1.0f, 150.0f, 0, mp);
-        tEnvelope_initToPool(&snare->toneEnvFilter[i], 1.0f, 2000.0f, 0, mp);
+        tSVF_initToPool(&snare->toneLowpass[i],  SVFTypeLowpass,  4000,  1.0f, leaf, mp);
+        tEnvelope_initToPool(&snare->toneEnvOsc[i],  0.0f,  50.0f,  0, leaf,  mp);
+        tEnvelope_initToPool(&snare->toneEnvGain[i],  1.0f,  150.0f,  0, leaf, mp);
+        tEnvelope_initToPool(&snare->toneEnvFilter[i],  1.0f,  2000.0f,  0, leaf, mp);
         
         snare->toneGain[i] = 0.5f;
     }
@@ -339,10 +339,10 @@ void    t808Snare_initToPool    (t808Snare** const snareInst, tMempool** const m
     snare->tone1Freq = ratio[0] * 100.0f;
     snare->tone2Freq = ratio[1] * 100.0f;
     snare->noiseFilterFreq = 3000.0f;
-    tNoise_initToPool(&snare->noiseOsc, WhiteNoise, mp);
-    tSVF_initToPool(&snare->noiseLowpass, SVFTypeLowpass, 12000.0f, 0.8f, mp);
-    tEnvelope_initToPool(&snare->noiseEnvGain, 0.0f, 100.0f, 0, mp);
-    tEnvelope_initToPool(&snare->noiseEnvFilter, 0.0f, 1000.0f, 0, mp);
+    tNoise_initToPool(&snare->noiseOsc,  WhiteNoise, leaf, mp);
+    tSVF_initToPool(&snare->noiseLowpass,  SVFTypeLowpass,  12000.0f,  0.8f, leaf, mp);
+    tEnvelope_initToPool(&snare->noiseEnvGain,  0.0f,  100.0f,  0, leaf, mp);
+    tEnvelope_initToPool(&snare->noiseEnvFilter,  0.0f,  1000.0f,  0, leaf, mp);
     snare->noiseGain = 1.0f;
 }
 
@@ -460,10 +460,10 @@ void t808Snare_setSampleRate(t808Snare* const snare, Lfloat sr)
 
 void t808SnareSmall_init(t808SnareSmall** const snareInst, LEAF* const leaf)
 {
-    t808SnareSmall_initToPool(snareInst, &leaf->mempool);
+    t808SnareSmall_initToPool(snareInst, leaf, &leaf->mempool);
 }
 
-void    t808SnareSmall_initToPool    (t808SnareSmall** const snareInst, tMempool** const mp)
+void    t808SnareSmall_initToPool    (t808SnareSmall** const snareInst, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     t808SnareSmall* snare = *snareInst = (t808SnareSmall*) mpool_alloc(sizeof(t808SnareSmall), m);
@@ -472,12 +472,12 @@ void    t808SnareSmall_initToPool    (t808SnareSmall** const snareInst, tMempool
     Lfloat ratio[2] = {1.0, 1.5};
     for (int i = 0; i < 2; i++)
     {
-        tPBTriangle_initToPool(&snare->tone[i], mp);
+        tPBTriangle_initToPool(&snare->tone[i], leaf, mp);
         tPBTriangle_setFreq(snare->tone[i], ratio[i] * 400.0f);
-        tSVF_initToPool(&snare->toneLowpass[i], SVFTypeLowpass, 4000, 1.0f, mp);
-        tADSRS_initToPool(&snare->toneEnvOsc[i], 0.0f, 50.0f, 0.0f, 50.0f, mp);
-        tADSRS_initToPool(&snare->toneEnvGain[i], 1.0f, 150.0f, 0.0f, 50.0f, mp);
-        tADSRS_initToPool(&snare->toneEnvFilter[i], 1.0f, 2000.0f, 0.0f, 50.0f, mp);
+        tSVF_initToPool(&snare->toneLowpass[i],  SVFTypeLowpass,  4000,  1.0f, leaf, mp);
+        tADSRS_initToPool(&snare->toneEnvOsc[i],  0.0f,  50.0f,  0.0f,  50.0f, leaf, mp);
+        tADSRS_initToPool(&snare->toneEnvGain[i],  1.0f,  150.0f,  0.0f,  50.0f, leaf, mp);
+        tADSRS_initToPool(&snare->toneEnvFilter[i],  1.0f,  2000.0f,  0.0f,  50.0f, leaf, mp);
         
         snare->toneGain[i] = 0.5f;
     }
@@ -485,10 +485,10 @@ void    t808SnareSmall_initToPool    (t808SnareSmall** const snareInst, tMempool
     snare->tone1Freq = ratio[0] * 100.0f;
     snare->tone2Freq = ratio[1] * 100.0f;
     snare->noiseFilterFreq = 3000.0f;
-    tNoise_initToPool(&snare->noiseOsc, WhiteNoise, mp);
-    tSVF_initToPool(&snare->noiseLowpass, SVFTypeLowpass, 12000.0f, 0.8f, mp);
-    tADSRS_initToPool(&snare->noiseEnvGain, 0.0f, 100.0f, 0.0f, 50.0f, mp);
-    tADSRS_initToPool(&snare->noiseEnvFilter, 0.0f, 1000.0f, 0.0f, 50.0f, mp);
+    tNoise_initToPool(&snare->noiseOsc,  WhiteNoise, leaf, mp);
+    tSVF_initToPool(&snare->noiseLowpass,  SVFTypeLowpass,  12000.0f,  0.8f, leaf, mp);
+    tADSRS_initToPool(&snare->noiseEnvGain,  0.0f,  100.0f,  0.0f,  50.0f, leaf, mp);
+    tADSRS_initToPool(&snare->noiseEnvFilter,  0.0f,  1000.0f,  0.0f,  50.0f, leaf, mp);
     snare->noiseGain = 1.0f;
 }
 
@@ -604,26 +604,26 @@ void t808SnareSmall_setSampleRate(t808SnareSmall* const snare, Lfloat sr)
 
 void t808Kick_init(t808Kick** const kickInst, LEAF* const leaf)
 {
-    t808Kick_initToPool(kickInst, &leaf->mempool);
+    t808Kick_initToPool(kickInst, leaf, &leaf->mempool);
 }
 
-void t808Kick_initToPool (t808Kick** const kickInst, tMempool** const mp)
+void t808Kick_initToPool (t808Kick** const kickInst, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     t808Kick* kick = *kickInst = (t808Kick*) mpool_alloc(sizeof(t808Kick), m);
     kick->mempool = m;
     
-    tCycle_initToPool(&kick->tone, mp);
+    tCycle_initToPool(&kick->tone, leaf, mp);
     kick->toneInitialFreq = 40.0f;
     kick->sighAmountInHz = 7.0f;
     kick->chirpRatioMinusOne = 3.3f;
     tCycle_setFreq(kick->tone, 50.0f);
-    tSVF_initToPool(&kick->toneLowpass, SVFTypeLowpass, 2000.0f, 0.5f, mp);
-    tEnvelope_initToPool(&kick->toneEnvOscChirp, 0.0f, 20.0f, 0, mp);
-    tEnvelope_initToPool(&kick->toneEnvOscSigh, 0.0f, 2500.0f, 0, mp);
-    tEnvelope_initToPool(&kick->toneEnvGain, 0.0f, 800.0f, 0, mp);
-    tNoise_initToPool(&kick->noiseOsc, PinkNoise, mp);
-    tEnvelope_initToPool(&kick->noiseEnvGain, 0.0f, 1.0f, 0, mp);
+    tSVF_initToPool(&kick->toneLowpass,  SVFTypeLowpass,  2000.0f,  0.5f, leaf, mp);
+    tEnvelope_initToPool(&kick->toneEnvOscChirp,  0.0f,  20.0f,  0, leaf, mp);
+    tEnvelope_initToPool(&kick->toneEnvOscSigh,  0.0f,  2500.0f,  0, leaf, mp);
+    tEnvelope_initToPool(&kick->toneEnvGain,  0.0f,  800.0f,  0, leaf, mp);
+    tNoise_initToPool(&kick->noiseOsc,  PinkNoise, leaf, mp);
+    tEnvelope_initToPool(&kick->noiseEnvGain,  0.0f,  1.0f,  0, leaf, mp);
     kick->noiseGain = 0.3f;
 }
 
@@ -686,26 +686,26 @@ void        t808Kick_setSampleRate  (t808Kick** const kickInst, Lfloat sr)
 
 void t808KickSmall_init(t808KickSmall** const kickInst, LEAF* const leaf)
 {
-    t808KickSmall_initToPool(kickInst, &leaf->mempool);
+    t808KickSmall_initToPool(kickInst, leaf, &leaf->mempool);
 }
 
-void t808KickSmall_initToPool (t808KickSmall** const kickInst, tMempool** const mp)
+void t808KickSmall_initToPool (t808KickSmall** const kickInst, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     t808KickSmall* kick = *kickInst = (t808KickSmall*) mpool_alloc(sizeof(t808KickSmall), m);
     kick->mempool = m;
     
-    tCycle_initToPool(&kick->tone, mp);
+    tCycle_initToPool(&kick->tone, leaf, mp);
     kick->toneInitialFreq = 40.0f;
     kick->sighAmountInHz = 7.0f;
     kick->chirpRatioMinusOne = 3.3f;
     tCycle_setFreq(kick->tone, 50.0f);
-    tSVF_initToPool(&kick->toneLowpass, SVFTypeLowpass, 2000.0f, 0.5f, mp);
-    tADSRS_initToPool(&kick->toneEnvOscChirp, 0.0f, 20.0f, 0.0f, 0.0f, mp);
-    tADSRS_initToPool(&kick->toneEnvOscSigh, 0.0f, 2500.0f, 0.0f, 0.0f, mp);
-    tADSRS_initToPool(&kick->toneEnvGain, 0.0f, 800.0f, 0.0f, 0.0f, mp);
-    tNoise_initToPool(&kick->noiseOsc, PinkNoise, mp);
-    tADSRS_initToPool(&kick->noiseEnvGain, 0.0f, 1.0f, 0.0f, 0.0f, mp);
+    tSVF_initToPool(&kick->toneLowpass,  SVFTypeLowpass,  2000.0f,  0.5f, leaf, mp);
+    tADSRS_initToPool(&kick->toneEnvOscChirp,  0.0f,  20.0f,  0.0f,  0.0f, leaf, mp);
+    tADSRS_initToPool(&kick->toneEnvOscSigh,  0.0f,  2500.0f,  0.0f,  0.0f, leaf, mp);
+    tADSRS_initToPool(&kick->toneEnvGain,  0.0f,  800.0f,  0.0f,  0.0f, leaf, mp);
+    tNoise_initToPool(&kick->noiseOsc,  PinkNoise, leaf, mp);
+    tADSRS_initToPool(&kick->noiseEnvGain,  0.0f,  1.0f,  0.0f,  0.0f, leaf, mp);
     kick->noiseGain = 0.3f;
 }
 

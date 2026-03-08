@@ -49,15 +49,14 @@ static inline float blamp(float t, float dt) {
 // Cycle
 void    tCycle_init(tCycle** const cy, LEAF* const leaf)
 {
-    tCycle_initToPool(cy, &leaf->mempool);
+    tCycle_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tCycle_initToPool   (tCycle** const cy, tMempool** const mp)
+void    tCycle_initToPool   (tCycle** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tCycle* c = *cy = (tCycle*) mpool_alloc(sizeof(tCycle), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->inc      =  0;
     c->phase    =  0;
@@ -123,15 +122,14 @@ void     tCycle_setSampleRate (tCycle* const c, Lfloat sr)
 /* Triangle */
 void   tTriangle_init(tTriangle** const cy, LEAF* const leaf)
 {
-    tTriangle_initToPool(cy, &leaf->mempool);
+    tTriangle_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tTriangle_initToPool    (tTriangle** const cy, tMempool** const mp)
+void    tTriangle_initToPool    (tTriangle** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tTriangle* c = *cy = (tTriangle*) mpool_alloc(sizeof(tTriangle), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->inc      =  0;
     c->phase    =  0;
@@ -210,15 +208,14 @@ void     tTriangle_setSampleRate (tTriangle* c, Lfloat sr)
 /* Square */
 void   tSquare_init(tSquare** const cy, LEAF* const leaf)
 {
-    tSquare_initToPool(cy, &leaf->mempool);
+    tSquare_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tSquare_initToPool  (tSquare** const cy, tMempool** const mp)
+void    tSquare_initToPool  (tSquare** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tSquare* c = *cy = (tSquare*) mpool_alloc(sizeof(tSquare), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->inc      =  0;
     c->phase    =  0;
@@ -300,15 +297,14 @@ void     tSquare_setSampleRate (tSquare* c, Lfloat sr)
 // Sawtooth
 void    tSawtooth_init(tSawtooth** const cy, LEAF* const leaf)
 {
-    tSawtooth_initToPool(cy, &leaf->mempool);
+    tSawtooth_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tSawtooth_initToPool    (tSawtooth** const cy, tMempool** const mp)
+void    tSawtooth_initToPool    (tSawtooth** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tSawtooth* c = *cy = (tSawtooth*) mpool_alloc(sizeof(tSawtooth), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->inc      = 0;
     c->phase    = 0;
@@ -392,15 +388,14 @@ void     tSawtooth_setSampleRate (tSawtooth* c, Lfloat sr)
 /* tTri: Anti-aliased Triangle waveform. */
 void    tPBTriangle_init(tPBTriangle** const osc, LEAF* const leaf)
 {
-    tPBTriangle_initToPool(osc, &leaf->mempool);
+    tPBTriangle_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void    tPBTriangle_initToPool    (tPBTriangle** const osc, tMempool** const mp)
+void    tPBTriangle_initToPool    (tPBTriangle** const osc, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPBTriangle* c = *osc = (tPBTriangle*) mpool_alloc(sizeof(tPBTriangle), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
 
     c->invSampleRate = leaf->invSampleRate;
     c->invSampleRateTimesTwoTo32 = c->invSampleRate * TWO_TO_32;
@@ -487,16 +482,15 @@ void     tPBTriangle_setSampleRate (tPBTriangle* c, Lfloat sr)
 /* tPBSineTriangle: Anti-aliased Triangle waveform with sine wave, crossfaded between them with shape param. */
 void    tPBSineTriangle_init(tPBSineTriangle** const osc, LEAF* const leaf)
 {
-	tPBSineTriangle_initToPool(osc, &leaf->mempool);
+	tPBSineTriangle_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void    tPBSineTriangle_initToPool    (tPBSineTriangle** const osc, tMempool** const mp)
+void    tPBSineTriangle_initToPool    (tPBSineTriangle** const osc, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPBSineTriangle* c = *osc = (tPBSineTriangle*) mpool_alloc(sizeof(tPBSineTriangle), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
-    tCycle_initToPool(&c->sine, mp);
+    tCycle_initToPool(&c->sine, leaf, mp);
     c->invSampleRate = leaf->invSampleRate;
     c->invSampleRateTimesTwoTo32 = c->invSampleRate * TWO_TO_32;
     c->inc      =  0;
@@ -575,15 +569,14 @@ void    tPBSineTriangle_setSampleRate (tPBSineTriangle* const c, Lfloat sr)
 /* tPulse: Anti-aliased pulse waveform. */
 void    tPBPulse_init(tPBPulse** const osc, LEAF* const leaf)
 {
-    tPBPulse_initToPool(osc, &leaf->mempool);
+    tPBPulse_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void    tPBPulse_initToPool  (tPBPulse** const osc, tMempool** const mp)
+void    tPBPulse_initToPool  (tPBPulse** const osc, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPBPulse* c = *osc = (tPBPulse*) mpool_alloc(sizeof(tPBPulse), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->invSampleRate = leaf->invSampleRate;
     c->invSampleRateTimesTwoTo32 = c->invSampleRate * TWO_TO_32;
@@ -661,15 +654,14 @@ void    tPBPulse_setSampleRate (tPBPulse* const  c, Lfloat sr)
 /* tSawtooth: Anti-aliased Sawtooth waveform. */
 void    tPBSaw_init(tPBSaw** const osc, LEAF* const leaf)
 {
-    tPBSaw_initToPool(osc, &leaf->mempool);
+    tPBSaw_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void    tPBSaw_initToPool    (tPBSaw** const osc, tMempool** const mp)
+void    tPBSaw_initToPool    (tPBSaw** const osc, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPBSaw* c = *osc = (tPBSaw*) mpool_alloc(sizeof(tPBSaw), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->invSampleRate = leaf->invSampleRate;
     c->invSampleRateTimesTwoTo32 = c->invSampleRate * TWO_TO_32;
@@ -723,15 +715,14 @@ void    tPBSaw_setSampleRate (tPBSaw* const c, Lfloat sr)
 /* tSawtooth: Anti-aliased Sawtooth waveform. */
 void    tPBSawSquare_init(tPBSawSquare** const osc, LEAF* const leaf)
 {
-    tPBSawSquare_initToPool(osc, &leaf->mempool);
+    tPBSawSquare_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void    tPBSawSquare_initToPool    (tPBSawSquare** const osc, tMempool** const mp)
+void    tPBSawSquare_initToPool    (tPBSawSquare** const osc, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPBSawSquare* c = *osc = (tPBSawSquare*) mpool_alloc(sizeof(tPBSawSquare), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->invSampleRate = leaf->invSampleRate;
     c->invSampleRateTimesTwoTo32 = c->invSampleRate * TWO_TO_32;
@@ -811,15 +802,14 @@ void    tPBSawSquare_setSampleRate (tPBSawSquare* const c, Lfloat sr)
 /* tSawtooth: Anti-aliased Sawtooth waveform. */
 void    tSawOS_init(tSawOS** const osc, uint8_t OS_ratio, uint8_t filterOrder, LEAF* const leaf)
 {
-	tSawOS_initToPool(osc, OS_ratio, filterOrder, &leaf->mempool);
+	tSawOS_initToPool(osc,  OS_ratio,  filterOrder, leaf, &leaf->mempool);
 }
 
-void    tSawOS_initToPool    (tSawOS** const osc, uint8_t OS_ratio, uint8_t filterOrder, tMempool** const mp)
+void    tSawOS_initToPool    (tSawOS** const osc, uint8_t OS_ratio, uint8_t filterOrder, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tSawOS* c = *osc = (tSawOS*) mpool_alloc(sizeof(tSawOS), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     c->OSratio = OS_ratio;
     c->inc      = 0;
     c->phase    = 0;
@@ -832,7 +822,7 @@ void    tSawOS_initToPool    (tSawOS** const osc, uint8_t OS_ratio, uint8_t filt
     {
         Lfloat Qval = 0.5f/cosf((1.0f+2.0f*i)*PI/(4*filterOrder));
 
-		tSVF_initToPool(&c->aaFilters[i], SVFTypeLowpass, (19000.0f / OS_ratio), Qval, mp);
+		tSVF_initToPool(&c->aaFilters[i],  SVFTypeLowpass,  (19000.0f / OS_ratio),  Qval, leaf, mp);
     }
     tSawOS_setFreq(c, 220.0f);
 }
@@ -878,15 +868,14 @@ void    tSawOS_setSampleRate (tSawOS* const c, Lfloat sr)
 
 void    tPhasor_init(tPhasor** const ph, LEAF* const leaf)
 {
-    tPhasor_initToPool(ph, &leaf->mempool);
+    tPhasor_initToPool(ph, leaf, &leaf->mempool);
 }
 
-void    tPhasor_initToPool  (tPhasor** const ph, tMempool** const mp)
+void    tPhasor_initToPool  (tPhasor** const ph, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPhasor* p = *ph = (tPhasor*) mpool_alloc(sizeof(tPhasor), m);
     p->mempool = m;
-    LEAF* leaf = p->mempool->leaf;
     
     p->phase = 0;
     p->inc = 0;
@@ -924,15 +913,14 @@ void     tPhasor_setSampleRate (tPhasor* const p, Lfloat sr)
 /* Noise */
 void    tNoise_init(tNoise** const ns, NoiseType type, LEAF* const leaf)
 {
-    tNoise_initToPool(ns, type, &leaf->mempool);
+    tNoise_initToPool(ns,  type, leaf, &leaf->mempool);
 }
 
-void    tNoise_initToPool   (tNoise** const ns, NoiseType type, tMempool** const mp)
+void    tNoise_initToPool   (tNoise** const ns, NoiseType type, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tNoise* n = *ns = (tNoise*) mpool_alloc(sizeof(tNoise), m);
     n->mempool = m;
-    LEAF* leaf = n->mempool->leaf;
     
     n->type = type;
     n->rand = leaf->random;
@@ -969,17 +957,16 @@ Lfloat   tNoise_tick(tNoise* const n)
 
 void tNeuron_init(tNeuron** const nr, LEAF* const leaf)
 {
-    tNeuron_initToPool(nr, &leaf->mempool);
+    tNeuron_initToPool(nr, leaf, &leaf->mempool);
 }
 
-void tNeuron_initToPool  (tNeuron** const nr, tMempool** const mp)
+void tNeuron_initToPool  (tNeuron** const nr, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tNeuron* n = *nr = (tNeuron*) mpool_alloc(sizeof(tNeuron), m);
     n->mempool = m;
-    LEAF* leaf = n->mempool->leaf;
 
-    tPoleZero_initToPool(&n->f, mp);
+    tPoleZero_initToPool(&n->f, leaf, mp);
     
     tPoleZero_setBlockZero(n->f, 0.99f);
     
@@ -1178,15 +1165,14 @@ void tNeuron_setSampleRate (tNeuron* const n, Lfloat sr)
 
 void tMBPulse_init(tMBPulse** const osc, LEAF* const leaf)
 {
-    tMBPulse_initToPool(osc, &leaf->mempool);
+    tMBPulse_initToPool(osc, leaf, &leaf->mempool);
 }
                           
-void tMBPulse_initToPool(tMBPulse** const osc, tMempool** const pool)
+void tMBPulse_initToPool(tMBPulse** const osc, LEAF* const leaf, tMempool** const pool)
 {
     tMempool* m = *pool;
     tMBPulse* c = *osc = (tMBPulse*) mpool_alloc(sizeof(tMBPulse), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->invSampleRate = leaf->invSampleRate;
     
@@ -1514,15 +1500,14 @@ void tMBPulse_setSampleRate(tMBPulse* const c, Lfloat sr)
 
 void tMBTriangle_init(tMBTriangle** const osc, LEAF* const leaf)
 {
-    tMBTriangle_initToPool(osc, &leaf->mempool);
+    tMBTriangle_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void tMBTriangle_initToPool(tMBTriangle** const osc, tMempool** const pool)
+void tMBTriangle_initToPool(tMBTriangle** const osc, LEAF* const leaf, tMempool** const pool)
 {
     tMempool* m = *pool;
     tMBTriangle* c = *osc = (tMBTriangle*) mpool_alloc(sizeof(tMBTriangle), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->invSampleRate = leaf->invSampleRate;
     c->freq = 440.f;
@@ -1869,15 +1854,14 @@ void tMBTriangle_setSampleRate(tMBTriangle* const c, Lfloat sr)
 
 void tMBSineTri_init(tMBSineTri** const osc, LEAF* const leaf)
 {
-    tMBSineTri_initToPool(osc, &leaf->mempool);
+    tMBSineTri_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void tMBSineTri_initToPool(tMBSineTri** const osc, tMempool** const pool)
+void tMBSineTri_initToPool(tMBSineTri** const osc, LEAF* const leaf, tMempool** const pool)
 {
     tMempool* m = *pool;
     tMBSineTri* c = *osc = (tMBSineTri*) mpool_alloc(sizeof(tMBSineTri), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
 
     c->invSampleRate = leaf->invSampleRate;
     c->freq = 440.f;
@@ -2270,15 +2254,14 @@ void tMBSineTri_setSampleRate(tMBSineTri* const c, Lfloat sr)
 
 void tMBSaw_init(tMBSaw** const osc, LEAF* const leaf)
 {
-    tMBSaw_initToPool(osc, &leaf->mempool);
+    tMBSaw_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void tMBSaw_initToPool(tMBSaw** const osc, tMempool** const pool)
+void tMBSaw_initToPool(tMBSaw** const osc, LEAF* const leaf, tMempool** const pool)
 {
     tMempool* m = *pool;
     tMBSaw* c = *osc = (tMBSaw*) mpool_alloc(sizeof(tMBSaw), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->invSampleRate = leaf->invSampleRate;
     c->freq = 440.f;
@@ -2478,15 +2461,14 @@ void tMBSaw_setSampleRate(tMBSaw* const c, Lfloat sr)
 
 void tMBSawPulse_init(tMBSawPulse** const osc, LEAF* const leaf)
 {
-    tMBSawPulse_initToPool(osc, &leaf->mempool);
+    tMBSawPulse_initToPool(osc, leaf, &leaf->mempool);
 }
 
-void tMBSawPulse_initToPool(tMBSawPulse** const osc, tMempool** const pool)
+void tMBSawPulse_initToPool(tMBSawPulse** const osc, LEAF* const leaf, tMempool** const pool)
 {
     tMempool* m = *pool;
     tMBSawPulse* c = *osc = (tMBSawPulse*) mpool_alloc(sizeof(tMBSawPulse), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     c->gain = 1.0f;
     c->active = 1;
     c->invSampleRate = leaf->invSampleRate;
@@ -2862,15 +2844,14 @@ void tMBSawPulse_setSampleRate(tMBSawPulse* const c, Lfloat sr)
 // WaveTable
 void    tTable_init(tTable** const cy, Lfloat* waveTable, int size, LEAF* const leaf)
 {
-    tTable_initToPool(cy, waveTable, size, &leaf->mempool);
+    tTable_initToPool(cy,  waveTable,  size, leaf, &leaf->mempool);
 }
 
-void    tTable_initToPool(tTable** const cy, Lfloat* waveTable, int size, tMempool** const mp)
+void    tTable_initToPool(tTable** const cy, Lfloat* waveTable, int size, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tTable* c = *cy = (tTable*)mpool_alloc(sizeof(tTable), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->waveTable = waveTable;
     c->size = size;
@@ -2928,16 +2909,16 @@ void     tTable_setSampleRate(tTable* const c, Lfloat sr)
 
 void tWaveTable_init(tWaveTable** const cy, Lfloat* table, int size, Lfloat maxFreq, LEAF* const leaf)
 {
-    tWaveTable_initToPool(cy, table, size, maxFreq, &leaf->mempool);
+    tWaveTable_initToPool(cy,  table,  size,  maxFreq, leaf, &leaf->mempool);
 }
 
-void tWaveTable_initToPool(tWaveTable** const cy, Lfloat* table, int size, Lfloat maxFreq, tMempool** const mp)
+void tWaveTable_initToPool(tWaveTable** const cy, Lfloat* table, int size, Lfloat maxFreq, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tWaveTable* c = *cy = (tWaveTable*) mpool_alloc(sizeof(tWaveTable), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
-    
+    c->leaf = leaf;
+
     c->sampleRate = leaf->sampleRate;
     
     c->maxFreq = maxFreq;
@@ -2976,7 +2957,7 @@ void tWaveTable_initToPool(tWaveTable** const cy, Lfloat* table, int size, Lfloa
     // Make bandlimited copies
     f = c->sampleRate * 0.25f; //start at half nyquist
     // Not worth going over order 8 I think, and even 8 is only marginally better than 4.
-    tButterworth_initToPool(&c->bl, 8, -1.0f, f, mp);
+    tButterworth_initToPool(&c->bl,  8,  -1.0f,  f, leaf, mp);
     for (int t = 1; t < c->numTables; ++t)
     {
         tButterworth_setF2(c->bl, f);
@@ -3044,7 +3025,7 @@ void tWaveTable_setSampleRate(tWaveTable* const c, Lfloat sr)
     // Make bandlimited copies
     f = c->sampleRate * 0.25f; //start at half nyquist
     // Not worth going over order 8 I think, and even 8 is only marginally better than 4.
-    tButterworth_initToPool(&c->bl, 8, -1.0f, f, &c->mempool);
+    tButterworth_initToPool(&c->bl,  8,  -1.0f,  f, c->leaf, &c->mempool);
     tButterworth_setSampleRate(c->bl, c->sampleRate);
     for (int t = 1; t < c->numTables; ++t)
     {
@@ -3069,17 +3050,17 @@ void tWaveTable_setSampleRate(tWaveTable* const c, Lfloat sr)
 
 void tWaveOsc_init(tWaveOsc** const cy, tWaveTable** tables, int numTables, LEAF* const leaf)
 {
-    tWaveOsc_initToPool(cy, tables, numTables, &leaf->mempool);
+    tWaveOsc_initToPool(cy,  tables,  numTables, leaf, &leaf->mempool);
 }
 
-void tWaveOsc_initToPool(tWaveOsc** const cy, tWaveTable** tables, int numTables, tMempool** const mp)
+void tWaveOsc_initToPool(tWaveOsc** const cy, tWaveTable** tables, int numTables, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tWaveOsc* c = *cy = (tWaveOsc*) mpool_alloc(sizeof(tWaveOsc), m);
 
     c->mempool = m;
+    c->leaf = leaf;
 
-    LEAF* leaf = c->mempool->leaf;
     c->tables =  tables;
     c->numTables = numTables;
 
@@ -3212,12 +3193,11 @@ void tWaveOsc_setIndex(tWaveOsc* const c, Lfloat index)
 
 void tWaveOsc_setTables(tWaveOsc* const c, tWaveTable* tables, int numTables)
 {
-    LEAF* leaf = c->mempool->leaf;
     c->tables =  tables;
     c->numTables = numTables;
     c->size = c->tables[0]->size;
 
-    c->sampleRate = leaf->sampleRate;
+    c->sampleRate = c->leaf->sampleRate;
     // Determine base frequency
     c->baseFreq = c->sampleRate / (Lfloat) c->size;
     c->invBaseFreq = 1.0f / c->baseFreq;
@@ -3257,16 +3237,16 @@ void tWaveOsc_setSampleRate(tWaveOsc* const c, Lfloat sr)
 
 void tWaveTableS_init(tWaveTableS** const cy, Lfloat* table, int size, Lfloat maxFreq, LEAF* const leaf)
 {
-    tWaveTableS_initToPool(cy, table, size, maxFreq, &leaf->mempool);
+    tWaveTableS_initToPool(cy,  table,  size,  maxFreq, leaf, &leaf->mempool);
 }
 
-void tWaveTableS_initToPool(tWaveTableS** const cy, Lfloat* table, int size, Lfloat maxFreq, tMempool** const mp)
+void tWaveTableS_initToPool(tWaveTableS** const cy, Lfloat* table, int size, Lfloat maxFreq, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tWaveTableS* c = *cy = (tWaveTableS*) mpool_alloc(sizeof(tWaveTableS), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
-    
+    c->leaf = leaf;
+
     c->sampleRate = leaf->sampleRate;
     
     c->maxFreq = maxFreq;
@@ -3308,8 +3288,8 @@ void tWaveTableS_initToPool(tWaveTableS** const cy, Lfloat* table, int size, Lfl
     // Make bandlimited copies
     f = c->sampleRate * 0.25; //start at half nyquist
     // Not worth going over order 8 I think, and even 8 is only marginally better than 4.
-    tButterworth_initToPool(&c->bl, 8, -1.0f, f, mp);
-    tOversampler_initToPool(&c->ds, 2, 1, mp);
+    tButterworth_initToPool(&c->bl,  8,  -1.0f,  f, leaf, mp);
+    tOversampler_initToPool(&c->ds,  2,  1, leaf, mp);
     for (int t = 1; t < c->numTables; ++t)
     {
         // Size is going down; we need to downsample
@@ -3402,8 +3382,8 @@ void    tWaveTableS_setSampleRate(tWaveTableS* const c, Lfloat sr)
     // Make bandlimited copies
     f = c->sampleRate * 0.25; //start at half nyquist
     // Not worth going over order 8 I think, and even 8 is only marginally better than 4.
-    tButterworth_initToPool(&c->bl, 8, -1.0f, f, &c->mempool);
-    tOversampler_initToPool(&c->ds, 2, 1, &c->mempool);
+    tButterworth_initToPool(&c->bl,  8,  -1.0f,  f, c->leaf, &c->mempool);
+    tOversampler_initToPool(&c->ds,  2,  1, c->leaf, &c->mempool);
     for (int t = 1; t < c->numTables; ++t)
     {
         // Size is going down; we need to downsample
@@ -3442,17 +3422,16 @@ void    tWaveTableS_setSampleRate(tWaveTableS* const c, Lfloat sr)
 
 void tWaveOscS_init(tWaveOscS** const cy, tWaveTableS** tables, int numTables, LEAF* const leaf)
 {
-    tWaveOscS_initToPool(cy, tables, numTables, &leaf->mempool);
+    tWaveOscS_initToPool(cy,  tables,  numTables, leaf, &leaf->mempool);
 }
 
-void tWaveOscS_initToPool(tWaveOscS** const cy, tWaveTableS** tables, int numTables, tMempool** const mp)
+void tWaveOscS_initToPool(tWaveOscS** const cy, tWaveTableS** tables, int numTables, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tWaveOscS* c = *cy = (tWaveOscS*) mpool_alloc(sizeof(tWaveOscS), m);
 
     c->mempool = m;
 
-    LEAF* leaf = c->mempool->leaf;
     c->tables = tables;
     c->numTables = numTables;
     
@@ -3630,15 +3609,14 @@ void tWaveOscS_setSampleRate(tWaveOscS* const c, Lfloat sr)
 // Cycle
 void    tIntPhasor_init(tIntPhasor** const cy, LEAF* const leaf)
 {
-    tIntPhasor_initToPool(cy, &leaf->mempool);
+    tIntPhasor_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tIntPhasor_initToPool   (tIntPhasor** const cy, tMempool** const mp)
+void    tIntPhasor_initToPool   (tIntPhasor** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tIntPhasor* c = *cy = (tIntPhasor*) mpool_alloc(sizeof(tIntPhasor), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->phase    =  0;
     c->inc  = 0;
@@ -3691,16 +3669,16 @@ void     tIntPhasor_setSampleRate (tIntPhasor* const c, Lfloat sr)
 //////SQUARE(PUSHER)LFO
 void    tSquareLFO_init(tSquareLFO** const cy, LEAF* const leaf)
 {
-    tSquareLFO_initToPool(cy, &leaf->mempool);
+    tSquareLFO_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tSquareLFO_initToPool   (tSquareLFO** const cy, tMempool** const mp)
+void    tSquareLFO_initToPool   (tSquareLFO** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tSquareLFO* c = *cy = (tSquareLFO*) mpool_alloc(sizeof(tSquareLFO), m);
     c->mempool = m;
-    tIntPhasor_initToPool(&c->phasor,mp);
-    tIntPhasor_initToPool(&c->invPhasor,mp); 
+    tIntPhasor_initToPool(&c->phasor, leaf, mp);
+    tIntPhasor_initToPool(&c->invPhasor, leaf, mp); 
     tSquareLFO_setPulseWidth(c, 0.5f);
 }
 
@@ -3750,17 +3728,17 @@ void tSquareLFO_setPhase(tSquareLFO* const c, Lfloat phase)
 
 void    tSawSquareLFO_init(tSawSquareLFO** const cy, LEAF* const leaf)
 {
-    tSawSquareLFO_initToPool(cy, &leaf->mempool);
+    tSawSquareLFO_initToPool(cy, leaf, &leaf->mempool);
 
 }
 
-void    tSawSquareLFO_initToPool  (tSawSquareLFO** const cy, tMempool** const mp)
+void    tSawSquareLFO_initToPool  (tSawSquareLFO** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tSawSquareLFO* c = *cy = (tSawSquareLFO*) mpool_alloc(sizeof(tSawSquareLFO), m);
     c->mempool = m;
-    tSquareLFO_initToPool(&c->square,mp);
-    tIntPhasor_initToPool(&c->saw,mp); 
+    tSquareLFO_initToPool(&c->square, leaf, mp);
+    tIntPhasor_initToPool(&c->saw, leaf, mp); 
 }
 void    tSawSquareLFO_free        (tSawSquareLFO** const cy)
 {
@@ -3802,15 +3780,14 @@ void    tSawSquareLFO_setShape (tSawSquareLFO* const c, Lfloat shape)
 ///tri
 void    tTriLFO_init(tTriLFO** const cy, LEAF* const leaf)
 {
-    tTriLFO_initToPool(cy, &leaf->mempool);
+    tTriLFO_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tTriLFO_initToPool   (tTriLFO** const cy, tMempool** const mp)
+void    tTriLFO_initToPool   (tTriLFO** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tTriLFO* c = *cy = (tTriLFO*) mpool_alloc(sizeof(tTriLFO), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     
     c->inc      =  0;
     c->phase    =  0;
@@ -3864,16 +3841,16 @@ void     tTriLFO_setSampleRate (tTriLFO* const c, Lfloat sr)
 
 void    tSineTriLFO_init(tSineTriLFO** const cy, LEAF* const leaf)
 {
-    tSineTriLFO_initToPool(cy, &leaf->mempool);
+    tSineTriLFO_initToPool(cy, leaf, &leaf->mempool);
 }
 
-void    tSineTriLFO_initToPool  (tSineTriLFO** const cy, tMempool** const mp)
+void    tSineTriLFO_initToPool  (tSineTriLFO** const cy, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tSineTriLFO* c = *cy = (tSineTriLFO*) mpool_alloc(sizeof(tSineTriLFO), m);
     c->mempool = m;
-    tTriLFO_initToPool(&c->tri,mp);
-    tCycle_initToPool(&c->sine,mp); 
+    tTriLFO_initToPool(&c->tri, leaf, mp);
+    tCycle_initToPool(&c->sine, leaf, mp); 
    
 }
 void    tSineTriLFO_free        (tSineTriLFO** const cy)
@@ -3917,18 +3894,17 @@ void    tSineTriLFO_setPhase (tSineTriLFO* const c, Lfloat phase)
 
  void    tDampedOscillator_init(tDampedOscillator** const cy, LEAF* const leaf)
  {
-	 tDampedOscillator_initToPool(cy, &leaf->mempool);
+	 tDampedOscillator_initToPool(cy, leaf, &leaf->mempool);
  }
 
 
 
 
- void    tDampedOscillator_initToPool  (tDampedOscillator** const cy, tMempool** const mp)
+ void    tDampedOscillator_initToPool  (tDampedOscillator** const cy, LEAF* const leaf, tMempool** const mp)
  {
      tMempool* m = *mp;
      tDampedOscillator* c = *cy = (tDampedOscillator*) mpool_alloc(sizeof(tDampedOscillator), m);
      c->mempool = m;
-     LEAF* leaf = c->mempool->leaf;
 
 
      c->freq_ = 0.0f;
@@ -3999,15 +3975,14 @@ void    tSineTriLFO_setPhase (tSineTriLFO* const c, Lfloat phase)
 
 void    tPlutaQuadOsc_init(tPlutaQuadOsc** const cy, uint32_t const oversamplingRatio, LEAF* const leaf)
 {
-    tPlutaQuadOsc_initToPool(cy, oversamplingRatio, &leaf->mempool);
+    tPlutaQuadOsc_initToPool(cy,  oversamplingRatio, leaf, &leaf->mempool);
 }
 
-void    tPlutaQuadOsc_initToPool   (tPlutaQuadOsc** const cy, uint32_t const oversamplingRatio, tMempool** const mp)
+void    tPlutaQuadOsc_initToPool   (tPlutaQuadOsc** const cy, uint32_t const oversamplingRatio, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tPlutaQuadOsc* c = *cy = (tPlutaQuadOsc*) mpool_alloc(sizeof(tPlutaQuadOsc), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     c->oversamplingRatio = oversamplingRatio;
     for (int i = 0; i < 4; i++)
     {
@@ -4027,7 +4002,7 @@ void    tPlutaQuadOsc_initToPool   (tPlutaQuadOsc** const cy, uint32_t const ove
 
     //set up the lowpass for the decimation.
     //butterworth lowpass - would be better to create a butterworth object that is lowpass only and uses tSVFtickLP for efficiency
-    tButterworth_initToPool(&c->lowpass, 8, 0.0f, nyquistFreq, mp);
+    tButterworth_initToPool(&c->lowpass,  8,  0.0f,  nyquistFreq, leaf, mp);
     //correct samplerate to take into account oversampling
     tButterworth_setSampleRate (c->lowpass, oversampledSamplingRate);
     //now reset the frequencies with new samplerate

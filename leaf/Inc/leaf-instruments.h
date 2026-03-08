@@ -42,7 +42,7 @@ extern "C" {
      @param cowbell A pointer to the t808Cowbell to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    t808Cowbell_initToPool(t808Cowbell** const, int useStick, tMempool** const)
+     @fn void    t808Cowbell_initToPool(t808Cowbell** const, int useStick, LEAF* const leaf, tMempool** const)
      @brief Initialize a t808Cowbell to a specified mempool.
      @param cowbell A pointer to the t808Cowbell to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -102,7 +102,7 @@ extern "C" {
     } t808Cowbell;
 
     void    t808Cowbell_init            (t808Cowbell** const, int useStick, LEAF* const leaf);
-    void    t808Cowbell_initToPool      (t808Cowbell** const, int useStick, tMempool** const);
+    void    t808Cowbell_initToPool      (t808Cowbell** const, int useStick, LEAF* const leaf, tMempool** const);
     void    t808Cowbell_free            (t808Cowbell** const);
     
     Lfloat  t808Cowbell_tick            (t808Cowbell* const);
@@ -129,7 +129,7 @@ extern "C" {
      @param hihat A pointer to the t808Hihat to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    t808Hihat_initToPool(t808Hihat** const, tMempool** const)
+     @fn void    t808Hihat_initToPool(t808Hihat** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a t808Hihat to a specified mempool.
      @param hihat A pointer to the t808Hihat to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -210,7 +210,7 @@ extern "C" {
     } t808Hihat;
 
     void    t808Hihat_init                  (t808Hihat** const, LEAF* const leaf);
-    void    t808Hihat_initToPool            (t808Hihat** const, tMempool** const);
+    void    t808Hihat_initToPool            (t808Hihat** const, LEAF* const leaf, tMempool** const);
     void    t808Hihat_free                  (t808Hihat** const);
     
     Lfloat  t808Hihat_tick                  (t808Hihat* const);
@@ -241,7 +241,7 @@ extern "C" {
      @param snare A pointer to the t808Snare to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    t808Snare_initToPool(t808Snare** const, tMempool** const)
+     @fn void    t808Snare_initToPool(t808Snare** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a t808Snare to a specified mempool.
      @param snare A pointer to the t808Snare to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -318,7 +318,7 @@ extern "C" {
     } t808Snare;
 
     void    t808Snare_init                  (t808Snare** const, LEAF* const leaf);
-    void    t808Snare_initToPool            (t808Snare** const, tMempool** const);
+    void    t808Snare_initToPool            (t808Snare** const, LEAF* const leaf, tMempool** const);
     void    t808Snare_free                  (t808Snare** const);
     
     Lfloat  t808Snare_tick                  (t808Snare* const);
@@ -348,7 +348,7 @@ extern "C" {
      @param snare A pointer to the t808SnareSmall to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    t808SnareSmall_initToPool(t808SnareSmall** const, tMempool** const)
+     @fn void    t808SnareSmall_initToPool(t808SnareSmall** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a t808SnareSmall to a specified mempool.
      @param snare A pointer to the t808SnareSmall to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -425,7 +425,7 @@ extern "C" {
     } t808SnareSmall;
 
     void    t808SnareSmall_init                  (t808SnareSmall** const, LEAF* const leaf);
-    void    t808SnareSmall_initToPool            (t808SnareSmall** const, tMempool** const);
+    void    t808SnareSmall_initToPool            (t808SnareSmall** const, LEAF* const leaf, tMempool** const);
     void    t808SnareSmall_free                  (t808SnareSmall** const);
     
     Lfloat  t808SnareSmall_tick                  (t808SnareSmall* const);
@@ -453,7 +453,7 @@ extern "C" {
      @param kick A pointer to the t808Kick to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    t808Kick_initToPool(t808Kick** const, tMempool** const)
+     @fn void    t808Kick_initToPool(t808Kick** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a t808Kick to a specified mempool.
      @param kick A pointer to the t808Kick to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -528,7 +528,7 @@ extern "C" {
     } t808Kick;
 
     void    t808Kick_init               (t808Kick** const, LEAF* const leaf);
-    void    t808Kick_initToPool         (t808Kick** const, tMempool** const);
+    void    t808Kick_initToPool         (t808Kick** const, LEAF* const leaf, tMempool** const);
     void    t808Kick_free               (t808Kick** const);
     
     Lfloat  t808Kick_tick               (t808Kick* const);
@@ -558,7 +558,7 @@ extern "C" {
      @param kick A pointer to the t808KickSmall to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    t808KickSmall_initToPool(t808KickSmall** const, tMempool** const)
+     @fn void    t808KickSmall_initToPool(t808KickSmall** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a t808KickSmall to a specified mempool.
      @param kick A pointer to the t808KickSmall to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -633,7 +633,7 @@ extern "C" {
     } t808KickSmall;
 
     void    t808KickSmall_init               (t808KickSmall** const, LEAF* const leaf);
-    void    t808KickSmall_initToPool         (t808KickSmall** const, tMempool** const);
+    void    t808KickSmall_initToPool         (t808KickSmall** const, LEAF* const leaf, tMempool** const);
     void    t808KickSmall_free               (t808KickSmall** const);
     
     Lfloat  t808KickSmall_tick               (t808KickSmall* const);

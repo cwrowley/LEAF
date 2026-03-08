@@ -28,10 +28,10 @@
 // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Envelope ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ //
 void tEnvelope_init(tEnvelope** const envlp, Lfloat attack, Lfloat decay, int loop, LEAF *const leaf)
 {
-    tEnvelope_initToPool(envlp, attack, decay, loop, &leaf->mempool);
+    tEnvelope_initToPool(envlp,  attack,  decay,  loop, leaf, &leaf->mempool);
 }
 
-void tEnvelope_initToPool (tEnvelope** const envlp, Lfloat attack, Lfloat decay, int loop, tMempool** const mp)
+void tEnvelope_initToPool (tEnvelope** const envlp, Lfloat attack, Lfloat decay, int loop, LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tEnvelope *env = *envlp = (tEnvelope *) mpool_alloc(sizeof(tEnvelope), m);
@@ -199,11 +199,11 @@ Lfloat tEnvelope_tick (tEnvelope* const env)
 void tADSR_init(tADSR** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sustain,
                  Lfloat release, LEAF *const leaf)
 {
-    tADSR_initToPool(adsrenv, attack, decay, sustain, release, &leaf->mempool);
+    tADSR_initToPool(adsrenv,  attack,  decay,  sustain,  release, leaf, &leaf->mempool);
 }
 
 void tADSR_initToPool (tADSR** const adsrenv, Lfloat attack, Lfloat decay,
-                       Lfloat sustain, Lfloat release, tMempool** const mp)
+                       Lfloat sustain, Lfloat release, LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tADSR *adsr = *adsrenv = (tADSR *) mpool_alloc(sizeof(tADSR), m);
@@ -267,7 +267,7 @@ void tADSR_initToPool (tADSR** const adsrenv, Lfloat attack, Lfloat decay,
 
     adsr->baseLeakFactor = 1.0f;
     adsr->leakFactor = 1.0f;
-    adsr->invSampleRate = adsr->mempool->leaf->invSampleRate;
+    adsr->invSampleRate = leaf->invSampleRate;
 }
 
 void tADSR_free (tADSR** const adsrenv)
@@ -471,18 +471,17 @@ Lfloat calcADSR3Coef (Lfloat rate, Lfloat targetRatio)
 void tADSRS_init(tADSRS** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sustain,
                   Lfloat release, LEAF *const leaf)
 {
-    tADSRS_initToPool(adsrenv, attack, decay, sustain, release, &leaf->mempool);
+    tADSRS_initToPool(adsrenv,  attack,  decay,  sustain,  release, leaf, &leaf->mempool);
 }
 
 void tADSRS_initToPool (tADSRS** const adsrenv, Lfloat attack, Lfloat decay,
                         Lfloat sustain, Lfloat release,
-                       tMempool** const mp)
+                       LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tADSRS *adsr = *adsrenv = (tADSRS *) mpool_alloc(sizeof(tADSRS), m);
     adsr->mempool = m;
 
-    LEAF *leaf = adsr->mempool->leaf;
 
     adsr->sampleRate = leaf->sampleRate;
     adsr->sampleRateInMs = adsr->sampleRate * 0.001f;
@@ -631,7 +630,7 @@ void tADSRT_init(tADSRT** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sus
 {
 
     tADSRT_initToPool(adsrenv, attack, decay, sustain, release, expBuffer,
-                      bufferSize, &leaf->mempool);
+                      bufferSize, leaf, &leaf->mempool);
 
 }
 
@@ -681,13 +680,12 @@ void tADSRT_set(tADSRT* const adsr, Lfloat attack, Lfloat decay, Lfloat sustain,
 //times are in ms
 void
 tADSRT_initToPool(tADSRT** const adsrenv, Lfloat attack, Lfloat decay, Lfloat sustain,
-                  Lfloat release, Lfloat *expBuffer, int bufferSize, tMempool** const mp)
+                  Lfloat release, Lfloat *expBuffer, int bufferSize, LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tADSRT *adsr = *adsrenv = (tADSRT *) mpool_alloc(sizeof(tADSRT), m);
     adsr->mempool = m;
 
-    LEAF *leaf = adsr->mempool->leaf;
     tADSRT_set(*adsrenv,attack,decay,sustain,release,expBuffer,bufferSize,leaf);
 
 }
@@ -1016,17 +1014,16 @@ void tADSRT_setSampleRate (tADSRT* const adsr, Lfloat sr)
 /* Ramp */
 void tRamp_init(tRamp** const r, Lfloat time, int samples_per_tick, LEAF *const leaf)
 {
-    tRamp_initToPool(r, time, samples_per_tick, &leaf->mempool);
+    tRamp_initToPool(r,  time,  samples_per_tick, leaf, &leaf->mempool);
 }
 
 void tRamp_initToPool (tRamp** const r, Lfloat time, int samples_per_tick,
-                       tMempool** const mp)
+                       LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tRamp *ramp = *r = (tRamp *) mpool_alloc(sizeof(tRamp), m);
     ramp->mempool = m;
 
-    LEAF *leaf = ramp->mempool->leaf;
 
     ramp->sampleRate = leaf->sampleRate;
     ramp->inv_sr_ms = 1.0f / (ramp->sampleRate * 0.001f);
@@ -1105,17 +1102,16 @@ void tRamp_setSampleRate (tRamp* const r, Lfloat sr)
 void tRampUpDown_init(tRampUpDown** const r, Lfloat upTime, Lfloat downTime,
                        int samples_per_tick, LEAF *const leaf)
 {
-    tRampUpDown_initToPool(r, upTime, downTime, samples_per_tick, &leaf->mempool);
+    tRampUpDown_initToPool(r,  upTime,  downTime,  samples_per_tick, leaf, &leaf->mempool);
 }
 
 void tRampUpDown_initToPool (tRampUpDown** const r, Lfloat upTime, Lfloat downTime,
-                             int samples_per_tick, tMempool** const mp)
+                             int samples_per_tick, LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tRampUpDown *ramp = *r = (tRampUpDown *) mpool_alloc(sizeof(tRampUpDown), m);
     ramp->mempool = m;
 
-    LEAF *leaf = ramp->mempool->leaf;
 
     ramp->sampleRate = leaf->sampleRate;
     ramp->inv_sr_ms = 1.0f / (ramp->sampleRate * 0.001f);
@@ -1215,11 +1211,11 @@ Lfloat tRampUpDown_sample (tRampUpDown* const r)
 void tExpSmooth_init(tExpSmooth** const expsmooth, Lfloat val, Lfloat factor,
                      LEAF *const leaf)  // factor is usually a value between 0 and 0.1. Lower value is slower. 0.01 for example gives you a smoothing time of about 10ms
 {
-    tExpSmooth_initToPool(expsmooth, val, factor, &leaf->mempool);
+    tExpSmooth_initToPool(expsmooth,  val,  factor, leaf, &leaf->mempool);
 }
 
 void tExpSmooth_initToPool(tExpSmooth** const expsmooth, Lfloat val, Lfloat factor,
-                           tMempool** const mp)
+                           LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tExpSmooth *smooth = *expsmooth = (tExpSmooth *) mpool_alloc(sizeof(tExpSmooth), m);
@@ -1302,11 +1298,11 @@ void tExpSmooth_setSampleRate (tExpSmooth* const smooth, Lfloat sr)
 
 void tSlide_init(tSlide** const sl, Lfloat upSlide, Lfloat downSlide, LEAF *const leaf)
 {
-    tSlide_initToPool(sl, upSlide, downSlide, &leaf->mempool);
+    tSlide_initToPool(sl,  upSlide,  downSlide, leaf, &leaf->mempool);
 }
 
 //upslide and downslide are in samples
-void tSlide_initToPool (tSlide** const sl, Lfloat upSlide, Lfloat downSlide, tMempool** const mp)
+void tSlide_initToPool (tSlide** const sl, Lfloat upSlide, Lfloat downSlide, LEAF* const leaf, tMempool** const mp)
 {
     tMempool *m = *mp;
     tSlide *s = *sl = (tSlide *) mpool_alloc(sizeof(tSlide), m);

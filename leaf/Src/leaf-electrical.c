@@ -47,11 +47,10 @@ static Lfloat get_reflected_wave_for_ideal      (tWDF* const n, Lfloat input, Lf
 static Lfloat get_reflected_wave_for_diode      (tWDF* const n, Lfloat input, Lfloat incident_wave);
 static Lfloat get_reflected_wave_for_diode_pair (tWDF* const n, Lfloat input, Lfloat incident_wave);
 
-static void wdf_init(tWDF** const wdf, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR)
+static void wdf_init(tWDF** const wdf, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, LEAF* const leaf)
 {
     tWDF* r = *wdf;
-    LEAF* leaf = r->mempool->leaf;
-    
+
     r->type = type;
     r->child_left = *rL;
     r->child_right = *rR;
@@ -169,15 +168,15 @@ static void wdf_init(tWDF** const wdf, WDFComponentType type, Lfloat value, tWDF
 //WDF
 void tWDF_init(tWDF** const wdf, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, LEAF* const leaf)
 {
-    tWDF_initToPool(wdf, type, value, rL, rR, &leaf->mempool);
+    tWDF_initToPool(wdf,  type,  value,  rL,  rR, leaf, &leaf->mempool);
 }
 
-void    tWDF_initToPool(tWDF** const wdf, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, tMempool** const mp)
+void    tWDF_initToPool(tWDF** const wdf, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     *wdf = (tWDF*) mpool_alloc(sizeof(tWDF), m);
     
-    wdf_init(wdf, type, value, rL, rR);
+    wdf_init(wdf, type, value, rL, rR, leaf);
 }
 
 void    tWDF_free (tWDF** const wdf)

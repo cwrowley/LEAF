@@ -42,7 +42,7 @@ extern "C" {
      @param compressor A pointer to the tCompressor to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tCompressor_initToPool(tCompressor** const, tMempool** const)
+     @fn void    tCompressor_initToPool(tCompressor** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a tCompressor to a specified mempool.
      @param compressor A pointer to the tCompressor to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -83,7 +83,7 @@ extern "C" {
     } tCompressor;
 
     void    tCompressor_init                  (tCompressor** const, LEAF* const leaf);
-    void    tCompressor_initToPool            (tCompressor** const, tMempool** const);
+    void    tCompressor_initToPool            (tCompressor** const, LEAF* const leaf, tMempool** const);
     void    tCompressor_free                  (tCompressor** const);
     
     Lfloat  tCompressor_tick                  (tCompressor* const, Lfloat input);
@@ -106,7 +106,7 @@ extern "C" {
      @param leveler A pointer to the tFeedbackLeveler to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void tFeedbackLeveler_initToPool(tFeedbackLeveler** const, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, tMempool** const)
+     @fn void tFeedbackLeveler_initToPool(tFeedbackLeveler** const, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, LEAF* const leaf, tMempool** const)
      @brief Initialize a tFeedbackLeveler to a specified mempool.
      @param leveler A pointer to the tFeedbackLeveler to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -155,7 +155,7 @@ extern "C" {
     } tFeedbackLeveler;
 
     void    tFeedbackLeveler_init           (tFeedbackLeveler** const, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, LEAF* const leaf);
-    void    tFeedbackLeveler_initToPool     (tFeedbackLeveler** const, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, tMempool** const);
+    void    tFeedbackLeveler_initToPool     (tFeedbackLeveler** const, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, LEAF* const leaf, tMempool** const);
     void    tFeedbackLeveler_free           (tFeedbackLeveler** const);
     
     Lfloat  tFeedbackLeveler_tick           (tFeedbackLeveler* const, Lfloat input);
@@ -180,7 +180,7 @@ extern "C" {
      @param threshold A pointer to the tThreshold to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tThreshold_initToPool(tThreshold** const, Lfloat low, Lfloat high, tMempool** const)
+     @fn void    tThreshold_initToPool(tThreshold** const, Lfloat low, Lfloat high, LEAF* const leaf, tMempool** const)
      @brief Initialize a tThreshold to a specified mempool.
      @param threshold A pointer to the tThreshold to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -212,7 +212,7 @@ extern "C" {
     } tThreshold;
 
     void    tThreshold_init        (tThreshold** const, Lfloat low, Lfloat high, LEAF* const leaf);
-    void    tThreshold_initToPool  (tThreshold** const, Lfloat low, Lfloat high, tMempool** const);
+    void    tThreshold_initToPool  (tThreshold** const, Lfloat low, Lfloat high, LEAF* const leaf, tMempool** const);
     void    tThreshold_free        (tThreshold** const);
 
     int    tThreshold_tick         (tThreshold* const, Lfloat input);

@@ -41,7 +41,7 @@ extern "C" {
      @param maxLength
      @param leaf A pointer to the leaf instance.
      
-     @fn void        tDelay_initToPool(tDelay** const, uint32_t delay, uint32_t maxDelay, tMempool** const)
+     @fn void        tDelay_initToPool(tDelay** const, uint32_t delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const)
      @brief Initialize a tDelay to a specified mempool.
      @param delay A pointer to the tDelay to initialize.
      @param initalLength
@@ -119,7 +119,7 @@ extern "C" {
     } tDelay;
 
     void        tDelay_init         (tDelay** const, uint32_t delay, uint32_t maxDelay, LEAF* const leaf);
-    void        tDelay_initToPool   (tDelay** const, uint32_t delay, uint32_t maxDelay, tMempool** const);
+    void        tDelay_initToPool   (tDelay** const, uint32_t delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const);
     void        tDelay_free         (tDelay** const);
 
     Lfloat      tDelay_tick         (tDelay* const, Lfloat sample);
@@ -148,7 +148,7 @@ extern "C" {
      @param maxLength
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tLinearDelay_initToPool(tLinearDelay** const, Lfloat delay, uint32_t maxDelay, tMempool** const)
+     @fn void    tLinearDelay_initToPool(tLinearDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const)
      @brief Initialize a tLinearDelay to a specified mempool.
      @param delay A pointer to the tLinearDelay to initialize.
      @param initialLength
@@ -240,7 +240,7 @@ extern "C" {
     } tLinearDelay;
 
     void    tLinearDelay_init               (tLinearDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf);
-    void    tLinearDelay_initToPool         (tLinearDelay** const, Lfloat delay, uint32_t maxDelay, tMempool** const);
+    void    tLinearDelay_initToPool         (tLinearDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const);
     void    tLinearDelay_free               (tLinearDelay** const);
 
     Lfloat  tLinearDelay_tick               (tLinearDelay* const, Lfloat sample);
@@ -274,7 +274,7 @@ extern "C" {
      @param maxLength
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tHermiteDelay_initToPool(tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, tMempool** const mp)
+     @fn void    tHermiteDelay_initToPool(tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const mp)
      @brief Initialize a tHermiteDelay to a specified mempool.
      @param delay A pointer to the tHermiteDelay to initialize.
      @param initialLength
@@ -381,7 +381,7 @@ extern "C" {
     } tHermiteDelay;
 
     void    tHermiteDelay_init (tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, LEAF* const leaf);
-    void    tHermiteDelay_initToPool (tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, tMempool** const mp);
+    void    tHermiteDelay_initToPool (tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const mp);
     void    tHermiteDelay_free          (tHermiteDelay** const dl);
 
     Lfloat  tHermiteDelay_tick               (tHermiteDelay* const dl, Lfloat input);
@@ -418,7 +418,7 @@ extern "C" {
      @param maxLength
      @param leaf A pointer to the leaf instance.
 
-     @fn void    tHermiteDelay_initToPool(tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, tMempool** const mp)
+     @fn void    tHermiteDelay_initToPool(tHermiteDelay** const dl, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const mp)
      @brief Initialize a tHermiteDelay to a specified mempool.
      @param delay A pointer to the tHermiteDelay to initialize.
      @param initialLength
@@ -519,7 +519,7 @@ extern "C" {
     } tLagrangeDelay;
 
     void    tLagrangeDelay_init               (tLagrangeDelay** const dl, Lfloat delay, uint32_t maxDelay, LEAF* const leaf);
-    void    tLagrangeDelay_initToPool         (tLagrangeDelay** const dl, Lfloat delay, uint32_t maxDelay, tMempool** const mp);
+    void    tLagrangeDelay_initToPool         (tLagrangeDelay** const dl, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const mp);
     void    tLagrangeDelay_free               (tLagrangeDelay** const dl);
 
     Lfloat  tLagrangeDelay_tick               (tLagrangeDelay* const dl, Lfloat input);
@@ -552,7 +552,7 @@ extern "C" {
      @param maxLength
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tAllpassDelay_initToPool(tAllpassDelay** const, Lfloat delay, uint32_t maxDelay, tMempool** const)
+     @fn void    tAllpassDelay_initToPool(tAllpassDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const)
      @brief Initialize a tAllpassDelay to a specified mempool.
      @param delay A pointer to the tAllpassDelay to initialize.
      @param initialLength
@@ -636,7 +636,7 @@ extern "C" {
     } tAllpassDelay;
 
     void    tAllpassDelay_init        (tAllpassDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf);
-    void    tAllpassDelay_initToPool  (tAllpassDelay** const, Lfloat delay, uint32_t maxDelay, tMempool** const);
+    void    tAllpassDelay_initToPool  (tAllpassDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const);
     void    tAllpassDelay_free        (tAllpassDelay** const);
 
     Lfloat  tAllpassDelay_tick        (tAllpassDelay* const, Lfloat sample);
@@ -665,7 +665,7 @@ extern "C" {
      @param maxLength
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tTapeDelay_initToPool(tTapeDelay** const, Lfloat delay, uint32_t maxDelay, tMempool** const)
+     @fn void    tTapeDelay_initToPool(tTapeDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const)
      @brief Initialize a tTapeDelay to a specified mempool.
      @param delay A pointer to the tTapeDelay to initialize.
      @param initialLength
@@ -751,7 +751,7 @@ extern "C" {
     } tTapeDelay;
 
     void    tTapeDelay_init             (tTapeDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf);
-    void    tTapeDelay_initToPool       (tTapeDelay** const, Lfloat delay, uint32_t maxDelay, tMempool** const);
+    void    tTapeDelay_initToPool       (tTapeDelay** const, Lfloat delay, uint32_t maxDelay, LEAF* const leaf, tMempool** const);
     void    tTapeDelay_free             (tTapeDelay** const);
 
     Lfloat  tTapeDelay_tick             (tTapeDelay* const, Lfloat sample);
@@ -780,7 +780,7 @@ extern "C" {
      @param size Size of the buffer. Should be a power of 2. Will otherwise be adjusted to the nearest greater power of 2.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tRingBuffer_initToPool(tRingBuffer** const ring, int size, tMempool** const mempool)
+     @fn void    tRingBuffer_initToPool(tRingBuffer** const ring, int size, LEAF* const leaf, tMempool** const mempool)
      @brief Initialize a tRingBuffer to a specified mempool.
      @param buffer A pointer to the tRingbuffer to initialize.
      @param size Size of the buffer. Should be a power of 2. Will otherwise be adjusted to the nearest greater power of 2.
@@ -829,7 +829,7 @@ extern "C" {
     } tRingBuffer;
 
     void    tRingBuffer_init       (tRingBuffer** const ring, int size, LEAF* const leaf);
-    void    tRingBuffer_initToPool (tRingBuffer** const ring, int size, tMempool** const mempool);
+    void    tRingBuffer_initToPool (tRingBuffer** const ring, int size, LEAF* const leaf, tMempool** const mempool);
     void    tRingBuffer_free       (tRingBuffer** const ring);
     
     void    tRingBuffer_push       (tRingBuffer* const ring, Lfloat val);

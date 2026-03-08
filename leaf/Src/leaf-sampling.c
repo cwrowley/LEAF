@@ -26,15 +26,14 @@
 
 void  tBuffer_init(tBuffer** const sb, uint32_t length, LEAF* const leaf)
 {
-    tBuffer_initToPool(sb, length, &leaf->mempool);
+    tBuffer_initToPool(sb,  length, leaf, &leaf->mempool);
 }
 
-void  tBuffer_initToPool (tBuffer** const sb, uint32_t length, tMempool** const mp)
+void  tBuffer_initToPool (tBuffer** const sb, uint32_t length, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tBuffer* s = *sb = (tBuffer*) mpool_alloc(sizeof(tBuffer), m);
     s->mempool = m;
-    LEAF* leaf = s->mempool->leaf;
     
     s->buff = (Lfloat*) mpool_alloc( sizeof(Lfloat) * length, m);
     s->sampleRate = leaf->sampleRate;
@@ -167,9 +166,8 @@ void tSampler_init(tSampler** const sp, tBuffer** const b, LEAF* const leaf)
     tSampler_initToPool(sp, b, &leaf->mempool, leaf);
 }
 
-void tSampler_initToPool(tSampler** const sp, tBuffer** const b, tMempool** const mp, LEAF* const leaf)
-{
-    tMempool* m = *mp;
+void tSampler_initToPool(tSampler** const sp, tBuffer** const b, LEAF* const leaf, tMempool** const mp)
+{    tMempool* m = *mp;
     tSampler* p = *sp = (tSampler*) mpool_alloc(sizeof(tSampler), m);
     p->mempool = m;
     
@@ -213,7 +211,7 @@ void tSampler_initToPool(tSampler** const sp, tBuffer** const b, tMempool** cons
     
     p->cfxlen = 500; // default 300 sample crossfade
     
-    tRamp_initToPool(&p->gain, 5.0f, 1, mp);
+    tRamp_initToPool(&p->gain,  5.0f,  1, leaf, mp);
     tRamp_setVal(p->gain, 0.f);
     
     p->targetstart = -1;
@@ -1113,16 +1111,15 @@ void    tAutoSampler_init(tAutoSampler** const as, tBuffer** const b, LEAF* cons
     tAutoSampler_initToPool(as, b, &leaf->mempool, leaf);
 }
 
-void    tAutoSampler_initToPool (tAutoSampler** const as, tBuffer** const b, tMempool** const mp, LEAF* const leaf)
-{
-    tMempool* m = *mp;
+void    tAutoSampler_initToPool (tAutoSampler** const as, tBuffer** const b, LEAF* const leaf, tMempool** const mp)
+{    tMempool* m = *mp;
     tAutoSampler* a = *as = (tAutoSampler*) mpool_alloc(sizeof(tAutoSampler), m);
     a->mempool = m;
     
     tBuffer_setRecordMode(*b, RecordOneShot);
     tSampler_initToPool(&a->sampler, b, mp, leaf);
     tSampler_setMode(a->sampler, PlayLoop);
-    tEnvelopeFollower_initToPool(&a->ef, 0.05f, 0.9999f, mp);
+    tEnvelopeFollower_initToPool(&a->ef,  0.05f,  0.9999f, leaf, mp);
 }
 
 void    tAutoSampler_free (tAutoSampler** const as)
@@ -1229,10 +1226,10 @@ void    tAutoSampler_setSampleRate (tAutoSampler* const a, Lfloat sr)
 
 void tMBSampler_init(tMBSampler** const sp, tBuffer** const b, LEAF* const leaf)
 {
-    tMBSampler_initToPool(sp, b, &leaf->mempool);
+    tMBSampler_initToPool(sp,  b, leaf, &leaf->mempool);
 }
 
-void tMBSampler_initToPool(tMBSampler** const sp, tBuffer** const b, tMempool** const mp)
+void tMBSampler_initToPool(tMBSampler** const sp, tBuffer** const b, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tMBSampler* c = *sp = (tMBSampler*) mpool_alloc(sizeof(tMBSampler), m);
@@ -1243,7 +1240,7 @@ void tMBSampler_initToPool(tMBSampler** const sp, tBuffer** const b, tMempool** 
     c->mode = PlayLoop;
     c->active = 0;
         
-    tExpSmooth_initToPool(&c->gain, 0.0f, 0.01f, mp);
+    tExpSmooth_initToPool(&c->gain,  0.0f,  0.01f, leaf, mp);
     
     c->last = 0.0f;
     c->amp = 1.0f;

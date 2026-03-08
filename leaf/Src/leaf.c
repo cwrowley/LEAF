@@ -20,27 +20,12 @@
 
 void LEAF_init(LEAF* const leaf, Lfloat sr, char* memory, size_t memorysize, Lfloat(*random)(void))
 {
-    leaf->_internal_mempool.leaf = leaf;
     leaf_pool_init(leaf, memory, memorysize);
-    
-    leaf->sampleRate = sr;
-    
-    leaf->invSampleRate = 1.0f/sr;
-    
-    leaf->twoPiTimesInvSampleRate = leaf->invSampleRate * TWO_PI;
 
+    leaf->sampleRate = sr;
+    leaf->invSampleRate = 1.0f/sr;
+    leaf->twoPiTimesInvSampleRate = leaf->invSampleRate * TWO_PI;
     leaf->random = random;
-    
-    leaf->clearOnAllocation = 0;
-    
-    leaf->errorCallback = &LEAF_defaultErrorCallback;
-    
-    for (int i = 0; i < LEAFErrorNil; ++i)
-        leaf->errorState[i] = 0;
-    
-    leaf->allocCount = 0;
-    
-    leaf->freeCount = 0;
     leaf->uuid = 0;
     leaf->lfoRateTable = NULL;
     leaf->envTimeTable = NULL;
@@ -59,21 +44,14 @@ Lfloat LEAF_getSampleRate(LEAF* const leaf)
     return leaf->sampleRate;
 }
 
-void LEAF_defaultErrorCallback(LEAF* const leaf, LEAFErrorType whichone)
+void LEAF_defaultErrorCallback(tMempool* const pool, LEAFErrorType whichone)
 {
-    // Not sure what this should do if anything
-    // Maybe fine as a placeholder
+    // No-op placeholder; users can override with LEAF_setErrorCallback.
 }
 
-void LEAF_internalErrorCallback(LEAF* const leaf, LEAFErrorType whichone)
+void LEAF_setErrorCallback(LEAF* const leaf, void (*callback)(tMempool* const, LEAFErrorType))
 {
-    leaf->errorState[whichone] = 1;
-    leaf->errorCallback(leaf, whichone);
-}
-
-void LEAF_setErrorCallback(LEAF* const leaf, void (*callback)(LEAF* const, LEAFErrorType))
-{
-    leaf->errorCallback = callback;
+    leaf->_internal_mempool.errorCallback = callback;
 }
 
 unsigned int getNextUuid(LEAF* leaf)

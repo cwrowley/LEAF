@@ -51,9 +51,9 @@ extern "C" {
     //==============================================================================
     
 #define MPOOL_ALIGN_SIZE (8)
-    
+
     typedef struct LEAF LEAF;
-    
+
     typedef enum LEAFErrorType
     {
         LEAFMempoolOverrun = 0,
@@ -61,14 +61,14 @@ extern "C" {
         LEAFInvalidFree,
         LEAFErrorNil
     } LEAFErrorType;
-    
+
     /*!
      * @defgroup tmempool tMempool
      * @ingroup mempool
      * @brief Memory pool for the allocation of LEAF objects.
      * @{
      */
-    
+
     // node of free list
     typedef struct mpool_node_t {
         char                *pool;     // memory pool field
@@ -76,18 +76,24 @@ extern "C" {
         struct mpool_node_t *prev;     // prev node pointer
         size_t size;
     } mpool_node_t;
-    
+
+    // Aligned size of a node header - a compile-time constant used throughout the allocator
+#define MPOOL_HEADER_SIZE (((sizeof(mpool_node_t)) + (MPOOL_ALIGN_SIZE - 1)) & ~(size_t)(MPOOL_ALIGN_SIZE - 1))
+
     typedef struct tMempool tMempool;
 
     struct tMempool
     {
-        tMempool*      mempool;
-        LEAF*         leaf;
-        char*         mpool;       // start of the mpool
-        size_t        usize;       // used size of the pool
-        size_t        msize;       // max size of the pool
-        mpool_node_t* head;        // first node of memory pool free list
-
+        tMempool*      mempool;        // parent pool
+        char*          mpool;          // start of the mpool
+        size_t         usize;          // used size of the pool
+        size_t         msize;          // max size of the pool
+        mpool_node_t*  head;           // first node of memory pool free list
+        int            clearOnAllocation; //!< Whether to zero memory on allocation.
+        unsigned int   allocCount;     //!< Count of allocations from this pool.
+        unsigned int   freeCount;      //!< Count of frees from this pool.
+        int            errorState[LEAFErrorNil]; //!< Flags indicating which errors have occurred.
+        void (*errorCallback)(tMempool* const, LEAFErrorType); //!< Callback for pool errors.
     };
     
     //! Initialize a tMempool for a given memory location and size to the default mempool of a LEAF instance.

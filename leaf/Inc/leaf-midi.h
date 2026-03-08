@@ -43,7 +43,7 @@ extern "C" {
      @param stack A pointer to the tStack to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tStack_initToPool(tStack** const stack, tMempool** const mempool)
+     @fn void    tStack_initToPool(tStack** const stack, LEAF* const leaf, tMempool** const mempool)
      @brief Initialize a tStack to a specified mempool.
      @param stack A pointer to the tStack to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -118,7 +118,7 @@ extern "C" {
     } tStack;
 
     void    tStack_init                 (tStack** const stack, LEAF* const leaf);
-    void    tStack_initToPool           (tStack** const stack, tMempool** const pool);
+    void    tStack_initToPool           (tStack** const stack, LEAF* const leaf, tMempool** const pool);
     void    tStack_free                 (tStack** const stack);
     
     void    tStack_setCapacity          (tStack* const stack, uint16_t cap);
@@ -144,7 +144,7 @@ extern "C" {
      @param maxNumVoices The maximum number of voices this tPoly can handle at once.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tPoly_initToPool(tPoly** const poly, int maxNumVoices, tMempool** const pool)
+     @fn void    tPoly_initToPool(tPoly** const poly, int maxNumVoices, LEAF* const leaf, tMempool** const pool)
      @brief Initialize a tPoly to a specified mempool.
      @param poly A pointer to the tPoly to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -284,7 +284,7 @@ extern "C" {
     } tPoly;
 
     void    tPoly_init                  (tPoly** const poly, int maxNumVoices, LEAF* const leaf);
-    void    tPoly_initToPool            (tPoly** const poly, int maxNumVoices, tMempool** const pool);
+    void    tPoly_initToPool            (tPoly** const poly, int maxNumVoices, LEAF* const leaf, tMempool** const pool);
     void    tPoly_free                  (tPoly** const poly);
 
     void    tPoly_tickPitch             (tPoly* const poly);
@@ -322,7 +322,7 @@ extern "C" {
      @param maxNumVoices The maximum number of voices this tSimplePoly can handle at once.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tSimplePoly_initToPool(tSimplePoly** const poly, int maxNumVoices, tMempool** const pool)
+     @fn void    tSimplePoly_initToPool(tSimplePoly** const poly, int maxNumVoices, LEAF* const leaf, tMempool** const pool)
      @brief Initialize a tSimplePoly to a specified mempool.
      @param poly A pointer to the tSimplePoly to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -409,7 +409,7 @@ extern "C" {
     } tSimplePoly;
 
     void    tSimplePoly_init                    (tSimplePoly** const poly, int maxNumVoices, LEAF* const leaf);
-    void    tSimplePoly_initToPool              (tSimplePoly** const poly, int maxNumVoices, tMempool** const pool);
+    void    tSimplePoly_initToPool              (tSimplePoly** const poly, int maxNumVoices, LEAF* const leaf, tMempool** const pool);
     void    tSimplePoly_free                    (tSimplePoly** const poly);
     
     int     tSimplePoly_noteOn                  (tSimplePoly* const poly, int note, uint8_t vel);

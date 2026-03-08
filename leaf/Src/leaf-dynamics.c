@@ -43,15 +43,14 @@
  */
 void tCompressor_init (tCompressor** const comp, LEAF* const leaf)
 {
-    tCompressor_initToPool(comp, &leaf->mempool);
+    tCompressor_initToPool(comp, leaf, &leaf->mempool);
 }
 
-void tCompressor_initToPool (tCompressor** const comp, tMempool** const mp)
+void tCompressor_initToPool (tCompressor** const comp, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tCompressor* c = *comp = (tCompressor*) mpool_alloc(sizeof(tCompressor), m);
     c->mempool = m;
-    LEAF* leaf = c->mempool->leaf;
     c->sampleRate = leaf->sampleRate;
     
     c->tauAttack = expf(-1.0f/(0.001f * 50.0f * c->sampleRate));
@@ -267,10 +266,10 @@ void tCompressor_setSampleRate(tCompressor* const c, Lfloat sampleRate)
 
 void tFeedbackLeveler_init (tFeedbackLeveler** const fb, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, LEAF* const leaf)
 {
-    tFeedbackLeveler_initToPool(fb, targetLevel, factor, strength, mode, &leaf->mempool);
+    tFeedbackLeveler_initToPool(fb,  targetLevel,  factor,  strength,  mode, leaf, &leaf->mempool);
 }
 
-void tFeedbackLeveler_initToPool (tFeedbackLeveler** const fb, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, tMempool** const mp)
+void tFeedbackLeveler_initToPool (tFeedbackLeveler** const fb, Lfloat targetLevel, Lfloat factor, Lfloat strength, int mode, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tFeedbackLeveler* p = *fb = (tFeedbackLeveler*) mpool_alloc(sizeof(tFeedbackLeveler), m);
@@ -278,7 +277,7 @@ void tFeedbackLeveler_initToPool (tFeedbackLeveler** const fb, Lfloat targetLeve
     
     p->curr=0.0f;
     p->targetLevel=targetLevel;
-    tPowerFollower_initToPool(&p->pwrFlw, factor, mp);
+    tPowerFollower_initToPool(&p->pwrFlw,  factor, leaf, mp);
     p->mode=mode;
     p->strength=strength;
 }
@@ -329,10 +328,10 @@ void     tFeedbackLeveler_setTargetLevel   (tFeedbackLeveler* const p, Lfloat Ta
 
 void tThreshold_init (tThreshold** const th, Lfloat low, Lfloat high, LEAF* const leaf)
 {
-	tThreshold_initToPool(th, low, high, &leaf->mempool);
+	tThreshold_initToPool(th,  low,  high, leaf, &leaf->mempool);
 }
 
-void tThreshold_initToPool (tThreshold** const th, Lfloat low, Lfloat high, tMempool** const mp)
+void tThreshold_initToPool (tThreshold** const th, Lfloat low, Lfloat high, LEAF* const leaf, tMempool** const mp)
 {
     tMempool* m = *mp;
     tThreshold* t = *th = (tThreshold*) mpool_alloc(sizeof(tThreshold), m);

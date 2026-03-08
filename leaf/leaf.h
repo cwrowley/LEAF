@@ -163,21 +163,20 @@ extern "C" {
      */
     Lfloat       LEAF_getSampleRate   (LEAF* const leaf);
     
-    //! The default callback function for LEAF errors.
+    //! The default (no-op) callback function for pool errors.
     /*!
+     @param pool The pool in which the error occurred.
      @param errorType The type of the error that has occurred.
      */
-    void        LEAF_defaultErrorCallback(LEAF* const leaf, LEAFErrorType errorType);
-    
-    void        LEAF_internalErrorCallback(LEAF* const leaf, LEAFErrorType whichone);
+    void        LEAF_defaultErrorCallback(tMempool* const pool, LEAFErrorType errorType);
 
-    unsigned int getNextUuid(LEAF*  leaf);
+    unsigned int getNextUuid(LEAF* leaf);
 
-    //! Set the callback function for LEAF errors.
+    //! Set the error callback for the default LEAF mempool.
     /*!
      @param callback A pointer to the callback function.
      */
-    void LEAF_setErrorCallback(LEAF* const leaf, void (*callback)(LEAF* const, LEAFErrorType));
+    void LEAF_setErrorCallback(LEAF* const leaf, void (*callback)(tMempool* const, LEAFErrorType));
     
     /*! @} */
     

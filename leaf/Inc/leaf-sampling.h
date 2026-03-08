@@ -46,7 +46,7 @@ extern "C"
      @param length The length of the buffer in samples.
      @param leaf A pointer to the leaf instance.
 
-     @fn void  tBuffer_initToPool(tBuffer** const, uint32_t length, tMempool** const)
+     @fn void  tBuffer_initToPool(tBuffer** const, uint32_t length, LEAF* const leaf, tMempool** const)
      @brief Initialize a tBuffer to a specified mempool.
      @param sampler A pointer to the tBuffer to initialize.
      @param length The length of the buffer in samples.
@@ -147,7 +147,7 @@ extern "C"
     } tBuffer;
 
     void     tBuffer_init              (tBuffer**const, uint32_t length, LEAF *const leaf);
-    void     tBuffer_initToPool        (tBuffer**const sb, uint32_t length, tMempool** const mp);
+    void     tBuffer_initToPool        (tBuffer**const sb, uint32_t length, LEAF* const leaf, tMempool** const mp);
     void     tBuffer_free              (tBuffer**const);
 
     void     tBuffer_tick              (tBuffer* const, Lfloat sample);
@@ -180,7 +180,7 @@ extern "C"
      @param buffer A pointer to a tBuffer to playback audio from. Multiple tSamplers can share one tBuffer.
      @param leaf A pointer to the leaf instance.
 
-     @fn void    tSampler_initToPool(tSampler** const, tBuffer* const, tMempool** const)
+     @fn void    tSampler_initToPool(tSampler** const, tBuffer* const, LEAF* const leaf, tMempool** const)
      @brief Initialize a tSampler to a specified mempool.
      @param sampler A pointer to the tSampler to initialize.
      @param buffer A pointer to a tBuffer to playback audio from. Multiple tSamplers can share one tBuffer.
@@ -280,7 +280,7 @@ extern "C"
     } tSampler;
 
     void    tSampler_init               (tSampler**const, tBuffer **const, LEAF *const leaf);
-    void    tSampler_initToPool         (tSampler**const sp, tBuffer **const b, tMempool** const mp, LEAF *const leaf);
+    void    tSampler_initToPool         (tSampler**const sp, tBuffer **const b, LEAF* const leaf, tMempool** const mp);
     void    tSampler_free               (tSampler**const);
 
     Lfloat  tSampler_tick               (tSampler* const);
@@ -311,7 +311,7 @@ extern "C"
      @param sampler A pointer to the tAutoSampler to initialize.
      @param leaf A pointer to the leaf instance.
 
-     @fn void    tAutoSampler_initToPool(tAutoSampler** const, tBuffer* const, tMempool** const)
+     @fn void    tAutoSampler_initToPool(tAutoSampler** const, tBuffer* const, LEAF* const leaf, tMempool** const)
      @brief Initialize a tAutoSampler to a specified mempool.
      @param sampler A pointer to the tAutoSampler to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -373,7 +373,7 @@ extern "C"
     } tAutoSampler;
 
     void    tAutoSampler_init               (tAutoSampler**const, tBuffer* *const, LEAF *const leaf);
-    void    tAutoSampler_initToPool         (tAutoSampler**const as, tBuffer **const b, tMempool** const mp, LEAF *const leaf);
+    void    tAutoSampler_initToPool         (tAutoSampler**const as, tBuffer **const b, LEAF* const leaf, tMempool** const mp);
     void    tAutoSampler_free               (tAutoSampler**const);
 
     Lfloat  AutoSampler_tick                (tAutoSampler* const, Lfloat input);
@@ -399,7 +399,7 @@ extern "C"
      @param sampler A pointer to the tMBSampler to initialize.
      @param leaf A pointer to the leaf instance.
 
-     @fn void    tMBSampler_initToPool(tMBSampler** const, tBuffer* const, tMempool** const)
+     @fn void    tMBSampler_initToPool(tMBSampler** const, tBuffer* const, LEAF* const leaf, tMempool** const)
      @brief Initialize a tMBSampler to a specified mempool.
      @param sampler A pointer to the tMBSampler to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -479,7 +479,7 @@ extern "C"
     } tMBSampler;
 
     void    tMBSampler_init       (tMBSampler**const, tBuffer **const, LEAF *const leaf);
-    void    tMBSampler_initToPool (tMBSampler**const, tBuffer **const, tMempool** const);
+    void    tMBSampler_initToPool (tMBSampler**const, tBuffer **const, LEAF* const leaf, tMempool** const);
     void    tMBSampler_free       (tMBSampler**const);
 
     Lfloat  tMBSampler_tick       (tMBSampler* const);

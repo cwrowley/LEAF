@@ -43,7 +43,7 @@ extern "C" {
      @param reverb A pointer to the tPRCReverb to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tPRCReverb_initToPool(tPRCReverb** const, Lfloat t60, tMempool** const)
+     @fn void    tPRCReverb_initToPool(tPRCReverb** const, Lfloat t60, LEAF* const leaf, tMempool** const)
      @brief Initialize a tPRCReverb to a specified mempool.
      @param reverb A pointer to the tPRCReverb to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -86,10 +86,11 @@ extern "C" {
         Lfloat combCoeff;
         
         Lfloat lastIn, lastOut;
+        LEAF* leaf;
     } tPRCReverb;
 
     void    tPRCReverb_init          (tPRCReverb** const, Lfloat t60, LEAF* const leaf);
-    void    tPRCReverb_initToPool    (tPRCReverb** const, Lfloat t60, tMempool** const);
+    void    tPRCReverb_initToPool    (tPRCReverb** const, Lfloat t60, LEAF* const leaf, tMempool** const);
     void    tPRCReverb_free          (tPRCReverb** const);
 
     Lfloat  tPRCReverb_tick          (tPRCReverb* const, Lfloat input);
@@ -112,7 +113,7 @@ extern "C" {
      @param reverb A pointer to the tNReverb to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tNReverb_initToPool(tNReverb** const, Lfloat t60, tMempool** const)
+     @fn void    tNReverb_initToPool(tNReverb** const, Lfloat t60, LEAF* const leaf, tMempool** const)
      @brief Initialize a tNReverb to a specified mempool.
      @param reverb A pointer to the tNReverb to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -160,10 +161,11 @@ extern "C" {
         Lfloat lowpassState;
         
         Lfloat lastIn, lastOut;
+        LEAF* leaf;
     } tNReverb;
 
     void    tNReverb_init           (tNReverb** const, Lfloat t60, LEAF* const leaf);
-    void    tNReverb_initToPool     (tNReverb** const, Lfloat t60, tMempool** const);
+    void    tNReverb_initToPool     (tNReverb** const, Lfloat t60, LEAF* const leaf, tMempool** const);
     void    tNReverb_free           (tNReverb** const);
 
     Lfloat  tNReverb_tick           (tNReverb* const, Lfloat input);
@@ -187,7 +189,7 @@ extern "C" {
      @param reverb A pointer to the tDattorroReverb to initialize.
      @param leaf A pointer to the leaf instance.
      
-     @fn void    tDattorroReverb_initToPool(tDattorroReverb** const, tMempool** const)
+     @fn void    tDattorroReverb_initToPool(tDattorroReverb** const, LEAF* const leaf, tMempool** const)
      @brief Initialize a tDattorroReverb to a specified mempool.
      @param reverb A pointer to the tDattorroReverb to initialize.
      @param mempool A pointer to the tMempool to use.
@@ -286,10 +288,11 @@ extern "C" {
         tHighpass*    f2_hp;
         
         tCycle*       f2_lfo;
+        LEAF*         leaf;
     } tDattorroReverb;
 
     void    tDattorroReverb_init              (tDattorroReverb** const, LEAF* const leaf);
-    void    tDattorroReverb_initToPool        (tDattorroReverb** const, tMempool** const);
+    void    tDattorroReverb_initToPool        (tDattorroReverb** const, LEAF* const leaf, tMempool** const);
     void    tDattorroReverb_free              (tDattorroReverb** const);
 
     Lfloat  tDattorroReverb_tick              (tDattorroReverb* const, Lfloat input);

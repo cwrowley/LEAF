@@ -137,7 +137,7 @@ extern "C" {
     
     //WDF Linear Components
     void    tWDF_init(tWDF** const, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, LEAF* const leaf);
-    void    tWDF_initToPool(tWDF** const, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, tMempool** const);
+    void    tWDF_initToPool(tWDF** const, WDFComponentType type, Lfloat value, tWDF** const rL, tWDF** const rR, LEAF* const leaf, tMempool** const);
     void    tWDF_free(tWDF** const);
     
     Lfloat  tWDF_tick                   (tWDF* const, Lfloat sample, tWDF* const outputPoint, uint8_t paramsChanged);
