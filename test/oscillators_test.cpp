@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../leaf/Inc/leaf-oscillators.h"
-#include "../leaf/leaf.h"
-#include "../leaf/Inc/leaf-math.h"
+#include <leaf-oscillators.h>
+#include <leaf.h>
+#include <leaf-math.h>
 
 static float myrand() { return (float)rand() / RAND_MAX; }
 
