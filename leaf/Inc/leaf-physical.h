@@ -1172,6 +1172,7 @@ void tReedTable_setSlope(tReedTable *const, Lfloat slope);
 
 class StiffString {
 public:
+    StiffString(int numModes, LEAF *const leaf);
     StiffString(int numModes, LEAF *const leaf, tMempool *m);
     ~StiffString();
 

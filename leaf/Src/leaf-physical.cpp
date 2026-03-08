@@ -3143,8 +3143,12 @@ void tReedTable_setSlope(tReedTable *const p, Lfloat slope) {
 
 /* ============================ */
 
+StiffString::StiffString(int numModes, LEAF *const leaf)
+    : StiffString(numModes, leaf, leaf->mempool) {}
+
 void StiffString_init(StiffString **const pm, int numModes, LEAF *const leaf) {
-    StiffString_initToPool(pm, numModes, leaf, &leaf->mempool);
+    tMempool *m = leaf->mempool;
+    *pm = new (mpool_alloc(sizeof(StiffString), m)) StiffString(numModes, leaf);
 }
 
 StiffString::StiffString(int numModes, LEAF *const leaf, tMempool *m) {
