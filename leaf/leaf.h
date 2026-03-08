@@ -31,51 +31,25 @@
 // #include "../TestPlugin/JuceLibraryCode/JuceHeader.h"
 // #endif
 
-#if _WIN32 || _WIN64
-
-#include ".\Inc\leaf-global.h"
-#include ".\Inc\leaf-math.h"
-#include ".\Inc\leaf-mempool.h"
-#include ".\Inc\leaf-tables.h"
-#include ".\Inc\leaf-distortion.h"
-#include ".\Inc\leaf-oscillators.h"
-#include ".\Inc\leaf-filters.h"
-#include ".\Inc\leaf-delay.h"
-#include ".\Inc\leaf-reverb.h"
-#include ".\Inc\leaf-effects.h"
-#include ".\Inc\leaf-envelopes.h"
-#include ".\Inc\leaf-dynamics.h"
-#include ".\Inc\leaf-analysis.h"
-#include ".\Inc\leaf-instruments.h"
-#include ".\Inc\leaf-midi.h"
-#include ".\Inc\leaf-sampling.h"
-#include ".\Inc\leaf-physical.h"
-#include ".\Inc\leaf-electrical.h"
-#include ".\Inc\leaf-vocal.h"
-
-#else
-
-#include "./Inc/leaf-global.h"
-#include "./Inc/leaf-math.h"
-#include "./Inc/leaf-mempool.h"
-#include "./Inc/leaf-tables.h"
-#include "./Inc/leaf-distortion.h"
-#include "./Inc/leaf-dynamics.h"
-#include "./Inc/leaf-oscillators.h"
-#include "./Inc/leaf-filters.h"
-#include "./Inc/leaf-delay.h"
-#include "./Inc/leaf-reverb.h"
-#include "./Inc/leaf-effects.h"
-#include "./Inc/leaf-envelopes.h"
-#include "./Inc/leaf-analysis.h"
-#include "./Inc/leaf-instruments.h"
-#include "./Inc/leaf-midi.h"
-#include "./Inc/leaf-sampling.h"
-#include "./Inc/leaf-physical.h"
-#include "./Inc/leaf-electrical.h"
-#include "./Inc/leaf-vocal.h"
-
-#endif
+#include <leaf-global.h>
+#include <leaf-math.h>
+#include <leaf-mempool.h>
+#include <leaf-tables.h>
+#include <leaf-distortion.h>
+#include <leaf-dynamics.h>
+#include <leaf-oscillators.h>
+#include <leaf-filters.h>
+#include <leaf-delay.h>
+#include <leaf-reverb.h>
+#include <leaf-effects.h>
+#include <leaf-envelopes.h>
+#include <leaf-analysis.h>
+#include <leaf-instruments.h>
+#include <leaf-midi.h>
+#include <leaf-sampling.h>
+#include <leaf-physical.h>
+#include <leaf-electrical.h>
+#include <leaf-vocal.h>
 
 /*! @mainpage LEAF
  *
