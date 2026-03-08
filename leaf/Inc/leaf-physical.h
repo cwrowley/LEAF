@@ -1168,31 +1168,15 @@ void tReedTable_setSlope(tReedTable *const, Lfloat slope);
 
 //==============================================================================
 
-typedef struct StiffString {
-    tMempool *mempool;
-    int numModes;
-    tCycle *oscs; // flat array of oscillators
-    Lfloat *amplitudes;
-    Lfloat *outputWeights;
-    Lfloat freqHz; // the frequency of the whole string, determining delay length
-
-    Lfloat stiffness;
-    Lfloat pluckPos;  // the pick position, dividing the string in two, in ratio
-    Lfloat pickupPos; // the preparation position, dividing the string in two, in ratio
-    Lfloat decay;
-    Lfloat decayHighFreq;
-    Lfloat sampleRate;
-    Lfloat twoPiTimesInvSampleRate;
-    Lfloat *decayScalar;
-    Lfloat *decayVal;
-    Lfloat *nyquistCoeff;
-    Lfloat nyquist;
-    Lfloat nyquistScalingFactor;
-    Lfloat muteDecay;
-    Lfloat amp;
-    Lfloat gainComp;
-
 #ifdef __cplusplus
+
+class StiffString {
+public:
+    StiffString(int numModes, LEAF *const leaf, tMempool *m);
+    ~StiffString();
+
+    tMempool *mempool() const { return mempool_; }
+
     Lfloat tick();
     void setStiffness(Lfloat newValue);
     void setFreq(Lfloat newFreq);
@@ -1212,8 +1196,30 @@ typedef struct StiffString {
     void setPluckPosNoUpdate(Lfloat pluckpos);
     void setDecayNoUpdate(Lfloat decay);
     void setDecayHighFreqNoUpdate(Lfloat decayHF);
-#endif
-} StiffString;
+
+private:
+    tMempool *mempool_;
+    int numModes_;
+    tCycle *oscs_;
+    Lfloat *amplitudes_;
+    Lfloat *outputWeights_;
+    Lfloat freqHz_;
+    Lfloat stiffness_;
+    Lfloat pluckPos_;
+    Lfloat pickupPos_;
+    Lfloat decay_;
+    Lfloat decayHighFreq_;
+    Lfloat sampleRate_;
+    Lfloat twoPiTimesInvSampleRate_;
+    Lfloat *decayScalar_;
+    Lfloat *decayVal_;
+    Lfloat *nyquistCoeff_;
+    Lfloat nyquist_;
+    Lfloat nyquistScalingFactor_;
+    Lfloat muteDecay_;
+    Lfloat amp_;
+    Lfloat gainComp_;
+};
 
 void StiffString_init(StiffString **const, int numModes, LEAF *const leaf);
 void StiffString_initToPool(StiffString **const, int numModes, LEAF *const leaf, tMempool **const);
@@ -1238,6 +1244,8 @@ void StiffString_setPickupPosNoUpdate(StiffString *const, Lfloat pickuppos);
 void StiffString_setPluckPosNoUpdate(StiffString *const, Lfloat pluckpos);
 void StiffString_setDecayNoUpdate(StiffString *const, Lfloat decay);
 void StiffString_setDecayHighFreqNoUpdate(StiffString *const, Lfloat decayHF);
+
+#endif // __cplusplus
 
 typedef struct tStereoRotation {
     tMempool *mempool;
