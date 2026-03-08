@@ -6,17 +6,8 @@
 
 ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-reverb.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-reverb.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-reverb.h>
+#include <leaf.h>
 
 // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ PRCReverb ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ //
 void tPRCReverb_init(tPRCReverb **const rev, Lfloat t60, LEAF *const leaf) {

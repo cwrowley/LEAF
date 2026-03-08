@@ -6,20 +6,10 @@
 
  ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-filters.h"
-#include "..\Inc\leaf-tables.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-filters.h"
-#include "../Inc/leaf-tables.h"
-#include "../Inc/leaf-math.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-filters.h>
+#include <leaf-tables.h>
+#include <leaf-math.h>
+#include <leaf.h>
 
 #ifdef ARM_MATH_CM7
 #include <arm_math.h>

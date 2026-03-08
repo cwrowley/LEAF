@@ -6,11 +6,7 @@
  ==============================================================================
 */
 
-#if _WIN32 || _WIN64
-#include "..\..\Inc\physical\StiffString.h"
-#else
-#include "../../Inc/physical/StiffString.h"
-#endif
+#include <physical/StiffString.h>
 
 #ifdef ARM_MATH_CM7
 #include <arm_math.h>

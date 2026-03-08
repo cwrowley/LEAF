@@ -5,17 +5,8 @@
 
  ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-math.h"
-#include "..\Inc\leaf-tables.h"
-
-#else
-
-#include "../Inc/leaf-math.h"
-#include "../Inc/leaf-tables.h"
-
-#endif
+#include <leaf-math.h>
+#include <leaf-tables.h>
 
 #define EXPONENTIAL_TABLE_SIZE 65536
 

@@ -5,17 +5,8 @@
  *      Author: jeffsnyder
  */
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-electrical.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-electrical.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-electrical.h>
+#include <leaf.h>
 
 // this got messed up in the switch of the pointer styles. Likely not working at all right now. -JS
 //==============================================================================

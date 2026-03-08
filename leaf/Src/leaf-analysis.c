@@ -6,16 +6,10 @@
 
  ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-analysis.h"
-#include "..\Externals\d_fft_mayer.h"
+#include <leaf-analysis.h>
+#include <d_fft_mayer.h>
+#ifdef _WIN32
 #include <intrin.h>
-#else
-
-#include "../Inc/leaf-analysis.h"
-#include "../Externals/d_fft_mayer.h"
-
 #endif
 
 #if LEAF_DEBUG

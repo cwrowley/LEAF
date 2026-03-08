@@ -7,20 +7,12 @@
 
 // this vocal synthesis model is copied from soundpipe, written by Paul Batcheler. He put it in the public domain, so this particular part of leaf is also public domain, since I added very little.
 
-#if _WIN32 || _WIN64
-#include "..\Inc\leaf-math.h"
-#include "..\Inc\leaf-vocal.h"
-#include "..\leaf.h"
-
-#else
-#include "../Inc/leaf-math.h"
-#include "../Inc/leaf-vocal.h"
-#include "../leaf.h"
+#include <leaf-math.h>
+#include <leaf-vocal.h>
+#include <leaf.h>
 
 #ifdef ARM_MATH_CM7
 #include "arm_math.h"
-#endif
-
 #endif
 
 #ifndef M_PI

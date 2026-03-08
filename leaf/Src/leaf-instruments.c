@@ -6,15 +6,7 @@
 
 ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-instruments.h"
-
-#else
-
-#include "../Inc/leaf-instruments.h"
-
-#endif
+#include <leaf-instruments.h>
 
 // ----------------- COWBELL ----------------------------//
 

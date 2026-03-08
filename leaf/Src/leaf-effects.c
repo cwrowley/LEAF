@@ -6,17 +6,8 @@
 
  ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-effects.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-effects.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-effects.h>
+#include <leaf.h>
 
 //============================================================================================================
 // TALKBOX

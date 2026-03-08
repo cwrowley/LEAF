@@ -36,17 +36,8 @@
 
 /* written with C99 style */
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-mempool.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-mempool.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-mempool.h>
+#include <leaf.h>
 
 #include <stdlib.h>
 

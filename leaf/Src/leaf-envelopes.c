@@ -8,19 +8,9 @@
   ==============================================================================
 */
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-envelopes.h"
-#include "..\Inc\leaf-tables.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-envelopes.h"
-#include "../Inc/leaf-tables.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-envelopes.h>
+#include <leaf-tables.h>
+#include <leaf.h>
 
 #if LEAF_INCLUDE_ADSR_TABLES
 

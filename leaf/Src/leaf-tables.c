@@ -1,16 +1,7 @@
 /* sine wave table ripped from http://aquaticus.info/pwm-sine-wave */
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-tables.h"
-#include "..\Inc\leaf-global.h"
-
-#else
-
-#include "../Inc/leaf-tables.h"
-#include "../Inc/leaf-global.h"
-
-#endif
+#include <leaf-tables.h>
+#include <leaf-global.h>
 
 #include "stdlib.h"
 

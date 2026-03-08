@@ -4,17 +4,8 @@
  Author:  Michael R Mulshine
  ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-oscillators.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-oscillators.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-oscillators.h>
+#include <leaf.h>
 
 #ifdef ARM_MATH_CM7
 #include "arm_math.h"

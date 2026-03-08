@@ -8,15 +8,7 @@
   ==============================================================================
 */
 
-#if _WIN32 || _WIN64
-
-#include "..\leaf.h"
-
-#else
-
-#include "../leaf.h"
-
-#endif
+#include <leaf.h>
 
 // Simple LCG random number generator — no stdlib dependency.
 // Returns a value in [0, 1).

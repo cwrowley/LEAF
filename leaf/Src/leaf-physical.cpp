@@ -6,15 +6,7 @@
 
 ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-physical.h"
-
-#else
-
-#include "../Inc/leaf-physical.h"
-
-#endif
+#include <leaf-physical.h>
 
 #ifdef ARM_MATH_CM7
 #include <arm_math.h>

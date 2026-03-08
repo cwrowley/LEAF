@@ -6,17 +6,8 @@
 
 ==============================================================================*/
 
-#if _WIN32 || _WIN64
-
-#include "..\Inc\leaf-delay.h"
-#include "..\leaf.h"
-
-#else
-
-#include "../Inc/leaf-delay.h"
-#include "../leaf.h"
-
-#endif
+#include <leaf-delay.h>
+#include <leaf.h>
 
 // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Delay ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ //
 void tDelay_init(tDelay **const dl, uint32_t delay, uint32_t maxDelay, LEAF *const leaf) {
