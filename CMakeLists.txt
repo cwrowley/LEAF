@@ -14,7 +14,7 @@ PROJECT("${PROJECT_NAME}")
 SET(LIBRARY_VERSION_MAJOR 0)
 SET(LIBRARY_VERSION_STRING 0.1)
 
-#INCLUDE(GNUInstallDirs)
+include(GNUInstallDirs)
 
 SET(LIBRARY_BASE_PATH "${PROJECT_SOURCE_DIR}")
 
@@ -124,10 +124,16 @@ SET_TARGET_PROPERTIES (
 ################################################################################
 ### Library installation directives
 
-#INSTALL (
-#        TARGETS ${BINARY_NAME}
-#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-#)
+install(TARGETS ${BINARY_NAME}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+install(DIRECTORY "${LIBRARY_BASE_PATH}/leaf/include/"
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(FILES
+        "${LIBRARY_BASE_PATH}/leaf/leaf.h"
+        "${LIBRARY_BASE_PATH}/leaf/leaf-config.h"
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
 
 ################################################################################
