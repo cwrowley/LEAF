@@ -108,6 +108,22 @@ void tCycle_setSampleRate(tCycle *const c, Lfloat sr) {
     c->invSampleRateTimesTwoTo32 = (1.0f / sr) * TWO_TO_32;
     tCycle_setFreq(c, c->freq);
 }
+
+#ifdef __cplusplus
+Lfloat tCycle::tick() {
+    return tCycle_tick(this);
+}
+void tCycle::setFreq(Lfloat f) {
+    tCycle_setFreq(this, f);
+}
+void tCycle::setPhase(Lfloat p) {
+    tCycle_setPhase(this, p);
+}
+void tCycle::setSampleRate(Lfloat sr) {
+    tCycle_setSampleRate(this, sr);
+}
+#endif
+
 #endif // LEAF_INCLUDE_SINE_TABLE
 
 #if LEAF_INCLUDE_TRIANGLE_TABLE
@@ -2915,7 +2931,7 @@ void tWaveOsc_setIndex(tWaveOsc *const c, Lfloat index) {
     c->mix = f - c->o1;
 }
 
-void tWaveOsc_setTables(tWaveOsc *const c, tWaveTable *tables, int numTables) {
+void tWaveOsc_setTables(tWaveOsc *const c, tWaveTable **tables, int numTables) {
     c->tables = tables;
     c->numTables = numTables;
     c->size = c->tables[0]->size;

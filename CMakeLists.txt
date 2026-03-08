@@ -42,7 +42,7 @@ SET(PUBLIC_SOURCES_FILES
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-instruments.c"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-mempool.cpp"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-midi.c"
-        "${LIBRARY_BASE_PATH}/leaf/Src/leaf-oscillators.c"
+        "${LIBRARY_BASE_PATH}/leaf/Src/leaf-oscillators.cpp"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-physical.c"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-reverb.c"
         "${LIBRARY_BASE_PATH}/leaf/Src/leaf-sampling.c"

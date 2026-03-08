@@ -69,6 +69,13 @@ typedef struct tCycle {
     Lfloat freq;
     Lfloat invSampleRateTimesTwoTo32;
     uint32_t mask;
+
+#ifdef __cplusplus
+    Lfloat tick();
+    void setFreq(Lfloat freq);
+    void setPhase(Lfloat phase);
+    void setSampleRate(Lfloat sr);
+#endif
 } tCycle;
 
 // Memory handlers for `tCycle`
@@ -1388,7 +1395,7 @@ Lfloat tWaveOsc_tick(tWaveOsc *const osc);
 void tWaveOsc_setFreq(tWaveOsc *const cy, Lfloat freq);
 void tWaveOsc_setAntiAliasing(tWaveOsc *const osc, Lfloat aa);
 void tWaveOsc_setIndex(tWaveOsc *const osc, Lfloat index);
-void tWaveOsc_setTables(tWaveOsc *const cy, tWaveTable *tables, int numTables);
+void tWaveOsc_setTables(tWaveOsc *const cy, tWaveTable **tables, int numTables);
 void tWaveOsc_setSampleRate(tWaveOsc *const osc, Lfloat sr);
 
 //==============================================================================
