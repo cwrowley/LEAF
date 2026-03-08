@@ -1191,6 +1191,28 @@ typedef struct tStiffString {
     Lfloat muteDecay;
     Lfloat amp;
     Lfloat gainComp;
+
+#ifdef __cplusplus
+    Lfloat tick();
+    void setStiffness(Lfloat newValue);
+    void setFreq(Lfloat newFreq);
+    void pluck(Lfloat amp);
+    void setPickupPos(Lfloat pickuppos);
+    void setPluckPos(Lfloat pluckpos);
+    void setDecay(Lfloat decay);
+    void setDecayHighFreq(Lfloat decayHF);
+    void updateOscillators();
+    void updateOutputWeights();
+    void mute();
+    void setSampleRate(Lfloat sr);
+    void setStiffnessNoUpdate(Lfloat newValue);
+    void setFreqNoUpdate(Lfloat newFreq);
+    void pluckNoUpdate(Lfloat amp);
+    void setPickupPosNoUpdate(Lfloat pickuppos);
+    void setPluckPosNoUpdate(Lfloat pluckpos);
+    void setDecayNoUpdate(Lfloat decay);
+    void setDecayHighFreqNoUpdate(Lfloat decayHF);
+#endif
 } tStiffString;
 
 void tStiffString_init(tStiffString **const, int numModes, LEAF *const leaf);
@@ -1208,6 +1230,7 @@ void tStiffString_setDecayHighFreq(tStiffString *const, Lfloat decayHF);
 void tStiffString_updateOscillators(tStiffString *const pm);
 void tStiffString_updateOutputWeights(tStiffString *const pm);
 void tStiffString_mute(tStiffString *const pm);
+void tStiffString_setSampleRate(tStiffString *const, Lfloat sr);
 void tStiffString_setStiffnessNoUpdate(tStiffString *const, Lfloat newValue);
 void tStiffString_setFreqNoUpdate(tStiffString *const, Lfloat newFreq);
 void tStiffString_pluckNoUpdate(tStiffString *const, Lfloat amp);

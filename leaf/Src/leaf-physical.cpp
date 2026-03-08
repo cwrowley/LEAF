@@ -3174,7 +3174,7 @@ void tStiffString_initToPool(tStiffString **const pm, int numModes, LEAF *const 
         tDampedOscillator_initToPool(&p->osc[i], &m);
     }
     */
-    p->oscs = (tCycle *)mpool_alloc(numModes * sizeof(tCycle), m);
+    p->oscs = (tCycle **)mpool_alloc(numModes * sizeof(tCycle *), m);
     for (int i = 0; i < numModes; ++i) {
         tCycle_initToPool(&p->oscs[i], leaf, &m);
     }
@@ -3200,6 +3200,7 @@ void tStiffString_free(tStiffString **const pm) {
     mpool_free((char *)p->decayVal, p->mempool);
     mpool_free((char *)p->amplitudes, p->mempool);
     mpool_free((char *)p->outputWeights, p->mempool);
+    mpool_free((char *)p->oscs, p->mempool);
     mpool_free((char *)p, p->mempool);
 }
 
@@ -3487,3 +3488,25 @@ void tStereoRotation_setFilterY(tStereoRotation *const r, float freq) {
 void tStereoRotation_setGain(tStereoRotation *const r, float gain) {
     r->rotGain = gain;
 }
+
+#ifdef __cplusplus
+Lfloat tStiffString::tick() { return tStiffString_tick(this); }
+void tStiffString::setStiffness(Lfloat v) { tStiffString_setStiffness(this, v); }
+void tStiffString::setFreq(Lfloat f) { tStiffString_setFreq(this, f); }
+void tStiffString::pluck(Lfloat a) { tStiffString_pluck(this, a); }
+void tStiffString::setPickupPos(Lfloat v) { tStiffString_setPickupPos(this, v); }
+void tStiffString::setPluckPos(Lfloat v) { tStiffString_setPluckPos(this, v); }
+void tStiffString::setDecay(Lfloat v) { tStiffString_setDecay(this, v); }
+void tStiffString::setDecayHighFreq(Lfloat v) { tStiffString_setDecayHighFreq(this, v); }
+void tStiffString::updateOscillators() { tStiffString_updateOscillators(this); }
+void tStiffString::updateOutputWeights() { tStiffString_updateOutputWeights(this); }
+void tStiffString::mute() { tStiffString_mute(this); }
+void tStiffString::setSampleRate(Lfloat sr) { tStiffString_setSampleRate(this, sr); }
+void tStiffString::setStiffnessNoUpdate(Lfloat v) { tStiffString_setStiffnessNoUpdate(this, v); }
+void tStiffString::setFreqNoUpdate(Lfloat f) { tStiffString_setFreqNoUpdate(this, f); }
+void tStiffString::pluckNoUpdate(Lfloat a) { tStiffString_pluckNoUpdate(this, a); }
+void tStiffString::setPickupPosNoUpdate(Lfloat v) { tStiffString_setPickupPosNoUpdate(this, v); }
+void tStiffString::setPluckPosNoUpdate(Lfloat v) { tStiffString_setPluckPosNoUpdate(this, v); }
+void tStiffString::setDecayNoUpdate(Lfloat v) { tStiffString_setDecayNoUpdate(this, v); }
+void tStiffString::setDecayHighFreqNoUpdate(Lfloat v) { tStiffString_setDecayHighFreqNoUpdate(this, v); }
+#endif
