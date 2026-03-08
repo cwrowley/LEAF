@@ -15,8 +15,8 @@ extern "C" {
 
 //==============================================================================
 
-#include "leaf-math.h"
-#include "leaf-mempool.h"
+#include <leaf-math.h>
+#include <leaf-mempool.h>
 
 /*!
  * @internal

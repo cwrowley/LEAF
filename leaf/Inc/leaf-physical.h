@@ -17,14 +17,14 @@ extern "C" {
 
 //==============================================================================
 
-#include "leaf-global.h"
-#include "leaf-math.h"
-#include "leaf-mempool.h"
-#include "leaf-delay.h"
-#include "leaf-filters.h"
-#include "leaf-oscillators.h"
-#include "leaf-envelopes.h"
-#include "leaf-dynamics.h"
+#include <leaf-global.h>
+#include <leaf-math.h>
+#include <leaf-mempool.h>
+#include <leaf-delay.h>
+#include <leaf-filters.h>
+#include <leaf-oscillators.h>
+#include <leaf-envelopes.h>
+#include <leaf-dynamics.h>
 
 typedef struct tPickupNonLinearity {
 
@@ -1202,7 +1202,7 @@ void tStereoRotation_setGain(tStereoRotation *const r, float gain);
 #endif
 
 #ifdef __cplusplus
-#include "physical/StiffString.h"
+#include <physical/StiffString.h>
 #endif
 
 #endif // LEAF_PHYSICAL_H_INCLUDED

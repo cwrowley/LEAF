@@ -9,10 +9,10 @@
 #ifndef LEAF_STIFFSTRING_H_INCLUDED
 #define LEAF_STIFFSTRING_H_INCLUDED
 
-#include "leaf-global.h"
-#include "leaf-mempool.h"
-#include "leaf-oscillators.h"
-#include "leaf-math.h"
+#include <leaf-global.h>
+#include <leaf-mempool.h>
+#include <leaf-oscillators.h>
+#include <leaf-math.h>
 
 //==============================================================================
 

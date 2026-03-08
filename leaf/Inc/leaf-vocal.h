@@ -8,10 +8,10 @@
 #ifndef LEAF_VOCAL_H_INCLUDED
 #define LEAF_VOCAL_H_INCLUDED
 
-#include "leaf-math.h"
-#include "leaf-mempool.h"
-#include "leaf-filters.h"
-#include "leaf-oscillators.h"
+#include <leaf-math.h>
+#include <leaf-mempool.h>
+#include <leaf-filters.h>
+#include <leaf-oscillators.h>
 
 #define EPSILON 1.0e-38
 

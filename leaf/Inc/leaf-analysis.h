@@ -15,13 +15,13 @@ extern "C" {
 
 //==============================================================================
 
-#include "leaf-global.h"
-#include "leaf-mempool.h"
-#include "leaf-distortion.h"
-#include "leaf-math.h"
-#include "leaf-filters.h"
-#include "leaf-envelopes.h"
-#include "leaf-delay.h"
+#include <leaf-global.h>
+#include <leaf-mempool.h>
+#include <leaf-distortion.h>
+#include <leaf-math.h>
+#include <leaf-filters.h>
+#include <leaf-envelopes.h>
+#include <leaf-delay.h>
 
 /*!
  * @internal

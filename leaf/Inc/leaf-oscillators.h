@@ -13,11 +13,11 @@ extern "C" {
 
 //==============================================================================
 
-#include "leaf-math.h"
-#include "leaf-mempool.h"
-#include "leaf-tables.h"
-#include "leaf-filters.h"
-#include "leaf-distortion.h"
+#include <leaf-math.h>
+#include <leaf-mempool.h>
+#include <leaf-tables.h>
+#include <leaf-filters.h>
+#include <leaf-distortion.h>
 
 /*!
  Header.

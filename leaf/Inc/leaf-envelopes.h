@@ -17,12 +17,12 @@ extern "C" {
 
 // ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
-#include "leaf-math.h"
-#include "leaf-mempool.h"
-#include "leaf-filters.h"
-#include "leaf-delay.h"
-#include "leaf-analysis.h"
-#include "leaf-envelopes.h"
+#include <leaf-math.h>
+#include <leaf-mempool.h>
+#include <leaf-filters.h>
+#include <leaf-delay.h>
+#include <leaf-analysis.h>
+#include <leaf-envelopes.h>
 
 /*!
  * @internal
