@@ -38,6 +38,11 @@ struct LEAF {
     tLookupTable *resTable;
 
     ///@}
+
+#ifdef __cplusplus
+    LEAF(Lfloat sampleRate, char *memory, size_t memorySize);
+    ~LEAF() = default;
+#endif
 };
 //==============================================================================
 

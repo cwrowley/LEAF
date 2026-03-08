@@ -29,7 +29,7 @@ SET(LIBRARY_BASE_PATH "${PROJECT_SOURCE_DIR}")
 #)
 
 SET(PUBLIC_SOURCES_FILES
-        "${LIBRARY_BASE_PATH}/leaf/src/leaf.c"
+        "${LIBRARY_BASE_PATH}/leaf/src/leaf.cpp"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-math.c"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-analysis.c"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-delay.c"

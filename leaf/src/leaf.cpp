@@ -56,3 +56,7 @@ void LEAF_setErrorCallback(LEAF *const leaf, void (*callback)(tMempool *const, L
 unsigned int getNextUuid(LEAF *leaf) {
     return ++leaf->uuid;
 }
+
+LEAF::LEAF(Lfloat sr, char *memory, size_t memorySize) {
+    LEAF_init(this, sr, memory, memorySize);
+}
