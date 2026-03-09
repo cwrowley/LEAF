@@ -29,10 +29,10 @@ namespace leaf {
 class Cycle {
 public:
     /// Allocate from the default mempool of a LEAF instance.
-    Cycle(LEAF *const leaf);
+    Cycle(LEAF &leaf);
 
     /// Allocate from an explicit mempool.
-    Cycle(LEAF *const leaf, Mempool &m);
+    Cycle(LEAF &leaf, Mempool &m);
 
     /// Trivial destructor — pool memory is released by tCycle_free().
     ~Cycle() = default;

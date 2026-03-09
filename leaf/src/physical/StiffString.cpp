@@ -20,10 +20,10 @@
 
 namespace leaf {
 
-StiffString::StiffString(int numModes, LEAF *const leaf)
-    : StiffString(numModes, leaf, *leaf->mempool) {}
+StiffString::StiffString(int numModes, LEAF &leaf)
+    : StiffString(numModes, leaf, *leaf.mempool) {}
 
-StiffString::StiffString(int numModes, LEAF *const leaf, Mempool &m) {
+StiffString::StiffString(int numModes, LEAF &leaf, Mempool &m) {
     mempool_ = &m;
 
     // initialize variables
@@ -35,8 +35,8 @@ StiffString::StiffString(int numModes, LEAF *const leaf, Mempool &m) {
     decay_ = 0.0001f;
     decayHighFreq_ = 0.0003f;
     muteDecay_ = 0.4f;
-    sampleRate_ = leaf->sampleRate;
-    twoPiTimesInvSampleRate_ = leaf->twoPiTimesInvSampleRate;
+    sampleRate_ = leaf.sampleRate;
+    twoPiTimesInvSampleRate_ = leaf.twoPiTimesInvSampleRate;
     nyquist_ = sampleRate_ * 0.5f;
     Lfloat lessThanNyquist = sampleRate_ * 0.4f;
     nyquistScalingFactor_ = 1.0f / (lessThanNyquist - nyquist_);
@@ -46,7 +46,7 @@ StiffString::StiffString(int numModes, LEAF *const leaf, Mempool &m) {
     // allocate memory
     oscs_ = (Cycle *)m.alloc(numModes * sizeof(Cycle));
     for (int i = 0; i < numModes; ++i) {
-        new (&oscs_[i]) Cycle(leaf, m);
+        new (&oscs_[i]) Cycle(leaf, m);  // leaf and m are already references
     }
     amplitudes_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
     outputWeights_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
@@ -225,12 +225,12 @@ void StiffString::pluckNoUpdate(Lfloat amp) {
 
 void StiffString_init(leaf::StiffString **const pm, int numModes, LEAF *const leaf) {
     leaf::Mempool &m = *leaf->mempool;
-    *pm = new (m.alloc(sizeof(leaf::StiffString))) leaf::StiffString(numModes, leaf);
+    *pm = new (m.alloc(sizeof(leaf::StiffString))) leaf::StiffString(numModes, *leaf);
 }
 
 void StiffString_initToPool(leaf::StiffString **const pm, int numModes, LEAF *const leaf, leaf::Mempool **const mp) {
     leaf::Mempool &m = **mp;
-    *pm = new (m.alloc(sizeof(leaf::StiffString))) leaf::StiffString(numModes, leaf, m);
+    *pm = new (m.alloc(sizeof(leaf::StiffString))) leaf::StiffString(numModes, *leaf, m);
 }
 
 void StiffString_free(leaf::StiffString **const pm) {

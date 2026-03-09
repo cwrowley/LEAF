@@ -23,14 +23,14 @@
 
 namespace leaf {
 
-Cycle::Cycle(LEAF *const leaf) : Cycle(leaf, *leaf->mempool) {}
+Cycle::Cycle(LEAF &leaf) : Cycle(leaf, *leaf.mempool) {}
 
-Cycle::Cycle(LEAF *const leaf, Mempool &m) {
+Cycle::Cycle(LEAF &leaf, Mempool &m) {
     mempool_ = &m;
     inc_     = 0;
     phase_   = 0;
     freq_    = 0.0f;
-    invSampleRateTimesTwoTo32_ = leaf->invSampleRate * TWO_TO_32;
+    invSampleRateTimesTwoTo32_ = leaf.invSampleRate * TWO_TO_32;
     mask_    = SINE_TABLE_SIZE - 1;
 }
 
@@ -66,13 +66,13 @@ void Cycle::setSampleRate(Lfloat sr) {
 //==============================================================================
 
 void tCycle_init(tCycle **const cy, LEAF *const leaf) {
-    tCycle_initToPool(cy, leaf, &leaf->mempool);  // leaf->mempool is leaf::Mempool*
+    tCycle_initToPool(cy, leaf, &leaf->mempool);
 }
 
 void tCycle_initToPool(tCycle **const cy, LEAF *const leaf, leaf::Mempool **const mp) {
     leaf::Mempool &m = **mp;
     void *mem        = m.alloc(sizeof(leaf::Cycle));
-    leaf::Cycle *c   = new (mem) leaf::Cycle(leaf, m);
+    leaf::Cycle *c   = new (mem) leaf::Cycle(*leaf, m);
     *cy = c;
 }
 
