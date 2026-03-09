@@ -56,9 +56,16 @@ using LEAF = leaf::LEAF;
 typedef struct LEAF LEAF;
 #endif
 
+// tMempool / leaf::Mempool — the LEAF memory pool type.
+// C++ callers use leaf::Mempool directly via <Mempool.h>, included before
+// extern "C" below.
+// C callers use the tMempool_* and mpool_* shims declared further below.
 #ifdef __cplusplus
+#include <Mempool.h>
 extern "C" {
 #endif
+
+#ifndef __cplusplus
 
 typedef enum LEAFErrorType {
     LEAFMempoolOverrun = 0,
@@ -98,80 +105,36 @@ struct tMempool {
     unsigned int freeCount;                                //!< Count of frees from this pool.
     int errorState[LEAFErrorNil];                          //!< Flags indicating which errors have occurred.
     void (*errorCallback)(tMempool *const, LEAFErrorType); //!< Callback for pool errors.
-
-#ifdef __cplusplus
-    void create(char *memory, size_t size);
-    char *alloc(size_t size);
-    char *allocZeroed(size_t size);
-    void free(char *ptr);
-    size_t getSize() const { return msize; }
-    size_t getUsed() const { return usize; }
-    char *getPool() const { return mpool; }
-#endif
 };
-
-//! Initialize a tMempool for a given memory location and size to the default mempool of a LEAF instance.
-/*!
- @param pool A pointer to the tMempool to initialize.
- @param memory A pointer to the chunk of memory to be used as a mempool.
- @param size The size of the chunk of memory to be used as a mempool.
- @param leaf A pointer to the leaf instance.
- */
-void tMempool_init(tMempool **const pool, char *memory, size_t size, LEAF *const leaf);
-
-//! Free a tMempool from its mempool.
-/*!
- @param pool A pointer to the tMempool to free.
- */
-void tMempool_free(tMempool **const pool);
-
-//! Initialize a tMempool for a given memory location and size to a specified mempool.
-/*!
- @param pool A pointer to the tMempool to initialize.
- @param memory A pointer to the chunk of memory to be used as a mempool.
- @param size The size of the chuck of memory to be used as a mempool.
- @param poolTo A pointer to the tMempool to which this tMempool should be initialized.
- */
-void tMempool_initToPool(tMempool **const mp, char *memory, size_t size, tMempool **const mem);
 
 /*!￼￼￼
  @} */
 
-//==============================================================================
+void tMempool_init      (tMempool **const pool, char *memory, size_t size, LEAF *const leaf);
+void tMempool_free      (tMempool **const pool);
+void tMempool_initToPool(tMempool **const mp, char *memory, size_t size, tMempool **const mem);
 
-//    typedef struct mpool_t {
-//        char*         mpool;       // start of the mpool
-//        size_t        usize;       // used size of the pool
-//        size_t        msize;       // max size of the pool
-//        mpool_node_t* head;        // first node of memory pool free list
-//    } mpool_t;
+void   mpool_create   (char *memory, size_t size, tMempool *pool);
+char  *mpool_alloc    (size_t size, tMempool *pool);
+char  *mpool_calloc   (size_t asize, tMempool *pool);
+void   mpool_free     (char *ptr, tMempool *pool);
+size_t mpool_get_size (tMempool *pool);
+size_t mpool_get_used (tMempool *pool);
 
-void mpool_create(char *memory, size_t size, tMempool *pool);
-
-char *mpool_alloc(size_t size, tMempool *pool);
-char *mpool_calloc(size_t asize, tMempool *pool);
-
-void mpool_free(char *ptr, tMempool *pool);
-
-size_t mpool_get_size(tMempool *pool);
-size_t mpool_get_used(tMempool *pool);
-
-void leaf_pool_init(LEAF *const leaf, char *memory, size_t size);
-
-char *leaf_alloc(LEAF *const leaf, size_t size);
-char *leaf_calloc(LEAF *const leaf, size_t size);
-
-void leaf_free(LEAF *const leaf, char *ptr);
-
+void   leaf_pool_init    (LEAF *const leaf, char *memory, size_t size);
+char  *leaf_alloc        (LEAF *const leaf, size_t size);
+char  *leaf_calloc       (LEAF *const leaf, size_t size);
+void   leaf_free         (LEAF *const leaf, char *ptr);
 size_t leaf_pool_get_size(LEAF *const leaf);
 size_t leaf_pool_get_used(LEAF *const leaf);
+char  *leaf_pool_get_pool(LEAF *const leaf);
 
-char *leaf_pool_get_pool(LEAF *const leaf);
+#endif // !__cplusplus
 
 #ifdef __cplusplus
-}
+} // extern "C"
 #endif
 
-#endif // LEAF_MPOOL_H
+#endif // LEAF_MPOOL_H_INCLUDED
 
 //==============================================================================

@@ -12,6 +12,9 @@
 #define LEAF_GLOBAL_H_INCLUDED
 
 #ifdef __cplusplus
+// Include Mempool.h before extern "C" so leaf::Mempool (and tMempool typedef)
+// are defined before the LEAF struct uses Mempool by value below.
+#include <Mempool.h>
 extern "C" {
 #endif
 
@@ -36,8 +39,13 @@ struct LEAF {
     Lfloat invSampleRate;           //!< The inverse of the current sample rate.
     Lfloat twoPiTimesInvSampleRate; //!<  Two-pi times the inverse of the current sample rate.
     Lfloat (*random)(void);         //!< A pointer to the random() function provided on initialization.
-    tMempool *mempool;              //!< The default LEAF mempool object.
-    tMempool _internal_mempool;
+#ifdef __cplusplus
+    Mempool *mempool;               //!< The default LEAF mempool object.
+    Mempool  _internal_mempool;
+#else
+    tMempool *mempool;
+    tMempool  _internal_mempool;
+#endif
     unsigned int uuid;
     tLookupTable *lfoRateTable;
     tLookupTable *envTimeTable;

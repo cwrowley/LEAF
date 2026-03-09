@@ -50,7 +50,7 @@ void LEAF_defaultErrorCallback(tMempool *const pool, LEAFErrorType whichone) {
 }
 
 void LEAF_setErrorCallback(LEAF *const leaf, void (*callback)(tMempool *const, LEAFErrorType)) {
-    leaf->_internal_mempool.errorCallback = callback;
+    leaf->_internal_mempool.setErrorCallback(callback);
 }
 
 unsigned int getNextUuid(LEAF *leaf) {
