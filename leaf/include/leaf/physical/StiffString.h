@@ -10,7 +10,7 @@
 #define LEAF_STIFFSTRING_H_INCLUDED
 
 #include <leaf-global.h>
-#include <leaf-mempool.h>
+#include <Mempool.h>
 #include <leaf-oscillators.h>
 #include <leaf-math.h>
 
@@ -21,10 +21,10 @@ namespace leaf {
 class StiffString {
 public:
     StiffString(int numModes, LEAF *const leaf);
-    StiffString(int numModes, LEAF *const leaf, tMempool *m);
+    StiffString(int numModes, LEAF *const leaf, Mempool *m);
     ~StiffString();
 
-    tMempool *mempool() const { return mempool_; }
+    Mempool *mempool() const { return mempool_; }
 
     Lfloat tick();
     void setStiffness(Lfloat newValue);
@@ -47,7 +47,7 @@ public:
     void setDecayHighFreqNoUpdate(Lfloat decayHF);
 
 private:
-    tMempool *mempool_;
+    Mempool  *mempool_;
     int numModes_;
     leaf::Cycle *oscs_;
     Lfloat *amplitudes_;
@@ -76,7 +76,7 @@ private:
 extern "C" {
 
 void StiffString_init(leaf::StiffString **const, int numModes, LEAF *const leaf);
-void StiffString_initToPool(leaf::StiffString **const, int numModes, LEAF *const leaf, tMempool **const);
+void StiffString_initToPool(leaf::StiffString **const, int numModes, LEAF *const leaf, leaf::Mempool **const);
 void StiffString_free(leaf::StiffString **const);
 
 Lfloat StiffString_tick(leaf::StiffString *const);

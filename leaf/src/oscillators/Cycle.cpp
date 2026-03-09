@@ -25,7 +25,7 @@ namespace leaf {
 
 Cycle::Cycle(LEAF *const leaf) : Cycle(leaf, leaf->mempool) {}
 
-Cycle::Cycle(LEAF *const leaf, tMempool *m) {
+Cycle::Cycle(LEAF *const leaf, Mempool *m) {
     mempool_ = m;
     inc_     = 0;
     phase_   = 0;
@@ -66,26 +66,26 @@ void Cycle::setSampleRate(Lfloat sr) {
 //==============================================================================
 
 void tCycle_init(tCycle **const cy, LEAF *const leaf) {
-    tCycle_initToPool(cy, leaf, &leaf->mempool);
+    tCycle_initToPool(cy, leaf, &leaf->mempool);  // leaf->mempool is leaf::Mempool*
 }
 
-void tCycle_initToPool(tCycle **const cy, LEAF *const leaf, tMempool **const mp) {
-    tMempool *m = *mp;
-    void *mem   = mpool_alloc(sizeof(leaf::Cycle), m);
-    leaf::Cycle *c = new (mem) leaf::Cycle(leaf, m);
+void tCycle_initToPool(tCycle **const cy, LEAF *const leaf, leaf::Mempool **const mp) {
+    leaf::Mempool *m = *mp;
+    void *mem        = m->alloc(sizeof(leaf::Cycle));
+    leaf::Cycle *c   = new (mem) leaf::Cycle(leaf, m);
     *cy = c;
 }
 
 void tCycle_initInPlace(tCycle *c, LEAF *const leaf) {
     // Construct in pre-allocated memory with a null mempool (not pool-managed).
-    new (c) leaf::Cycle(leaf, (tMempool *)nullptr);
+    new (c) leaf::Cycle(leaf, (leaf::Mempool *)nullptr);
 }
 
 void tCycle_free(tCycle **const cy) {
-    leaf::Cycle *c = *cy;
-    tMempool *m    = c->mempool();
+    leaf::Cycle   *c = *cy;
+    leaf::Mempool *m = c->mempool();
     c->~Cycle();
-    mpool_free((char *)c, m);
+    m->free((char *)c);
 }
 
 Lfloat tCycle_tick(tCycle *const c)              { return c->tick(); }

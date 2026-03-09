@@ -11,7 +11,7 @@
 #define LEAF_CYCLE_H_INCLUDED
 
 #include <leaf-global.h>
-#include <leaf-mempool.h>
+#include <Mempool.h>
 #include <leaf-tables.h>
 
 //==============================================================================
@@ -32,12 +32,12 @@ public:
     Cycle(LEAF *const leaf);
 
     /// Allocate from an explicit mempool.
-    Cycle(LEAF *const leaf, tMempool *m);
+    Cycle(LEAF *const leaf, Mempool *m);
 
     /// Trivial destructor — pool memory is released by tCycle_free().
     ~Cycle() = default;
 
-    tMempool *mempool() const { return mempool_; }
+    Mempool *mempool() const { return mempool_; }
 
     Lfloat tick();
     void setFreq(Lfloat freq);
@@ -45,7 +45,7 @@ public:
     void setSampleRate(Lfloat sr);
 
 private:
-    tMempool *mempool_;
+    Mempool  *mempool_;
     uint32_t  phase_;
     int32_t   inc_;
     Lfloat    freq_;
@@ -65,7 +65,7 @@ typedef leaf::Cycle tCycle;
 extern "C" {
 
 void   tCycle_init      (tCycle **const osc, LEAF *const leaf);
-void   tCycle_initToPool(tCycle **const osc, LEAF *const leaf, tMempool **const mempool);
+void   tCycle_initToPool(tCycle **const osc, LEAF *const leaf, leaf::Mempool **const mempool);
 void   tCycle_initInPlace(tCycle *osc, LEAF *const leaf);
 void   tCycle_free      (tCycle **const osc);
 

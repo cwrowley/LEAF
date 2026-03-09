@@ -23,7 +23,7 @@ namespace leaf {
 StiffString::StiffString(int numModes, LEAF *const leaf)
     : StiffString(numModes, leaf, leaf->mempool) {}
 
-StiffString::StiffString(int numModes, LEAF *const leaf, tMempool *m) {
+StiffString::StiffString(int numModes, LEAF *const leaf, Mempool *m) {
     mempool_ = m;
 
     // initialize variables
@@ -44,25 +44,25 @@ StiffString::StiffString(int numModes, LEAF *const leaf, tMempool *m) {
     gainComp_ = 0.0f;
 
     // allocate memory
-    oscs_ = (leaf::Cycle *)mpool_alloc(numModes * sizeof(leaf::Cycle), m);
+    oscs_ = (leaf::Cycle *)m->alloc(numModes * sizeof(leaf::Cycle));
     for (int i = 0; i < numModes; ++i) {
-        new (&oscs_[i]) leaf::Cycle(leaf, (tMempool *)nullptr);
+        new (&oscs_[i]) leaf::Cycle(leaf, (Mempool *)nullptr);
     }
-    amplitudes_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
-    outputWeights_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
-    decayScalar_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
-    decayVal_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
-    nyquistCoeff_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
+    amplitudes_ = (Lfloat *)m->alloc(numModes * sizeof(Lfloat));
+    outputWeights_ = (Lfloat *)m->alloc(numModes * sizeof(Lfloat));
+    decayScalar_ = (Lfloat *)m->alloc(numModes * sizeof(Lfloat));
+    decayVal_ = (Lfloat *)m->alloc(numModes * sizeof(Lfloat));
+    nyquistCoeff_ = (Lfloat *)m->alloc(numModes * sizeof(Lfloat));
     updateOutputWeights();
 }
 
 StiffString::~StiffString() {
-    mpool_free((char *)nyquistCoeff_, mempool_);
-    mpool_free((char *)decayScalar_, mempool_);
-    mpool_free((char *)decayVal_, mempool_);
-    mpool_free((char *)amplitudes_, mempool_);
-    mpool_free((char *)outputWeights_, mempool_);
-    mpool_free((char *)oscs_, mempool_);
+    mempool_->free((char *)nyquistCoeff_);
+    mempool_->free((char *)decayScalar_);
+    mempool_->free((char *)decayVal_);
+    mempool_->free((char *)amplitudes_);
+    mempool_->free((char *)outputWeights_);
+    mempool_->free((char *)oscs_);
 }
 
 void StiffString::updateOscillators() {
@@ -224,20 +224,20 @@ void StiffString::pluckNoUpdate(Lfloat amp) {
 //==============================================================================
 
 void StiffString_init(leaf::StiffString **const pm, int numModes, LEAF *const leaf) {
-    tMempool *m = leaf->mempool;
-    *pm = new (mpool_alloc(sizeof(leaf::StiffString), m)) leaf::StiffString(numModes, leaf);
+    leaf::Mempool *m = leaf->mempool;
+    *pm = new (m->alloc(sizeof(leaf::StiffString))) leaf::StiffString(numModes, leaf);
 }
 
-void StiffString_initToPool(leaf::StiffString **const pm, int numModes, LEAF *const leaf, tMempool **const mp) {
-    tMempool *m = *mp;
-    *pm = new (mpool_alloc(sizeof(leaf::StiffString), m)) leaf::StiffString(numModes, leaf, m);
+void StiffString_initToPool(leaf::StiffString **const pm, int numModes, LEAF *const leaf, leaf::Mempool **const mp) {
+    leaf::Mempool *m = *mp;
+    *pm = new (m->alloc(sizeof(leaf::StiffString))) leaf::StiffString(numModes, leaf, m);
 }
 
 void StiffString_free(leaf::StiffString **const pm) {
     leaf::StiffString *p = *pm;
-    tMempool *m = p->mempool();
+    leaf::Mempool     *m = p->mempool();
     p->~StiffString();
-    mpool_free((char *)p, m);
+    m->free((char *)p);
 }
 
 Lfloat StiffString_tick(leaf::StiffString *const p)                              { return p->tick(); }
