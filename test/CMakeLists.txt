@@ -1,19 +1,15 @@
 include(AddCatch2)
 
+add_executable(leaf-tests
+    allocation/test_allocation.cpp
+    oscillators/test_Cycle.cpp
+    physical/test_StiffString.cpp
+)
 
-add_executable(
-        tests
-        test.cpp
-        filters_test.cpp
-        oscillators_test.cpp
-        another_test.cpp
-)
-target_link_libraries(
-        tests PRIVATE LEAF Catch2::Catch2WithMain
-)
-#target_link_libraries(tests unit_tests)
-#target_link_libraries(tests Catch2::Catch2WithMain)
+target_include_directories(leaf-tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(leaf-tests PRIVATE LEAF Catch2::Catch2WithMain)
 
 include(CTest)
 include(Catch)
-catch_discover_tests(tests)
+catch_discover_tests(leaf-tests)

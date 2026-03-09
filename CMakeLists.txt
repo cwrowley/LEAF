@@ -110,7 +110,7 @@ enable_testing()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-#add_subdirectory(test)
+add_subdirectory(test)
 add_subdirectory(Examples)
 add_compile_options( -w )
 add_compile_options(-Wno-implicit-float-conversion)
