@@ -3,10 +3,12 @@
 
  pool-allocation-demo.cpp
 
- Demonstrates and verifies the three allocation strategies for LEAF C++ objects:
+ Demonstrates and verifies the allocation strategies for LEAF C++ objects:
    1. Stack allocation
-   2. Default mempool (embedded in the LEAF instance)
-   3. Explicit secondary mempool
+   2. Default mempool (embedded in the LEAF instance)  — C++ factory
+   3. Explicit secondary mempool                        — C++ factory
+   4. Default mempool                                   — C shim (legacy)
+   5. Explicit secondary mempool                        — C shim (legacy)
 
  For each strategy the object's address is printed and checked against the
  known memory regions so placement can be confirmed at a glance.  Pool usage
@@ -126,6 +128,52 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
         Cycle::destroy(c);
         printf("    after destroy: ptr == nullptr? %s\n", c == nullptr ? "yes" : "no");
     }
+
+    // ------------------------------------------------------------------
+    // 4. C shim — default mempool (legacy interface).
+    // ------------------------------------------------------------------
+    printf("\n  4. C shim — default-mempool allocation\n");
+    {
+        size_t usedBefore = leaf.mempool->getUsed();
+
+        tCycle *c;
+        tCycle_init(&c, &leaf);
+        tCycle_setFreq(c, 440.0f);
+
+        reportAddr("Cycle object", c);
+        printf("    default pool used: %zu -> %zu bytes\n",
+               usedBefore, leaf.mempool->getUsed());
+        printf("    tick() = %+.6f\n", tCycle_tick(c));
+
+        tCycle_free(&c);
+        printf("    after free: ptr == nullptr? %s\n", c == nullptr ? "yes" : "no");
+    }
+
+    // ------------------------------------------------------------------
+    // 5. C shim — secondary mempool (legacy interface).
+    //    tCycle_initToPool takes a Mempool**, so we pass the address of
+    //    a Mempool* pointer.
+    // ------------------------------------------------------------------
+    printf("\n  5. C shim — secondary-mempool allocation\n");
+    {
+        size_t mainBefore = leaf.mempool->getUsed();
+        size_t secBefore  = secondary.getUsed();
+
+        tCycle *c;
+        Mempool *secPtr = &secondary;
+        tCycle_initToPool(&c, &leaf, &secPtr);
+        tCycle_setFreq(c, 440.0f);
+
+        reportAddr("Cycle object", c);
+        printf("    default pool used:    %zu -> %zu bytes  (no change)\n",
+               mainBefore, leaf.mempool->getUsed());
+        printf("    secondary pool used:  %zu -> %zu bytes\n",
+               secBefore, secondary.getUsed());
+        printf("    tick() = %+.6f\n", tCycle_tick(c));
+
+        tCycle_free(&c);
+        printf("    after free: ptr == nullptr? %s\n", c == nullptr ? "yes" : "no");
+    }
 }
 
 //==============================================================================
@@ -200,6 +248,52 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
 
         StiffString::destroy(s);
         printf("    after destroy: ptr == nullptr? %s\n", s == nullptr ? "yes" : "no");
+    }
+
+    // ------------------------------------------------------------------
+    // 4. C shim — default mempool (legacy interface).
+    // ------------------------------------------------------------------
+    printf("\n  4. C shim — default-mempool allocation\n");
+    {
+        size_t usedBefore = leaf.mempool->getUsed();
+
+        leaf::StiffString *s;
+        StiffString_init(&s, NUM_MODES, &leaf);
+        s->setFreq(220.0f);
+        s->pluck(1.0f);
+
+        reportAddr("StiffString object", s);
+        printf("    default pool used: %zu -> %zu bytes\n",
+               usedBefore, leaf.mempool->getUsed());
+        printf("    tick() = %+.6f\n", StiffString_tick(s));
+
+        StiffString_free(&s);
+        printf("    after free: ptr == nullptr? %s\n", s == nullptr ? "yes" : "no");
+    }
+
+    // ------------------------------------------------------------------
+    // 5. C shim — secondary mempool (legacy interface).
+    // ------------------------------------------------------------------
+    printf("\n  5. C shim — secondary-mempool allocation\n");
+    {
+        size_t mainBefore = leaf.mempool->getUsed();
+        size_t secBefore  = secondary.getUsed();
+
+        leaf::StiffString *s;
+        Mempool *secPtr = &secondary;
+        StiffString_initToPool(&s, NUM_MODES, &leaf, &secPtr);
+        s->setFreq(220.0f);
+        s->pluck(1.0f);
+
+        reportAddr("StiffString object", s);
+        printf("    default pool used:    %zu -> %zu bytes  (no change)\n",
+               mainBefore, leaf.mempool->getUsed());
+        printf("    secondary pool used:  %zu -> %zu bytes\n",
+               secBefore, secondary.getUsed());
+        printf("    tick() = %+.6f\n", StiffString_tick(s));
+
+        StiffString_free(&s);
+        printf("    after free: ptr == nullptr? %s\n", s == nullptr ? "yes" : "no");
     }
 }
 
