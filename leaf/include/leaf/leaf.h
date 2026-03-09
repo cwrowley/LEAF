@@ -56,6 +56,7 @@
 // are eventually retired.
 #ifdef __cplusplus
 #include <Mempool.h>
+#include <PoolAllocated.h>
 #include <oscillators/Cycle.h>
 #include <physical/StiffString.h>
 #endif

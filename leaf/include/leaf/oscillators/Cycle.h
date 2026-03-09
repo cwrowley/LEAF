@@ -11,7 +11,7 @@
 #define LEAF_CYCLE_H_INCLUDED
 
 #include <leaf-global.h>
-#include <Mempool.h>
+#include <PoolAllocated.h>
 #include <leaf-tables.h>
 
 //==============================================================================
@@ -22,22 +22,14 @@ namespace leaf {
  @class Cycle
  @brief Wavetable sine/cycle oscillator.
 
- Replaces the C tCycle type.  Memory for each instance is allocated from a
- LEAF mempool; in-place instances (e.g. packed arrays inside another object)
- are constructed with a null mempool pointer and must not be freed individually.
+ Replaces the C tCycle type.
 */
-class Cycle {
+class Cycle : public PoolAllocated<Cycle> {
 public:
-    /// Allocate from the default mempool of a LEAF instance.
-    Cycle(LEAF &leaf);
+    /// Construct from a LeafInit context (implicit from LEAF& for stack use).
+    Cycle(LeafInit ctx);
 
-    /// Allocate from an explicit mempool.
-    Cycle(LEAF &leaf, Mempool &m);
-
-    /// Trivial destructor — pool memory is released by tCycle_free().
     ~Cycle() = default;
-
-    Mempool *mempool() const { return mempool_; }
 
     Lfloat tick();
     void setFreq(Lfloat freq);
@@ -45,7 +37,6 @@ public:
     void setSampleRate(Lfloat sr);
 
 private:
-    Mempool  *mempool_;
     uint32_t  phase_;
     int32_t   inc_;
     Lfloat    freq_;

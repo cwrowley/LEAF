@@ -13,8 +13,6 @@
 #include <arm_math.h>
 #endif
 
-#include <new>
-
 #if LEAF_INCLUDE_SINE_TABLE
 
 //==============================================================================
@@ -23,14 +21,13 @@
 
 namespace leaf {
 
-Cycle::Cycle(LEAF &leaf) : Cycle(leaf, *leaf.mempool) {}
-
-Cycle::Cycle(LEAF &leaf, Mempool &m) {
-    mempool_ = &m;
+Cycle::Cycle(LeafInit ctx)
+    : PoolAllocated<Cycle>(ctx)
+{
     inc_     = 0;
     phase_   = 0;
     freq_    = 0.0f;
-    invSampleRateTimesTwoTo32_ = leaf.invSampleRate * TWO_TO_32;
+    invSampleRateTimesTwoTo32_ = ctx.leaf.invSampleRate * TWO_TO_32;
     mask_    = SINE_TABLE_SIZE - 1;
 }
 
@@ -66,22 +63,15 @@ void Cycle::setSampleRate(Lfloat sr) {
 //==============================================================================
 
 void tCycle_init(tCycle **const cy, LEAF *const leaf) {
-    tCycle_initToPool(cy, leaf, &leaf->mempool);
+    *cy = leaf::Cycle::create(*leaf);
 }
 
 void tCycle_initToPool(tCycle **const cy, LEAF *const leaf, leaf::Mempool **const mp) {
-    leaf::Mempool &m = **mp;
-    void *mem        = m.alloc(sizeof(leaf::Cycle));
-    leaf::Cycle *c   = new (mem) leaf::Cycle(*leaf, m);
-    *cy = c;
+    *cy = leaf::Cycle::create(*leaf, **mp);
 }
 
-
 void tCycle_free(tCycle **const cy) {
-    leaf::Cycle   *c = *cy;
-    leaf::Mempool *m = c->mempool();
-    c->~Cycle();
-    m->free((char *)c);
+    leaf::Cycle::destroy(*cy);
 }
 
 Lfloat tCycle_tick(tCycle *const c)              { return c->tick(); }

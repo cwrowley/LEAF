@@ -12,6 +12,9 @@
 #define LEAF_PHYSICAL_H_INCLUDED
 
 #ifdef __cplusplus
+// Include C++ class headers before extern "C" so that <new>, <utility>, and
+// other C++ standard headers are never pulled in inside a C-linkage block.
+#include <oscillators/Cycle.h>
 extern "C" {
 #endif
 

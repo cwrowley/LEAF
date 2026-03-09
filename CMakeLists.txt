@@ -73,6 +73,7 @@ SET(PUBLIC_HEADERS_FILES
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-instruments.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-mempool.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/Mempool.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/PoolAllocated.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-midi.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-oscillators.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-physical.h"
