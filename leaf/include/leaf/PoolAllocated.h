@@ -81,6 +81,9 @@ public:
 protected:
     explicit PoolAllocated(LeafInit ctx) : mempool_(&ctx.mempool) {}
     Mempool *mempool_;
+
+    char *palloc(size_t size) { return mempool_->alloc(size); }
+    void  pfree(char *ptr)    { mempool_->free(ptr); }
 };
 
 } // namespace leaf

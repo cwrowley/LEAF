@@ -23,8 +23,7 @@ namespace leaf {
 StiffString::StiffString(LeafInit ctx, int numModes)
     : PoolAllocated<StiffString>(ctx)
 {
-    LEAF    &leaf = ctx.leaf;
-    Mempool &m    = ctx.mempool;
+    LEAF &leaf = ctx.leaf;
 
     // initialize variables
     numModes_ = numModes;
@@ -44,25 +43,25 @@ StiffString::StiffString(LeafInit ctx, int numModes)
     gainComp_ = 0.0f;
 
     // allocate memory
-    oscs_ = (Cycle *)m.alloc(numModes * sizeof(Cycle));
+    oscs_ = (Cycle *)palloc(numModes * sizeof(Cycle));
     for (int i = 0; i < numModes; ++i) {
         new (&oscs_[i]) Cycle(ctx);
     }
-    amplitudes_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
-    outputWeights_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
-    decayScalar_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
-    decayVal_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
-    nyquistCoeff_ = (Lfloat *)m.alloc(numModes * sizeof(Lfloat));
+    amplitudes_ = (Lfloat *)palloc(numModes * sizeof(Lfloat));
+    outputWeights_ = (Lfloat *)palloc(numModes * sizeof(Lfloat));
+    decayScalar_ = (Lfloat *)palloc(numModes * sizeof(Lfloat));
+    decayVal_ = (Lfloat *)palloc(numModes * sizeof(Lfloat));
+    nyquistCoeff_ = (Lfloat *)palloc(numModes * sizeof(Lfloat));
     updateOutputWeights();
 }
 
 StiffString::~StiffString() {
-    mempool_->free((char *)nyquistCoeff_);
-    mempool_->free((char *)decayScalar_);
-    mempool_->free((char *)decayVal_);
-    mempool_->free((char *)amplitudes_);
-    mempool_->free((char *)outputWeights_);
-    mempool_->free((char *)oscs_);
+    pfree((char *)nyquistCoeff_);
+    pfree((char *)decayScalar_);
+    pfree((char *)decayVal_);
+    pfree((char *)amplitudes_);
+    pfree((char *)outputWeights_);
+    pfree((char *)oscs_);
 }
 
 void StiffString::updateOscillators() {
