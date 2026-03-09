@@ -32,7 +32,7 @@ public:
     Cycle(LEAF *const leaf);
 
     /// Allocate from an explicit mempool.
-    Cycle(LEAF *const leaf, Mempool *m);
+    Cycle(LEAF *const leaf, Mempool &m);
 
     /// Trivial destructor — pool memory is released by tCycle_free().
     ~Cycle() = default;
@@ -66,7 +66,6 @@ extern "C" {
 
 void   tCycle_init      (tCycle **const osc, LEAF *const leaf);
 void   tCycle_initToPool(tCycle **const osc, LEAF *const leaf, leaf::Mempool **const mempool);
-void   tCycle_initInPlace(tCycle *osc, LEAF *const leaf);
 void   tCycle_free      (tCycle **const osc);
 
 Lfloat tCycle_tick      (tCycle *const osc);

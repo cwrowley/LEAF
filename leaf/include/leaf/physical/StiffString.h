@@ -21,7 +21,7 @@ namespace leaf {
 class StiffString {
 public:
     StiffString(int numModes, LEAF *const leaf);
-    StiffString(int numModes, LEAF *const leaf, Mempool *m);
+    StiffString(int numModes, LEAF *const leaf, Mempool &m);
     ~StiffString();
 
     Mempool *mempool() const { return mempool_; }

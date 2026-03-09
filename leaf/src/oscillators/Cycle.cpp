@@ -23,10 +23,10 @@
 
 namespace leaf {
 
-Cycle::Cycle(LEAF *const leaf) : Cycle(leaf, leaf->mempool) {}
+Cycle::Cycle(LEAF *const leaf) : Cycle(leaf, *leaf->mempool) {}
 
-Cycle::Cycle(LEAF *const leaf, Mempool *m) {
-    mempool_ = m;
+Cycle::Cycle(LEAF *const leaf, Mempool &m) {
+    mempool_ = &m;
     inc_     = 0;
     phase_   = 0;
     freq_    = 0.0f;
@@ -70,16 +70,12 @@ void tCycle_init(tCycle **const cy, LEAF *const leaf) {
 }
 
 void tCycle_initToPool(tCycle **const cy, LEAF *const leaf, leaf::Mempool **const mp) {
-    leaf::Mempool *m = *mp;
-    void *mem        = m->alloc(sizeof(leaf::Cycle));
+    leaf::Mempool &m = **mp;
+    void *mem        = m.alloc(sizeof(leaf::Cycle));
     leaf::Cycle *c   = new (mem) leaf::Cycle(leaf, m);
     *cy = c;
 }
 
-void tCycle_initInPlace(tCycle *c, LEAF *const leaf) {
-    // Construct in pre-allocated memory with a null mempool (not pool-managed).
-    new (c) leaf::Cycle(leaf, (leaf::Mempool *)nullptr);
-}
 
 void tCycle_free(tCycle **const cy) {
     leaf::Cycle   *c = *cy;

@@ -40,7 +40,6 @@ typedef struct tCycle tCycle;
 
 void   tCycle_init      (tCycle **const osc, LEAF *const leaf);
 void   tCycle_initToPool(tCycle **const osc, LEAF *const leaf, tMempool **const mempool);
-void   tCycle_initInPlace(tCycle *osc, LEAF *const leaf);
 void   tCycle_free      (tCycle **const osc);
 Lfloat tCycle_tick      (tCycle *const osc);
 void   tCycle_setFreq   (tCycle *const osc, Lfloat freq);
