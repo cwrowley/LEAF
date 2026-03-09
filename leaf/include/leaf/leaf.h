@@ -51,6 +51,15 @@
 #include <leaf-electrical.h>
 #include <leaf-vocal.h>
 
+// Explicit C++ class headers — redundant with the transitive includes above,
+// but listed here so leaf.h remains a complete umbrella as legacy headers
+// are eventually retired.
+#ifdef __cplusplus
+#include <Mempool.h>
+#include <oscillators/Cycle.h>
+#include <physical/StiffString.h>
+#endif
+
 /*! @mainpage LEAF
  *
  * @section intro_sec Introduction
