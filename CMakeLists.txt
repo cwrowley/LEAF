@@ -45,6 +45,7 @@ SET(PUBLIC_SOURCES_FILES
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-oscillators.cpp"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-physical.cpp"
         "${LIBRARY_BASE_PATH}/leaf/src/physical/StiffString.cpp"
+        "${LIBRARY_BASE_PATH}/leaf/src/oscillators/Cycle.cpp"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-reverb.c"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-sampling.c"
         "${LIBRARY_BASE_PATH}/leaf/src/leaf-tables.c"
@@ -79,6 +80,7 @@ SET(PUBLIC_HEADERS_FILES
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-tables.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/leaf-vocal.h"
         "${LIBRARY_BASE_PATH}/leaf/include/leaf/physical/StiffString.h"
+        "${LIBRARY_BASE_PATH}/leaf/include/leaf/oscillators/Cycle.h"
 
 )
 

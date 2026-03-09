@@ -8,6 +8,9 @@
 #define LEAF_OSCILLATORS_H_INCLUDED
 
 #ifdef __cplusplus
+// Include Cycle.h before extern "C" so tCycle = leaf::Cycle is defined
+// for the struct definitions below that embed tCycle* members.
+#include <oscillators/Cycle.h>
 extern "C" {
 #endif
 
@@ -28,70 +31,22 @@ extern "C" {
 
 //==============================================================================
 
-/*!
- @defgroup tcycle tCycle
- @ingroup oscillators
- @brief Wavetable cycle/sine wave oscillator
- @{
+// tCycle / leaf::Cycle — wavetable sine oscillator.
+// C callers use the tCycle_* shims below.
+// C++ callers use leaf::Cycle directly via <oscillators/Cycle.h>, included at
+// the bottom of this file.
+#ifndef __cplusplus
+typedef struct tCycle tCycle;
 
- @fn void    tCycle_init(tCycle** const osc, LEAF* const leaf)
- @brief Initialize a tCycle to the default mempool of a LEAF instance.
- @param osc A pointer to the tCycle to initialize.
- @param leaf A pointer to the leaf instance.
-
- @fn void    tCycle_initToPool(tCycle** const osc, LEAF* const leaf, tMempool** const mempool)
- @brief Initialize a tCycle to a specified mempool.
- @param osc A pointer to the tCycle to initialize.
- @param mempool A pointer to the tMempool to use.
-
- @fn void    tCycle_free(tCycle** const osc)
- @brief Free a tCycle from its mempool.
- @param osc A pointer to the tCycle to free.
-
- @fn Lfloat   tCycle_tick         (tCycle* const osc)
- @brief Tick a tCycle oscillator.
- @param osc A pointer to the relevant tCycle.
- @return The ticked sample as a Lfloat from -1 to 1.
-
- @fn void    tCycle_setFreq      (tCycle* const osc, Lfloat freq)
- @brief Set the frequency of a tCycle oscillator.
- @param osc A pointer to the relevant tCycle.
- @param freq The frequency to set the oscillator to.
-
-￼￼￼
- @} */
-
-typedef struct tCycle {
-    tMempool *mempool;
-    // Underlying phasor
-    uint32_t phase;
-    int32_t inc;
-    Lfloat freq;
-    Lfloat invSampleRateTimesTwoTo32;
-    uint32_t mask;
-
-#ifdef __cplusplus
-    void initInPlace(LEAF *const leaf);
-    Lfloat tick();
-    void setFreq(Lfloat freq);
-    void setPhase(Lfloat phase);
-    void setSampleRate(Lfloat sr);
+void   tCycle_init      (tCycle **const osc, LEAF *const leaf);
+void   tCycle_initToPool(tCycle **const osc, LEAF *const leaf, tMempool **const mempool);
+void   tCycle_initInPlace(tCycle *osc, LEAF *const leaf);
+void   tCycle_free      (tCycle **const osc);
+Lfloat tCycle_tick      (tCycle *const osc);
+void   tCycle_setFreq   (tCycle *const osc, Lfloat freq);
+void   tCycle_setPhase  (tCycle *const osc, Lfloat phase);
+void   tCycle_setSampleRate(tCycle *const osc, Lfloat sr);
 #endif
-} tCycle;
-
-// Memory handlers for `tCycle`
-void tCycle_init(tCycle **const osc, LEAF *const leaf);
-void tCycle_initToPool(tCycle **const osc, LEAF *const leaf, tMempool **const mempool);
-void tCycle_initInPlace(tCycle *osc, LEAF *const leaf);
-void tCycle_free(tCycle **const osc);
-
-// Tick function for `tCycle`
-Lfloat tCycle_tick(tCycle *const osc);
-
-// Setter functions for `tCycle`
-void tCycle_setFreq(tCycle *const osc, Lfloat freq);
-void tCycle_setPhase(tCycle *const osc, Lfloat phase);
-void tCycle_setSampleRate(tCycle *const osc, Lfloat sr);
 
 //==============================================================================
 
@@ -1804,6 +1759,7 @@ void tPlutaQuadOsc_setOutputAmplitude(tPlutaQuadOsc *const c, uint32_t const whi
 #ifdef __cplusplus
 }
 #endif
+
 #endif // LEAF_OSCILLATORS_H_INCLUDED
 
 //==============================================================================

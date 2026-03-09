@@ -44,9 +44,9 @@ StiffString::StiffString(int numModes, LEAF *const leaf, tMempool *m) {
     gainComp_ = 0.0f;
 
     // allocate memory
-    oscs_ = (tCycle *)mpool_alloc(numModes * sizeof(tCycle), m);
+    oscs_ = (leaf::Cycle *)mpool_alloc(numModes * sizeof(leaf::Cycle), m);
     for (int i = 0; i < numModes; ++i) {
-        tCycle_initInPlace(&oscs_[i], leaf);
+        new (&oscs_[i]) leaf::Cycle(leaf, (tMempool *)nullptr);
     }
     amplitudes_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);
     outputWeights_ = (Lfloat *)mpool_alloc(numModes * sizeof(Lfloat), m);

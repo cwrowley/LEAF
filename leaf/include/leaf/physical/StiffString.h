@@ -49,7 +49,7 @@ public:
 private:
     tMempool *mempool_;
     int numModes_;
-    tCycle *oscs_;
+    leaf::Cycle *oscs_;
     Lfloat *amplitudes_;
     Lfloat *outputWeights_;
     Lfloat freqHz_;
