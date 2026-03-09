@@ -99,7 +99,7 @@ ADD_LIBRARY (
 
 )
 
-TARGET_SOURCES( ${BINARY_NAME} PRIVATE  ${PRIVATE_SOURCES_FILES} ${PRIVATE_HEADERS_FILES}  PUBLIC ${PUBLIC_SOURCES_FILES})
+TARGET_SOURCES( ${BINARY_NAME} PRIVATE  ${PRIVATE_SOURCES_FILES} ${PRIVATE_HEADERS_FILES} ${PUBLIC_SOURCES_FILES})
 
 target_include_directories(${BINARY_NAME} PUBLIC
         "${LIBRARY_BASE_PATH}/leaf/include"         # public: <leaf/leaf.h>, <leaf/physical/StiffString.h>
@@ -111,6 +111,7 @@ enable_testing()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 #add_subdirectory(test)
+add_subdirectory(Examples)
 add_compile_options( -w )
 add_compile_options(-Wno-implicit-float-conversion)
 #ENABLE_TESTING()
