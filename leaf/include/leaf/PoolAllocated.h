@@ -38,7 +38,7 @@ struct LeafInit {
     Mempool &mempool;
 
     /// Implicit conversion from LEAF& — uses the default mempool.
-    LeafInit(LEAF &l)             : leaf(l), mempool(*l.mempool) {}
+    LeafInit(LEAF &l)             : leaf(l), mempool(*l.mempool()) {}
     /// Explicit construction with a specific mempool.
     LeafInit(LEAF &l, Mempool &m) : leaf(l), mempool(m) {}
 };
@@ -58,7 +58,7 @@ public:
     /// Allocate from the LEAF instance's default mempool.
     template<typename... Args>
     static Derived *create(LEAF &leaf, Args &&...args) {
-        Mempool &m  = *leaf.mempool;
+        Mempool &m   = *leaf.mempool();
         void    *mem = m.alloc(sizeof(Derived));
         return new (mem) Derived(LeafInit{leaf, m}, std::forward<Args>(args)...);
     }

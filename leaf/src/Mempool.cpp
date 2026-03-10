@@ -49,28 +49,29 @@ static inline void delink_node(mpool_node_t *node) {
 // Class method definitions
 //==============================================================================
 
+static void defaultErrorCallback(leaf::Mempool *const, LEAFErrorType) {}
+
 namespace leaf {
 
-Mempool::Mempool(char *memory, size_t size, Mempool *parent) {
-    mempool_           = parent;
-    clearOnAllocation_ = parent->clearOnAllocation_;
-    errorCallback_     = parent->errorCallback_;
-    allocCount_        = 0;
-    freeCount_         = 0;
-    for (int i = 0; i < LEAFErrorNil; ++i)
-        errorState_[i] = 0;
-    create(memory, size);
-}
-
-void Mempool::initAsRoot(char *memory, size_t size,
-                         void (*errorCb)(Mempool *const, LEAFErrorType)) {
+Mempool::Mempool(char *memory, size_t size) {
     mempool_           = nullptr;
     clearOnAllocation_ = 0;
     allocCount_        = 0;
     freeCount_         = 0;
     for (int i = 0; i < LEAFErrorNil; ++i)
         errorState_[i] = 0;
-    errorCallback_     = errorCb;
+    errorCallback_     = defaultErrorCallback;
+    create(memory, size);
+}
+
+Mempool::Mempool(char *memory, size_t size, Mempool &parent) {
+    mempool_           = &parent;
+    clearOnAllocation_ = parent.clearOnAllocation_;
+    errorCallback_     = parent.errorCallback_;
+    allocCount_        = 0;
+    freeCount_         = 0;
+    for (int i = 0; i < LEAFErrorNil; ++i)
+        errorState_[i] = 0;
     create(memory, size);
 }
 
@@ -298,7 +299,8 @@ size_t mpool_get_size(tMempool *pool) { return pool->getSize(); }
 size_t mpool_get_used(tMempool *pool) { return pool->getUsed(); }
 
 void tMempool_init(tMempool **const mp, char *memory, size_t size, leaf::LEAF *const leaf) {
-    tMempool_initToPool(mp, memory, size, &leaf->mempool);
+    leaf::Mempool *p = leaf->mempool();
+    tMempool_initToPool(mp, memory, size, &p);
 }
 
 void tMempool_free(tMempool **const mp) {
@@ -308,17 +310,18 @@ void tMempool_free(tMempool **const mp) {
 
 void tMempool_initToPool(tMempool **const mp, char *memory, size_t size, tMempool **const mem) {
     leaf::Mempool *mm = *mem;
-    leaf::Mempool *m  = *mp = new (mm->alloc(sizeof(leaf::Mempool))) leaf::Mempool(memory, size, mm);
+    leaf::Mempool *m  = *mp = new (mm->alloc(sizeof(leaf::Mempool))) leaf::Mempool(memory, size, *mm);
 }
 
 void leaf_pool_init(leaf::LEAF *const leaf, char *memory, size_t size) {
-    leaf->_internal_mempool.initAsRoot(memory, size, &LEAF_defaultErrorCallback);
-    leaf->mempool = &leaf->_internal_mempool;
+    // Friend access: constructs the root mempool in-place inside the LEAF instance.
+    new (&leaf->_internal_mempool_) leaf::Mempool(memory, size);
+    leaf->mempool_ = &leaf->_internal_mempool_;
 }
 
-char  *leaf_alloc        (leaf::LEAF *const leaf, size_t size) { return leaf->_internal_mempool.alloc(size); }
-char  *leaf_calloc       (leaf::LEAF *const leaf, size_t size) { return leaf->_internal_mempool.allocZeroed(size); }
-void   leaf_free         (leaf::LEAF *const leaf, char *ptr)   { leaf->_internal_mempool.free(ptr); }
-size_t leaf_pool_get_size(leaf::LEAF *const leaf)              { return leaf->_internal_mempool.getSize(); }
-size_t leaf_pool_get_used(leaf::LEAF *const leaf)              { return leaf->_internal_mempool.getUsed(); }
-char  *leaf_pool_get_pool(leaf::LEAF *const leaf)              { return leaf->_internal_mempool.getPool(); }
+char  *leaf_alloc        (leaf::LEAF *const leaf, size_t size) { return leaf->mempool()->alloc(size); }
+char  *leaf_calloc       (leaf::LEAF *const leaf, size_t size) { return leaf->mempool()->allocZeroed(size); }
+void   leaf_free         (leaf::LEAF *const leaf, char *ptr)   { leaf->mempool()->free(ptr); }
+size_t leaf_pool_get_size(leaf::LEAF *const leaf)              { return leaf->mempool()->getSize(); }
+size_t leaf_pool_get_used(leaf::LEAF *const leaf)              { return leaf->mempool()->getUsed(); }
+char  *leaf_pool_get_pool(leaf::LEAF *const leaf)              { return leaf->mempool()->getPool(); }

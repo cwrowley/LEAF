@@ -157,13 +157,6 @@ void LEAF_setSampleRate(LEAF *const leaf, Lfloat sampleRate);
  */
 Lfloat LEAF_getSampleRate(LEAF *const leaf);
 
-//! The default (no-op) callback function for pool errors.
-/*!
- @param pool The pool in which the error occurred.
- @param errorType The type of the error that has occurred.
- */
-void LEAF_defaultErrorCallback(tMempool *const pool, LEAFErrorType errorType);
-
 unsigned int getNextUuid(LEAF *leaf);
 
 //! Set the error callback for the default LEAF mempool.

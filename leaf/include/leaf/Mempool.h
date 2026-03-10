@@ -57,21 +57,20 @@ namespace leaf {
 */
 class Mempool {
 public:
-    /// Default constructor — fields zero-initialised; call initAsRoot() or
-    /// the pool-parent constructor before use.
+    /// Default constructor — fields zero-initialised; must call initAsRoot() or
+    /// construct with (memory, size) before use.
     Mempool() = default;
 
+    /// Construct a root pool (no parent) backed by @p memory / @p size.
+    /// Uses a built-in no-op error callback.
+    Mempool(char *memory, size_t size);
+
     /// Construct a child pool allocated from @p parent.
-    Mempool(char *memory, size_t size, Mempool *parent);
+    Mempool(char *memory, size_t size, Mempool &parent);
 
     ~Mempool() = default;
 
     Mempool *parentPool() const { return mempool_; }
-
-    /// Initialise as the root pool embedded in a LEAF instance.
-    /// @p errorCb  Error handler (typically LEAF_defaultErrorCallback).
-    void initAsRoot(char *memory, size_t size,
-                    void (*errorCb)(Mempool *const, LEAFErrorType));
 
     void   create      (char *memory, size_t size);
     char  *alloc       (size_t size);

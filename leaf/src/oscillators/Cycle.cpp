@@ -27,7 +27,7 @@ Cycle::Cycle(LeafInit ctx)
     inc_     = 0;
     phase_   = 0;
     freq_    = 0.0f;
-    invSampleRateTimesTwoTo32_ = ctx.leaf.invSampleRate * TWO_TO_32;
+    invSampleRateTimesTwoTo32_ = ctx.leaf.invSampleRate() * TWO_TO_32;
     mask_    = SINE_TABLE_SIZE - 1;
 }
 

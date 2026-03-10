@@ -77,14 +77,14 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  1. Stack allocation\n");
     {
-        size_t usedBefore = leaf.mempool->getUsed();
+        size_t usedBefore = leaf.mempool()->getUsed();
 
         Cycle c(leaf);           // LEAF& implicitly converts to LeafInit
         c.setFreq(440.0f);
 
         reportAddr("Cycle object", &c);
         printf("    default pool used: %zu -> %zu bytes  (no change)\n",
-               usedBefore, leaf.mempool->getUsed());
+               usedBefore, leaf.mempool()->getUsed());
         printf("    tick() = %+.6f\n", c.tick());
     }   // c destroyed automatically here
 
@@ -93,14 +93,14 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  2. Default-mempool allocation\n");
     {
-        size_t usedBefore = leaf.mempool->getUsed();
+        size_t usedBefore = leaf.mempool()->getUsed();
 
         Cycle *c = Cycle::create(leaf);
         c->setFreq(440.0f);
 
         reportAddr("Cycle object", c);
         printf("    default pool used: %zu -> %zu bytes\n",
-               usedBefore, leaf.mempool->getUsed());
+               usedBefore, leaf.mempool()->getUsed());
         printf("    tick() = %+.6f\n", c->tick());
 
         Cycle::destroy(c);
@@ -112,7 +112,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  3. Secondary-mempool allocation\n");
     {
-        size_t mainBefore = leaf.mempool->getUsed();
+        size_t mainBefore = leaf.mempool()->getUsed();
         size_t secBefore  = secondary.getUsed();
 
         Cycle *c = Cycle::create(leaf, secondary);
@@ -120,7 +120,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
 
         reportAddr("Cycle object", c);
         printf("    default pool used:    %zu -> %zu bytes  (no change)\n",
-               mainBefore, leaf.mempool->getUsed());
+               mainBefore, leaf.mempool()->getUsed());
         printf("    secondary pool used:  %zu -> %zu bytes\n",
                secBefore, secondary.getUsed());
         printf("    tick() = %+.6f\n", c->tick());
@@ -134,7 +134,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  4. C shim — default-mempool allocation\n");
     {
-        size_t usedBefore = leaf.mempool->getUsed();
+        size_t usedBefore = leaf.mempool()->getUsed();
 
         tCycle *c;
         tCycle_init(&c, &leaf);
@@ -142,7 +142,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
 
         reportAddr("Cycle object", c);
         printf("    default pool used: %zu -> %zu bytes\n",
-               usedBefore, leaf.mempool->getUsed());
+               usedBefore, leaf.mempool()->getUsed());
         printf("    tick() = %+.6f\n", tCycle_tick(c));
 
         tCycle_free(&c);
@@ -156,7 +156,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  5. C shim — secondary-mempool allocation\n");
     {
-        size_t mainBefore = leaf.mempool->getUsed();
+        size_t mainBefore = leaf.mempool()->getUsed();
         size_t secBefore  = secondary.getUsed();
 
         tCycle *c;
@@ -166,7 +166,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
 
         reportAddr("Cycle object", c);
         printf("    default pool used:    %zu -> %zu bytes  (no change)\n",
-               mainBefore, leaf.mempool->getUsed());
+               mainBefore, leaf.mempool()->getUsed());
         printf("    secondary pool used:  %zu -> %zu bytes\n",
                secBefore, secondary.getUsed());
         printf("    tick() = %+.6f\n", tCycle_tick(c));
@@ -193,7 +193,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  1. Stack allocation\n");
     {
-        size_t usedBefore = leaf.mempool->getUsed();
+        size_t usedBefore = leaf.mempool()->getUsed();
 
         StiffString s(leaf, NUM_MODES);
         s.setFreq(220.0f);
@@ -201,7 +201,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
 
         reportAddr("StiffString object (stack)", &s);
         printf("    default pool used: %zu -> %zu bytes  (internal arrays)\n",
-               usedBefore, leaf.mempool->getUsed());
+               usedBefore, leaf.mempool()->getUsed());
         printf("    tick() = %+.6f\n", s.tick());
     }   // destructor calls pfree() on all internal arrays
 
@@ -211,7 +211,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  2. Default-mempool allocation\n");
     {
-        size_t usedBefore = leaf.mempool->getUsed();
+        size_t usedBefore = leaf.mempool()->getUsed();
 
         StiffString *s = StiffString::create(leaf, NUM_MODES);
         s->setFreq(220.0f);
@@ -219,7 +219,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
 
         reportAddr("StiffString object", s);
         printf("    default pool used: %zu -> %zu bytes\n",
-               usedBefore, leaf.mempool->getUsed());
+               usedBefore, leaf.mempool()->getUsed());
         printf("    tick() = %+.6f\n", s->tick());
 
         StiffString::destroy(s);
@@ -232,7 +232,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  3. Secondary-mempool allocation\n");
     {
-        size_t mainBefore = leaf.mempool->getUsed();
+        size_t mainBefore = leaf.mempool()->getUsed();
         size_t secBefore  = secondary.getUsed();
 
         StiffString *s = StiffString::create(leaf, secondary, NUM_MODES);
@@ -241,7 +241,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
 
         reportAddr("StiffString object", s);
         printf("    default pool used:    %zu -> %zu bytes  (no change)\n",
-               mainBefore, leaf.mempool->getUsed());
+               mainBefore, leaf.mempool()->getUsed());
         printf("    secondary pool used:  %zu -> %zu bytes\n",
                secBefore, secondary.getUsed());
         printf("    tick() = %+.6f\n", s->tick());
@@ -255,7 +255,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  4. C shim — default-mempool allocation\n");
     {
-        size_t usedBefore = leaf.mempool->getUsed();
+        size_t usedBefore = leaf.mempool()->getUsed();
 
         leaf::StiffString *s;
         StiffString_init(&s, NUM_MODES, &leaf);
@@ -264,7 +264,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
 
         reportAddr("StiffString object", s);
         printf("    default pool used: %zu -> %zu bytes\n",
-               usedBefore, leaf.mempool->getUsed());
+               usedBefore, leaf.mempool()->getUsed());
         printf("    tick() = %+.6f\n", StiffString_tick(s));
 
         StiffString_free(&s);
@@ -276,7 +276,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     printf("\n  5. C shim — secondary-mempool allocation\n");
     {
-        size_t mainBefore = leaf.mempool->getUsed();
+        size_t mainBefore = leaf.mempool()->getUsed();
         size_t secBefore  = secondary.getUsed();
 
         leaf::StiffString *s;
@@ -287,7 +287,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
 
         reportAddr("StiffString object", s);
         printf("    default pool used:    %zu -> %zu bytes  (no change)\n",
-               mainBefore, leaf.mempool->getUsed());
+               mainBefore, leaf.mempool()->getUsed());
         printf("    secondary pool used:  %zu -> %zu bytes\n",
                secBefore, secondary.getUsed());
         printf("    tick() = %+.6f\n", StiffString_tick(s));
@@ -307,9 +307,7 @@ int main()
     LEAF leaf(44100.0f, mainMem, MAIN_POOL_SIZE);
 
     // Set up a secondary pool backed by its own static buffer.
-    Mempool secondary;
-    secondary.initAsRoot(secondaryMem, SECONDARY_POOL_SIZE,
-                         [](Mempool *, LEAFErrorType) {});
+    Mempool secondary(secondaryMem, SECONDARY_POOL_SIZE);
 
     printf("Memory map:\n");
     printf("  default pool:    %p .. %p  (%zu bytes)\n",

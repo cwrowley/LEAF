@@ -18,45 +18,46 @@ static Lfloat LEAF_defaultRandom(void) {
     return (_leaf_lcg_state >> 8) * (1.0f / 16777216.0f);
 }
 
-void LEAF_init(LEAF *const leaf, Lfloat sr, char *memory, size_t memorysize) {
-    leaf_pool_init(leaf, memory, memorysize);
+// ============================================================================
+// C++ constructor — primary initialisation path.
+// ============================================================================
 
-    leaf->sampleRate = sr;
-    leaf->invSampleRate = 1.0f / sr;
-    leaf->twoPiTimesInvSampleRate = leaf->invSampleRate * TWO_PI;
-    leaf->random = LEAF_defaultRandom;
-    leaf->uuid = 0;
-    leaf->lfoRateTable = NULL;
-    leaf->envTimeTable = NULL;
-    leaf->resTable = NULL;
+leaf::LEAF::LEAF(Lfloat sr, char *memory, size_t memorySize)
+    : sampleRate_(sr)
+    , invSampleRate_(1.0f / sr)
+    , twoPiTimesInvSampleRate_(invSampleRate_ * TWO_PI)
+    , random_(LEAF_defaultRandom)
+    , _internal_mempool_(memory, memorySize)
+    , mempool_(&_internal_mempool_)
+    , uuid_(0)
+    , lfoRateTable_(nullptr)
+    , envTimeTable_(nullptr)
+    , resTable_(nullptr) {}
+
+// ============================================================================
+// C shims — thin wrappers that call the C++ methods.
+// ============================================================================
+
+void LEAF_init(LEAF *const leaf, Lfloat sr, char *memory, size_t memorysize) {
+    new (leaf) leaf::LEAF(sr, memory, memorysize);
 }
 
 void LEAF_setRandom(LEAF *const leaf, Lfloat (*random)(void)) {
-    leaf->random = random;
+    leaf->setRandom(random);
 }
 
 void LEAF_setSampleRate(LEAF *const leaf, Lfloat sampleRate) {
-    leaf->sampleRate = sampleRate;
-    leaf->invSampleRate = 1.0f / sampleRate;
-    leaf->twoPiTimesInvSampleRate = leaf->invSampleRate * TWO_PI;
+    leaf->setSampleRate(sampleRate);
 }
 
 Lfloat LEAF_getSampleRate(LEAF *const leaf) {
-    return leaf->sampleRate;
-}
-
-void LEAF_defaultErrorCallback(tMempool *const pool, LEAFErrorType whichone) {
-    // No-op placeholder; users can override with LEAF_setErrorCallback.
+    return leaf->sampleRate();
 }
 
 void LEAF_setErrorCallback(LEAF *const leaf, void (*callback)(tMempool *const, LEAFErrorType)) {
-    leaf->_internal_mempool.setErrorCallback(callback);
+    leaf->setErrorCallback(callback);
 }
 
 unsigned int getNextUuid(LEAF *leaf) {
-    return ++leaf->uuid;
-}
-
-leaf::LEAF::LEAF(Lfloat sr, char *memory, size_t memorySize) {
-    LEAF_init(this, sr, memory, memorySize);
+    return leaf->nextUuid();
 }

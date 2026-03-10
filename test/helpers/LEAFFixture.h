@@ -17,13 +17,9 @@ struct LEAFFixture {
     char secMem[SEC_SIZE];
 
     leaf::LEAF    leaf { 44100.0f, mainMem, MAIN_SIZE };
-    leaf::Mempool secondary;
+    leaf::Mempool secondary { secMem, SEC_SIZE };
 
-    LEAFFixture()
-    {
-        secondary.initAsRoot(secMem, SEC_SIZE,
-            [](leaf::Mempool*, LEAFErrorType) {});
-    }
+    LEAFFixture() = default;
 
     /// True if @p ptr lies within the default (main) pool's memory region.
     bool inDefaultPool(const void* ptr) const

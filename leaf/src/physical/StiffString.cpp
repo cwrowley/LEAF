@@ -34,8 +34,8 @@ StiffString::StiffString(LeafInit ctx, int numModes)
     decay_ = 0.0001f;
     decayHighFreq_ = 0.0003f;
     muteDecay_ = 0.4f;
-    sampleRate_ = leaf.sampleRate;
-    twoPiTimesInvSampleRate_ = leaf.twoPiTimesInvSampleRate;
+    sampleRate_ = leaf.sampleRate();
+    twoPiTimesInvSampleRate_ = leaf.twoPiTimesInvSampleRate();
     nyquist_ = sampleRate_ * 0.5f;
     Lfloat lessThanNyquist = sampleRate_ * 0.4f;
     nyquistScalingFactor_ = 1.0f / (lessThanNyquist - nyquist_);
