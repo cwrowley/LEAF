@@ -21,7 +21,7 @@
 
 namespace leaf {
 
-Cycle::Cycle(LeafInit ctx)
+Cycle::Cycle(LeafContext ctx)
     : PoolAllocated<Cycle>(ctx)
 {
     inc_     = 0;

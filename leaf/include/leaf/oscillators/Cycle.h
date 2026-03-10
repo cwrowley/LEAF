@@ -26,8 +26,8 @@ namespace leaf {
 */
 class Cycle : public PoolAllocated<Cycle> {
 public:
-    /// Construct from a LeafInit context (implicit from LEAF& for stack use).
-    Cycle(LeafInit ctx);
+    /// Construct from a LeafContext context (implicit from LEAF& for stack use).
+    Cycle(LeafContext ctx);
 
     ~Cycle() = default;
 

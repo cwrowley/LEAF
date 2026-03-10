@@ -20,7 +20,7 @@
 
 namespace leaf {
 
-StiffString::StiffString(LeafInit ctx, int numModes)
+StiffString::StiffString(LeafContext ctx, int numModes)
     : PoolAllocated<StiffString>(ctx)
 {
     LEAF &leaf = ctx.leaf;

@@ -20,7 +20,7 @@ namespace leaf {
 
 class StiffString : public PoolAllocated<StiffString> {
 public:
-    StiffString(LeafInit ctx, int numModes);
+    StiffString(LeafContext ctx, int numModes);
     ~StiffString();
 
     Lfloat tick();

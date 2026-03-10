@@ -79,7 +79,7 @@ static void demoCycle(LEAF &leaf, Mempool &secondary)
     {
         size_t usedBefore = leaf.mempool()->getUsed();
 
-        Cycle c(leaf);           // LEAF& implicitly converts to LeafInit
+        Cycle c(leaf);           // LEAF& implicitly converts to LeafContext
         c.setFreq(440.0f);
 
         reportAddr("Cycle object", &c);
@@ -189,7 +189,7 @@ static void demoStiffString(LEAF &leaf, Mempool &secondary)
     // ------------------------------------------------------------------
     // 1. Stack allocation — the StiffString object itself is on the stack,
     //    but its internal arrays (oscs_, amplitudes_, etc.) are palloc'd
-    //    from the default mempool via the LeafInit context.
+    //    from the default mempool via the LeafContext context.
     // ------------------------------------------------------------------
     printf("\n  1. Stack allocation\n");
     {
