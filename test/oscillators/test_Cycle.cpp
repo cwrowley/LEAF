@@ -51,8 +51,9 @@ TEST_CASE_METHOD(LEAFFixture, "Cycle RMS at 440 Hz is close to 1/sqrt(2)",
 
     float measured = rms(c, 44100);
     float expected = 1.0f / std::sqrt(2.0f); // ≈ 0.7071
+    const float tolerance = 1e-4f;
 
-    CHECK_THAT(measured, Catch::Matchers::WithinAbs(expected, 0.02f));
+    CHECK_THAT(measured, Catch::Matchers::WithinAbs(expected, tolerance));
 }
 
 TEST_CASE_METHOD(LEAFFixture, "Cycle zero-crossing rate matches frequency at 440 Hz",
@@ -64,10 +65,10 @@ TEST_CASE_METHOD(LEAFFixture, "Cycle zero-crossing rate matches frequency at 440
     int crossings = zeroCrossings(c, 44100);
 
     // Expected: 2 * 440 = 880 crossings per 44100 samples.
-    // Allow ±5%.
+    // Allow ±1%.
     int expected = 2 * 440;
-    int lo = (expected * 95) / 100;
-    int hi = (expected * 105) / 100;
+    int lo = (expected * 99) / 100;
+    int hi = (expected * 101) / 100;
 
     CHECK(crossings >= lo);
     CHECK(crossings <= hi);
@@ -85,9 +86,9 @@ TEST_CASE_METHOD(LEAFFixture, "Cycle doubling frequency roughly doubles zero-cro
     int crossings440 = zeroCrossings(c, 44100);
 
     // Doubling the frequency should double the zero-crossing count.
-    // Accept within ±20% of 2×: i.e. [1.6×, 2.4×] crossings220.
-    CHECK(crossings440 >= (crossings220 * 160) / 100);
-    CHECK(crossings440 <= (crossings220 * 240) / 100);
+    // Accept within ±0.5% of 2×: i.e. [1.99×, 2.01×] crossings220.
+    CHECK(crossings440 >= (crossings220 * 199) / 100);
+    CHECK(crossings440 <= (crossings220 * 201) / 100);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "Cycle produces non-zero output at 440 Hz",
@@ -95,7 +96,7 @@ TEST_CASE_METHOD(LEAFFixture, "Cycle produces non-zero output at 440 Hz",
 {
     Cycle c(leaf);
     c.setFreq(440.0f);
-    CHECK(maxAbs(c, 1024) > 0.0f);
+    CHECK(maxAbs(c, 1024) > 0.1f);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "Cycle at zero frequency produces silence",

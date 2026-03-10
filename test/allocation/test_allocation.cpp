@@ -34,6 +34,7 @@ TEST_CASE_METHOD(LEAFFixture, "Cycle::create() allocates in default pool; destro
 
     Cycle::destroy(c);
     CHECK(c == nullptr);
+    CHECK(leaf.mempool()->getUsed() == usedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "Cycle::create() with secondary pool allocates there; default pool unchanged",
@@ -49,6 +50,7 @@ TEST_CASE_METHOD(LEAFFixture, "Cycle::create() with secondary pool allocates the
 
     Cycle::destroy(c);
     CHECK(c == nullptr);
+    CHECK(secondary.getUsed() == secondaryUsedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "tCycle_init allocates in default pool; tCycle_free nulls pointer",
@@ -63,21 +65,25 @@ TEST_CASE_METHOD(LEAFFixture, "tCycle_init allocates in default pool; tCycle_fre
 
     tCycle_free(&c);
     CHECK(c == nullptr);
+    CHECK(leaf.mempool()->getUsed() == usedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "tCycle_initToPool allocates in secondary pool; default pool unchanged",
                  "[allocation][Cycle][shim]")
 {
     size_t defaultUsedBefore = leaf.mempool()->getUsed();
+    size_t secondaryUsedBefore = secondary.getUsed();
 
     Mempool* secPtr = &secondary;
     tCycle*  c      = nullptr;
     tCycle_initToPool(&c, &leaf, &secPtr);
     CHECK(inSecondaryPool(c));
     CHECK(leaf.mempool()->getUsed() == defaultUsedBefore);
+    CHECK(secondary.getUsed() > secondaryUsedBefore);
 
     tCycle_free(&c);
     CHECK(c == nullptr);
+    CHECK(secondary.getUsed() == secondaryUsedBefore);
 }
 
 // ============================================================================
@@ -97,6 +103,7 @@ TEST_CASE_METHOD(LEAFFixture, "StiffString stack allocation: object not in pool,
         CHECK(leaf.mempool()->getUsed() > usedBefore);
     }
     // Stack destructor should release internal arrays.
+    CHECK(leaf.mempool()->getUsed() == usedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "StiffString::create() allocates in default pool; destroy() nulls pointer",
@@ -110,19 +117,23 @@ TEST_CASE_METHOD(LEAFFixture, "StiffString::create() allocates in default pool; 
 
     StiffString::destroy(s);
     CHECK(s == nullptr);
+    CHECK(leaf.mempool()->getUsed() == usedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "StiffString::create() with secondary pool allocates there; default pool unchanged",
                  "[allocation][StiffString]")
 {
     size_t defaultUsedBefore = leaf.mempool()->getUsed();
+    size_t secondaryUsedBefore = secondary.getUsed();
 
     StiffString* s = StiffString::create(leaf, secondary, NUM_MODES);
     CHECK(inSecondaryPool(s));
     CHECK(leaf.mempool()->getUsed() == defaultUsedBefore);
+    CHECK(secondary.getUsed() > secondaryUsedBefore);
 
     StiffString::destroy(s);
     CHECK(s == nullptr);
+    CHECK(secondary.getUsed() == secondaryUsedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "StiffString_init allocates in default pool; StiffString_free nulls pointer",
@@ -137,19 +148,24 @@ TEST_CASE_METHOD(LEAFFixture, "StiffString_init allocates in default pool; Stiff
 
     StiffString_free(&s);
     CHECK(s == nullptr);
+    CHECK(leaf.mempool()->getUsed() == usedBefore);
 }
 
 TEST_CASE_METHOD(LEAFFixture, "StiffString_initToPool allocates in secondary pool; default pool unchanged",
                  "[allocation][StiffString][shim]")
 {
     size_t defaultUsedBefore = leaf.mempool()->getUsed();
+    size_t secondaryUsedBefore = secondary.getUsed();
 
     Mempool*     secPtr = &secondary;
     StiffString* s      = nullptr;
     StiffString_initToPool(&s, NUM_MODES, &leaf, &secPtr);
     CHECK(inSecondaryPool(s));
     CHECK(leaf.mempool()->getUsed() == defaultUsedBefore);
+    CHECK(secondary.getUsed() > secondaryUsedBefore);
 
     StiffString_free(&s);
     CHECK(s == nullptr);
+    CHECK(leaf.mempool()->getUsed() == defaultUsedBefore);
+    CHECK(secondary.getUsed() == secondaryUsedBefore);
 }
